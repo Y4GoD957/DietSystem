@@ -23,7 +23,7 @@ func StartServer() {
 	r := setupRoutes(coll)
 
 	// Configuração do servidor HTTP
-	log.Println("Server listening on :4444")
+	log.Println("Server listening on :8080")
 
 	// Adicionar middleware CORS
 	corsHandler := handlers.CORS(
@@ -32,7 +32,7 @@ func StartServer() {
 		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
 	)
 
-	http.ListenAndServe(":4444", corsHandler(r))
+	http.ListenAndServe(":8080", corsHandler(r))
 }
 
 func setupRoutes(coll *mongo.Collection) *mux.Router {

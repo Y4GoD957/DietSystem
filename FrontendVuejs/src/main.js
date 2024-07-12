@@ -6,7 +6,7 @@ import './components/interactions.js'
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://localhost:4444/'
+    baseURL: 'http://localhost:8080/'
   })
 
 createApp(App).use(router).mount('#app')

@@ -124,7 +124,7 @@ export default {
   methods: {
     handleContact() {
       if (this.validateForm()) {
-        axios.post('http://localhost:4444/contact', this.formDataContact)
+        axios.post('http://localhost:8080/contact', this.formDataContact)
           .then(response => {
             if (response.data.success) {
               Swal.fire({

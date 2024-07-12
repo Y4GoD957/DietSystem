@@ -1,26 +1,20 @@
 package org.example.entity;
 
-import java.io.Serializable;
+import javax.persistence.*;
 
-public class User implements Serializable {
+@Entity
+@Table(name = "usuarios")
+public class User {
 
-    private static final long serialVersionUID = 1L;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int user_id;
+
     private String username;
     private String email;
     private String password;
 
-    public User() {
-        // Construtor padrão
-    }
-
-    public User(int user_id, String username, String email, String password) {
-        this.user_id = user_id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+    // Getters and Setters
 
     public int getUser_id() {
         return user_id;
@@ -52,20 +46,5 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User u = (User) o;
-
-        return user_id == u.user_id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(user_id);
     }
 }

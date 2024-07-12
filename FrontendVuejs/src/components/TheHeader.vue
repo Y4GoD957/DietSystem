@@ -49,7 +49,7 @@
       <form @submit.prevent="handleRegister">
         <div class="input-box">
           <span class="icon"><ion-icon name="person"></ion-icon></span>
-          <input type="text" v-model="formDataRegister.name" @input="validateName" :class="{'invalid-input': !isNameValid}" />
+          <input type="text" v-model="formDataRegister.username" @input="validateName" :class="{'invalid-input': !isNameValid}" />
           <label>Usuário(sem caracteres especiais)</label>
         </div>
         <div class="input-box">
@@ -95,7 +95,7 @@ export default {
         password: ''
       },
       formDataRegister: {
-        name: '',
+        username: '',
         email: '',
         password: ''
       },
@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      axios.post('http://localhost:4444/login', this.formDataLogin)
+      axios.post('/login', this.formDataLogin)
         .then(response => {
           if (response.data.success) {
             localStorage.setItem('token', response.data.token);
@@ -136,7 +136,7 @@ export default {
     },
     handleRegister() {
       if (this.validateName() && this.validatePassword()) {
-        axios.post('http://localhost:4444/register', this.formDataRegister)
+        axios.post('/register', this.formDataRegister)
           .then(response => {
             if (response.data.success) {
               Swal.fire({
@@ -145,7 +145,7 @@ export default {
                 text: 'O seu cadastro foi realizado com sucesso!'
               });
               this.formDataRegister = {
-                name: '',
+                username: '',
                 email: '',
                 password: ''
               };
@@ -175,7 +175,7 @@ export default {
     },
     validateName() {
       const nameRegex = /^[a-zA-Z\s]+$/;
-      this.isNameValid = nameRegex.test(this.formDataRegister.name);
+      this.isNameValid = nameRegex.test(this.formDataRegister.username);
       return this.isNameValid;
     },
     validatePassword() {

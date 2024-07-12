@@ -1,7 +1,8 @@
 package org.example.service;
 
-import org.example.dao.UserDao;
 import org.example.entity.User;
+import org.example.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,25 +10,40 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserDao uDao = new UserDao();
+    @Autowired
+    private UserRepository userRepository;
 
-    public void createUser(User u) {
-        uDao.createUser(u);
+    public void createUser(User user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new RuntimeException("Usuário já existente!");
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("E-mail já existente!");
+        }
+        userRepository.save(user);
     }
 
     public User readUser(int userId) {
-        return uDao.readUser(userId);
+        return userRepository.findById(userId).orElse(null);
     }
 
     public List<User> readAllUsers() {
-        return uDao.readAllUsers();
+        return userRepository.findAll();
     }
 
-    public void updateUser(User u) {
-        uDao.updateUser(u);
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
     public void deleteUser(int userId) {
-        uDao.deleteUser(userId);
+        userRepository.deleteById(userId);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 }

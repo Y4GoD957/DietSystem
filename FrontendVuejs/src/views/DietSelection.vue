@@ -65,10 +65,10 @@ export default {
   methods: {
     handleDiet() {
       if (this.validateForm()) {
-        axios.get('http://localhost:4444/diet')
+        axios.get('http://localhost:8080/diet')
           .then(response => {
             const userId = response.data.user_id;
-            const url = `http://localhost:4444/diet/${userId}`;
+            const url = `http://localhost:8080/diet/${userId}`;
             axios.post(url, this.formDataDiet)
               .then(response => {
                 if (response.data.success) {
