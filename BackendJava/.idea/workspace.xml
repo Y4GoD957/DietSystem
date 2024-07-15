@@ -5,20 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab76946-1c62-4ea6-8915-534a1d206bcd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../BackendGo/server/server.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/UserRegistrationDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/MyApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/CorsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/dao/UserDao.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/TheHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/components/TheHeader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/plugins/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/plugins/axios.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/DietSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/DietSelection.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/HomePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,5 +86,16 @@
       <updated>1720739914217</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

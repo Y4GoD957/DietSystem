@@ -82,7 +82,7 @@
 
 <script>
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axios from '@/plugins/axios.js';
 import interactions from '@/components/interactions.js';
 
 export default {
@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      axios.post('/login', this.formDataLogin)
+      axios.post('/users/login', this.formDataLogin)
         .then(response => {
           if (response.data.success) {
             localStorage.setItem('token', response.data.token);
@@ -136,9 +136,9 @@ export default {
     },
     handleRegister() {
       if (this.validateName() && this.validatePassword()) {
-        axios.post('/register', this.formDataRegister)
+        axios.post('/users/register', this.formDataRegister)
           .then(response => {
-            if (response.data.success) {
+            if (response.status === 201) {
               Swal.fire({
                 icon: 'success',
                 title: 'Parabéns!',
@@ -149,27 +149,24 @@ export default {
                 email: '',
                 password: ''
               };
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Erro!',
-                text: 'Não foi possível realizar o cadastro. Tente novamente.'
-              });
             }
-          })
+          }) 
           .catch(error => {
-            console.error('Erro ao registrar usuário:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro!',
-              text: 'Algo deu errado ao tentar cadastrar o usuário. Por favor, tente novamente mais tarde.'
-            });
+                let message = 'Não foi possível realizar o cadastro. Tente novamente.';
+                if (error.response && error.response.status === 400) {
+                    message = error.response.data;
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: message
+                });
           });
       } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Erro!',
-          text: 'Por favor, certifique-se de que não há caracteres especiais no nome e a senha contenha no mínimo 8 caracteres.'
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Por favor, certifique-se de que não há caracteres especiais no nome e a senha contenha no mínimo 8 caracteres.'
         });
       }
     },

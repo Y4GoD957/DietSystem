@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.UserRegistrationDTO;
 import org.example.entity.User;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody User u) {
-        userService.createUser(u);
+    @PostMapping("/register")
+    public ResponseEntity<String> createUser(@RequestBody UserRegistrationDTO userDto) {
+        // Converter DTO para entidade
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+
+        userService.createUser(user);
         return ResponseEntity.status(201).body("Usuário criado com sucesso");
     }
 
@@ -38,8 +45,8 @@ public class UserController {
     }
 
     @PutMapping("/{user_id}")
-    public ResponseEntity<String> updateUser(@PathVariable int userId, @RequestBody User u) {
-        u.setUser_id(userId);
+    public ResponseEntity<String> updateUser(@PathVariable int user_id, @RequestBody User u) {
+        u.setUser_id(user_id);
         userService.updateUser(u);
         return ResponseEntity.ok("Usuário atualizado com sucesso");
     }
