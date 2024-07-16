@@ -1,7 +1,9 @@
 package org.example.controller;
 
-import org.example.dto.UserRegistrationDTO;
+import org.example.dto.UserDTO;
 import org.example.entity.User;
+import org.example.exception.EmailAlreadyExistsException;
+import org.example.exception.UserAlreadyExistsException;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +19,20 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@RequestBody UserRegistrationDTO userDto) {
-        // Converter DTO para entidade
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+    public ResponseEntity<String> createUser(@RequestBody UserDTO userDto) {
+        try {
+            User user = new User();
+            user.setUsername(userDto.getUsername());
+            user.setEmail(userDto.getEmail());
+            user.setPassword(userDto.getPassword());
 
-        userService.createUser(user);
-        return ResponseEntity.status(201).body("Usuário criado com sucesso");
+            userService.createUser(user);
+            return ResponseEntity.status(201).body("Usuário criado com sucesso");
+        } catch (UserAlreadyExistsException | EmailAlreadyExistsException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro interno no servidor");
+        }
     }
 
     @GetMapping("/{user_id}")
@@ -55,5 +62,11 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable int user_id) {
         userService.deleteUser(user_id);
         return ResponseEntity.ok("Usuário deletado com sucesso");
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<String> deleteAllUsers() {
+        userService.deleteAllUsers();
+        return ResponseEntity.ok("Todos os usuários foram deletados com sucesso");
     }
 }

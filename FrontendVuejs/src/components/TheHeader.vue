@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      axios.post('/users/login', this.formDataLogin)
+      axios.post('/auth/login', this.formDataLogin)
         .then(response => {
           if (response.data.success) {
             localStorage.setItem('token', response.data.token);
@@ -117,21 +117,15 @@ export default {
             });
             this.isAuthenticated = true;
             this.$router.push('/diet');
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro!',
-              text: 'Credenciais inválidas. Por favor, tente novamente.'
-            });
           }
         })
         .catch(error => {
-          console.error('Erro ao fazer login:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro!',
-            text: 'Algo deu errado ao tentar fazer login. Por favor, tente novamente mais tarde.'
-          });
+            console.error('Erro ao fazer login:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Credenciais inválidas. Por favor, tente novamente.'
+            });
         });
     },
     handleRegister() {

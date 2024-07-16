@@ -1,8 +1,11 @@
 package org.example.service;
 
 import org.example.entity.User;
+import org.example.exception.EmailAlreadyExistsException;
+import org.example.exception.UserAlreadyExistsException;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,13 +16,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void createUser(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("Usuário já existente!");
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public void createUser(User user) throws UserAlreadyExistsException, EmailAlreadyExistsException {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new UserAlreadyExistsException("Username already exists");
         }
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("E-mail já existente!");
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException("Email already exists");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -37,6 +44,10 @@ public class UserService {
 
     public void deleteUser(int userId) {
         userRepository.deleteById(userId);
+    }
+
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
     }
 
     public User findByUsername(String username) {
