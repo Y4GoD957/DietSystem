@@ -66,35 +66,34 @@
 </section>
 
 <section id="contact">
-  <div class="wrapperContact">
-    <h2 class="titleContact">Fale Conosco</h2>
+    <div class="wrapperContact">
+      <h2 class="titleContact">Fale Conosco</h2>
 
-    <form @submit.prevent="handleContact" class="form-contact">
-      <div class="input-box">
-        <span class="icon"><ion-icon name="person"></ion-icon></span>
-        <input type="text" v-model="formDataContact.name" />
-        <label>Nome Completo</label>
-      </div>
-      
-      <div class="input-box">
-        <span class="icon"><ion-icon name="mail"></ion-icon></span>
-        <input type="email" v-model="formDataContact.email" />
-        <label>E-mail</label>
-      </div>
-
-      <div class="input-box">
-        <span class="icon"><ion-icon name="call"></ion-icon></span>
-        <input type="text" v-model="formDataContact.phone"/>
-        <label>Celular</label>
-      </div>
+      <form @submit.prevent="handleContact" class="form-contact">
+        <div class="input-box">
+          <span class="icon"><ion-icon name="person"></ion-icon></span>
+          <input type="text" v-model="formDataContact.name" />
+          <label>Nome Completo</label>
+        </div>
         
-      <textarea name="" id="" v-model="formDataContact.message" placeholder="Sua Mensagem"></textarea>
-      
-      <button type="submit" class="btn">Enviar</button>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="mail"></ion-icon></span>
+          <input type="email" v-model="formDataContact.email" />
+          <label>E-mail</label>
+        </div>
 
-    </form>
-  </div>
-</section>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="call"></ion-icon></span>
+          <input type="text" v-model="formDataContact.phone"/>
+          <label>Celular</label>
+        </div>
+          
+        <textarea v-model="formDataContact.message" placeholder="Sua Mensagem"></textarea>
+        
+        <button type="submit" class="btn">Enviar</button>
+      </form>
+    </div>
+  </section>
 
   <softScroll />
 </template>
@@ -122,37 +121,68 @@ export default {
     };
   },
   methods: {
-    handleContact() {
+    async handleContact() {
+      if (!this.isUserLoggedIn()) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Atenção',
+          text: 'Você precisa estar logado para enviar o formulário.',
+        });
+        return;
+      }
+
       if (this.validateForm()) {
-        axios.post('http://localhost:8080/contact', this.formDataContact)
-          .then(response => {
-            if (response.data.success) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Sucesso',
-                text: 'Dados enviados com sucesso!'
-              });
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Erro',
-                text: 'Não foi possível enviar os dados. Tente novamente mais tarde.',
-              });
+        const existingData = await axios.get(`/users/contact/${this.formDataContact.email}`);
+        
+        if (existingData.data) {
+          Swal.fire({
+            title: 'Dados já existentes',
+            text: 'Você já enviou dados de contato. Deseja alterar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, alterar',
+            cancelButtonText: 'Cancelar'
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              this.submitContactData();
             }
-          })
-          .catch(error => {
-            console.error('Erro ao enviar dados de contato:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro',
-              text: 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.',
-            });
           });
+        } else {
+          this.submitContactData();
+        }
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
           text: 'Por favor, preencha todos os campos corretamente.',
+        });
+      }
+    },
+    isUserLoggedIn() {
+      return !!localStorage.getItem('token');
+    },
+    async submitContactData() {
+      try {
+        const response = await axios.post('/users/contact', this.formDataContact);
+        if (response.data.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Sucesso',
+            text: 'Dados enviados com sucesso!'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Não foi possível enviar os dados. Tente novamente mais tarde.',
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao enviar dados de contato:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.',
         });
       }
     },

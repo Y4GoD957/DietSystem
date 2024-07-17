@@ -35,6 +35,34 @@ public class UserController {
         }
     }
 
+    @PostMapping("/contact")
+    public ResponseEntity<String> addContact(@RequestBody UserDTO userDto) {
+        try {
+            User user = userService.findByEmail(userDto.getEmail());
+            if (user == null) {
+                return ResponseEntity.status(404).body("Usuário não encontrado");
+            }
+            user.setName(userDto.getName());
+            user.setPhone(userDto.getPhone());
+            user.setMessage(userDto.getMessage());
+
+            userService.addContact(user);
+            return ResponseEntity.status(200).body("Informações de contato adicionadas com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro interno no servidor");
+        }
+    }
+
+    @GetMapping("/contact/{email}")
+    public ResponseEntity<?> getContactByEmail(@PathVariable String email) {
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
     @GetMapping("/{user_id}")
     public ResponseEntity<?> getUser(@PathVariable int user_id) {
         User u = userService.readUser(user_id);

@@ -21,12 +21,16 @@ public class UserService {
 
     public void createUser(User user) throws UserAlreadyExistsException, EmailAlreadyExistsException {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new UserAlreadyExistsException("Username already exists");
+            throw new UserAlreadyExistsException("Usuário já existente!");
         }
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new EmailAlreadyExistsException("Email already exists");
+            throw new EmailAlreadyExistsException("E-mail já existente!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    public void addContact(User user) {
         userRepository.save(user);
     }
 

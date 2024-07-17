@@ -27,8 +27,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login",
                                 "/api/users/register",
                                 "/api/users/{user_id}",
-                                "/api/users/all").permitAll() // Permite acesso sem autenticação
-                        .requestMatchers("/api/usage/calculator").authenticated() // Requer autenticação para o endpoint calculator
+                                "/api/users/all",
+                                "/api/users/contact",
+                                "/api/users/contact/{email}").permitAll() // Permite acesso sem autenticação
+                        .requestMatchers("/api/usage/calculator",
+                                "/api/users/contact").authenticated() // Requer autenticação para o endpoint calculator
                         .anyRequest().authenticated()) // Requer autenticação para outras requisições
                 .httpBasic(Customizer.withDefaults()); // Adiciona autenticação básica HTTP para endpoints protegidos
 

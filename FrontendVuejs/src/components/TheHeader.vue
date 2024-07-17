@@ -177,6 +177,7 @@ export default {
       localStorage.removeItem('token');
       this.isAuthenticated = false;
       this.$router.push('/');
+      location.reload();
     }
   }
 };
