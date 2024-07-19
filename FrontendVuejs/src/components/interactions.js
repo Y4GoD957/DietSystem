@@ -6,20 +6,28 @@ export default {
     const btnPopup = document.querySelector('.btnLogin-popup')
     const iconClose = document.querySelector('.icon-close')
 
-    registerLink.addEventListener('click', () => {
-      wrapper.classList.add('active')
-    })
+    if (registerLink) {
+      registerLink.addEventListener('click', () => {
+        wrapper.classList.add('active')
+      })
+    }
 
-    loginLink.addEventListener('click', () => {
-      wrapper.classList.remove('active')
-    })
+    if (loginLink) {
+      loginLink.addEventListener('click', () => {
+        wrapper.classList.remove('active')
+      })
+    }
 
-    btnPopup.addEventListener('click', () => {
-      wrapper.classList.add('active-popup')
-    })
+    if (btnPopup) {
+      btnPopup.addEventListener('click', () => {
+        wrapper.classList.add('active-popup')
+      })
+    }
 
-    iconClose.addEventListener('click', () => {
-      wrapper.classList.remove('active-popup')
-    })
+    if (iconClose) {
+      iconClose.addEventListener('click', () => {
+        wrapper.classList.remove('active-popup')
+      })
+    }
   }
 }

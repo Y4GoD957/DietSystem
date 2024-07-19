@@ -1,7 +1,7 @@
 <template>
   <TheHeader />
   
-  <section id="main" class="diet-system-section">
+  <section id="main" class="diet-system-section section-main">
   <div class="content-wrapper">
     <div class="left-column">
       <div class="image-wrapper">
@@ -20,7 +20,7 @@
   </div>
 </section>
 
-<section id="about">
+<section id="about" class="section-about">
   <div class="heading">
     <h1>Sobre Nós</h1>
     <p>Oi! Somos uma equipe de desenvolvedores super entusiasmados com o mundo da tecnologia. Adoramos criar coisas novas e resolver problemas complexos, sempre com um sorriso no rosto e uma xícara de café na mão.</p>
@@ -41,7 +41,7 @@
   </div>
 </section>
 
-<section id="services">
+<section id="services" class="section-services">
   <div class="heading">
     <h1>Nossos Serviços</h1>
     <p>Aqui estão alguns dos serviços que oferecemos para nossos clientes:</p>
@@ -65,7 +65,7 @@
     </div>
 </section>
 
-<section id="contact">
+<section id="contact" class="section-contact">
     <div class="wrapperContact">
       <h2 class="titleContact">Fale Conosco</h2>
 

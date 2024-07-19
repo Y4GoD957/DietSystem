@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h2 class="logo">
+    <h2 class="logo" @click="goToHomePage">
       <img src="@/assets/logo.png" width="100%" height="100%" alt="Logo Sys Diet" />
     </h2>
     <nav class="navigation">
@@ -105,6 +105,12 @@ export default {
     };
   },
   methods: {
+    goToHomePage() {
+      this.$router.push('/').then(() => {
+        window.location.reload();
+        window.scrollTo(0, 0); // Força a rolagem para o topo
+      });
+    },
     handleLogin() {
       axios.post('/auth/login', this.formDataLogin)
         .then(response => {
@@ -193,6 +199,7 @@ export default {
   font-size: 2em;
   color: #fff;
   user-select: none;
+  cursor: pointer;
 }
 
 .navigation a {
@@ -202,6 +209,7 @@ export default {
   text-decoration: none;
   font-weight: 500;
   margin-left: 40px;
+  cursor: pointer;
 }
 
 .navigation a::after {
