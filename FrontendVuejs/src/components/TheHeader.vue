@@ -33,7 +33,7 @@
 
         <div class="remember-forgot">
           <label><input type="checkbox" />Manter login</label>
-          <a href="#">Esqueci minha senha</a>
+          <a href="./pre-password-recovery">Esqueci minha senha</a>
         </div>
 
         <button type="submit" class="btn">Entrar</button>

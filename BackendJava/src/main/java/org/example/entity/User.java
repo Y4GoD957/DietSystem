@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuarios")
@@ -32,4 +33,10 @@ public class User {
 
     @Column(nullable = true)
     private String message;
+
+    @Column(nullable = true)
+    private String verificationCode;
+
+    @Column(nullable = true)
+    private LocalDateTime verificationCodeExpiration;
 }

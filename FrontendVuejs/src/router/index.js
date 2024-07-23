@@ -4,6 +4,9 @@ import DietSelection from '../views/DietSelection.vue'
 import DietCalculator from '../views/DietCalculator.vue'
 import TermsAndServices from '../views/TermsAndServices.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
+import PasswordRecovery from '../components/PasswordRecovery.vue'
+import VerifyCode from '@/components/VerifyCode.vue'
+import ResetPassword from '@/components/ResetPassword.vue'
 
 const routes = [
   {
@@ -12,8 +15,23 @@ const routes = [
     component: HomePage
   },
   {
+    path: '/password-recovery',
+    name: 'Password Recovery',
+    component: PasswordRecovery
+  },
+  {
+    path: '/verify-code',
+    name: 'VerifyCode',
+    component: VerifyCode
+  },
+  {
+    path: '/reset-password',
+    name: 'ResetPassword',
+    component: ResetPassword
+  },
+  {
     path:'/diet',
-    name: 'diet',
+    name: 'Diet',
     component: DietSelection,
     meta: { requiresAuth: true}
   },
