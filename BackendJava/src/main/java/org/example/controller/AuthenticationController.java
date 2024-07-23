@@ -27,6 +27,7 @@ public class AuthenticationController {
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("token", token);
+            response.put("email", userDTO.getEmail());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, Object> response = new HashMap<>();

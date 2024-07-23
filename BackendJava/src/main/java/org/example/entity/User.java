@@ -21,15 +21,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 20)
     private String phone;
 
-    @Column(nullable = false, columnDefinition = "TEXT DEFAULT ''")
-    private String message = "";
+    @Column(nullable = true)
+    private String message;
 }

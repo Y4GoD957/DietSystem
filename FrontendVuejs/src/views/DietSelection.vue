@@ -37,20 +37,17 @@
   </form>
 </div>
 
-<softScroll />
 </template>
 
 <script>
 import TheHeader from '@/components/TheHeader.vue';
-import softScroll from '@/components/softScroll';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axios from '@/plugins/axios.js';
 
 export default {
   name: 'DietSelection',
   components: {
-    TheHeader,
-    softScroll
+    TheHeader
   },
   data() {
     return {

@@ -95,20 +95,17 @@
     </div>
   </section>
 
-  <softScroll />
 </template>
 
 <script>
 import TheHeader from '@/components/TheHeader.vue';
-import softScroll from '@/components/softScroll';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axios from '@/plugins/axios.js';
 
 export default {
   name: 'HomePage',
   components: {
-    TheHeader,
-    softScroll
+    TheHeader
   },
   data() {
     return {
@@ -131,24 +128,43 @@ export default {
         return;
       }
 
+      const loggedInUserEmail = localStorage.getItem('userEmail');
+
+      if (this.formDataContact.email !== loggedInUserEmail) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Atenção',
+          text: 'O email do formulário não corresponde ao email do usuário logado.',
+        });
+        return;
+      }
+
       if (this.validateForm()) {
-        const existingData = await axios.get(`/users/contact/${this.formDataContact.email}`);
-        
-        if (existingData.data) {
+        try {
+          const response = await axios.get(`/users/contact/${this.formDataContact.email}`);
+
+          if (response.status === 200 && response.data) {
+            Swal.fire({
+              title: 'Dados já existentes',
+              text: 'Você já enviou dados de contato. Deseja alterar?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Sim, alterar',
+              cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                this.submitContactData();
+              }
+            });
+          } else {
+            this.submitContactData();
+          }
+        } catch (error) {
           Swal.fire({
-            title: 'Dados já existentes',
-            text: 'Você já enviou dados de contato. Deseja alterar?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sim, alterar',
-            cancelButtonText: 'Cancelar'
-          }).then(async (result) => {
-            if (result.isConfirmed) {
-              this.submitContactData();
-            }
+            icon: 'error',
+            title: 'Erro',
+            text: 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.',
           });
-        } else {
-          this.submitContactData();
         }
       } else {
         Swal.fire({
@@ -158,17 +174,23 @@ export default {
         });
       }
     },
-    isUserLoggedIn() {
-      return !!localStorage.getItem('token');
-    },
+
     async submitContactData() {
       try {
-        const response = await axios.post('/users/contact', this.formDataContact);
-        if (response.data.success) {
+        const token = localStorage.getItem('token');
+
+        const response = await axios.post('/users/contact', this.formDataContact, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.status === 200) {
+          localStorage.setItem('userEmail', response.data.email);
           Swal.fire({
             icon: 'success',
             title: 'Sucesso',
-            text: 'Dados enviados com sucesso!'
+            text: 'Dados enviados com sucesso!',
           });
         } else {
           Swal.fire({
@@ -178,7 +200,6 @@ export default {
           });
         }
       } catch (error) {
-        console.error('Erro ao enviar dados de contato:', error);
         Swal.fire({
           icon: 'error',
           title: 'Erro',
@@ -186,6 +207,11 @@ export default {
         });
       }
     },
+
+    isUserLoggedIn() {
+      return !!localStorage.getItem('token');
+    },
+
     validateForm() {
       const { name, email, phone, message } = this.formDataContact;
       return name && email && phone && message !== '';

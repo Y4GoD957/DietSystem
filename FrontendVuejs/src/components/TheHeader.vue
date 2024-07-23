@@ -49,23 +49,22 @@
       <form @submit.prevent="handleRegister">
         <div class="input-box">
           <span class="icon"><ion-icon name="person"></ion-icon></span>
-          <input type="text" v-model="formDataRegister.username" @input="validateName" :class="{'invalid-input': !isNameValid}" />
-          <label>Usuário(sem caracteres especiais)</label>
-        </div>
-        <div class="input-box">
-          <span class="icon"><ion-icon name="mail"></ion-icon></span>
-          <input type="email" v-model="formDataRegister.email" />
-          <label>E-mail</label>
-        </div>
-        <div class="input-box">
-          <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-          <input type="password" v-model="formDataRegister.password" min="8" @input="validatePassword" :class="{'invalid-input': !isPasswordValid}" />
-          <label>Senha</label>
+          <input type="text" v-model="formDataRegister.username" @input="validateName" :class="{'invalid-input': !isNameValid}" @focus="displayAsterisk('username')" />
+          <label>Usuário<span :class="{'invalid-asterisk': !isNameValid}" v-if="showAsterisk.username">*</span></label>
         </div>
 
-        <div class="remember-forgot">
-          <label><input type="checkbox" />Eu estou de acordo com os <router-link to="/terms">Termos & Condições</router-link></label>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="mail"></ion-icon></span>
+          <input type="email" v-model="formDataRegister.email" @focus="displayAsterisk('email')" />
+          <label>E-mail<span :class="{'invalid-asterisk': !isEmailValid}" v-if="showAsterisk.email">*</span></label>
         </div>
+
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+          <input type="password" v-model="formDataRegister.password" min="8" @input="validatePassword" :class="{'invalid-input': !isPasswordValid}" @focus="displayAsterisk('password')" />
+          <label>Senha<span :class="{'invalid-asterisk': !isPasswordValid}" v-if="showAsterisk.password">*</span></label>
+        </div>
+
 
         <button type="submit" class="btn">Cadastrar</button>
 
@@ -101,14 +100,20 @@ export default {
       },
       isAuthenticated: !!localStorage.getItem('token'),
       isNameValid: true,
-      isPasswordValid: true
+      isEmailValid: true,
+      isPasswordValid: true,
+      showAsterisk: {
+        username: false,
+        email: false,
+        password: false
+      },
     };
   },
   methods: {
     goToHomePage() {
       this.$router.push('/').then(() => {
         window.location.reload();
-        window.scrollTo(0, 0); // Força a rolagem para o topo
+        window.scrollTo(0, 0);
       });
     },
     handleLogin() {
@@ -116,6 +121,7 @@ export default {
         .then(response => {
           if (response.data.success) {
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userEmail', response.data.email);
             Swal.fire({
               icon: 'success',
               title: 'Sucesso!',
@@ -166,12 +172,12 @@ export default {
         Swal.fire({
             icon: 'error',
             title: 'Erro!',
-            text: 'Por favor, certifique-se de que não há caracteres especiais no nome e a senha contenha no mínimo 8 caracteres.'
+            text: 'Por favor, certifique-se de que não há caracteres especiais e espaços no nome e a senha contenha no mínimo 8 caracteres.'
         });
       }
     },
     validateName() {
-      const nameRegex = /^[a-zA-Z\s]+$/;
+      const nameRegex = /^[a-zA-Z0-9]+$/;
       this.isNameValid = nameRegex.test(this.formDataRegister.username);
       return this.isNameValid;
     },
@@ -179,8 +185,15 @@ export default {
       this.isPasswordValid = this.formDataRegister.password.length >= 8;
       return this.isPasswordValid;
     },
+    displayAsterisk(field) {
+      this.showAsterisk[field] = true;
+    },
+    hideAsterisk(field) {
+      this.showAsterisk[field] = false;
+    },
     handleLogout() {
       localStorage.removeItem('token');
+      localStorage.removeItem('userEmail');
       this.isAuthenticated = false;
       this.$router.push('/');
       location.reload();
@@ -392,7 +405,12 @@ export default {
   border-color: red;
 }
 
-.input-box input:invalid + label {
+.invalid-asterisk {
   color: red;
+}
+
+.input-box label span {
+  margin-left: 5px;
+  font-size: 1.2em;
 }
 </style>

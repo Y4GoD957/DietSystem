@@ -31,9 +31,9 @@ public class SecurityConfig {
                                 "/api/users/contact",
                                 "/api/users/contact/{email}").permitAll() // Permite acesso sem autenticação
                         .requestMatchers("/api/usage/calculator",
-                                "/api/users/contact").authenticated() // Requer autenticação para o endpoint calculator
+                                "/api/users/contact").authenticated()
                         .anyRequest().authenticated()) // Requer autenticação para outras requisições
-                .httpBasic(Customizer.withDefaults()); // Adiciona autenticação básica HTTP para endpoints protegidos
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
