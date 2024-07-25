@@ -33,7 +33,7 @@
 
         <div class="remember-forgot">
           <label><input type="checkbox" />Manter login</label>
-          <a href="./pre-password-recovery">Esqueci minha senha</a>
+          <a href="./password-recovery">Esqueci minha senha</a>
         </div>
 
         <button type="submit" class="btn">Entrar</button>
@@ -69,24 +69,24 @@
         <button type="submit" class="btn">Cadastrar</button>
 
         <div class="login-register">
-          <p>Já possui uma conta? <a href="#" class="login-link">Login</a></p>
+          <p>Já possui uma conta? <a class="login-link">Login</a></p>
         </div>
       </form>
     </div>
   </div>
 
-  <interactions />
+  <UserInteractions />
 </section>
 </template>
 
 <script>
 import Swal from 'sweetalert2';
 import axios from '@/plugins/axios.js';
-import interactions from '@/components/interactions.js';
+import UserInteractions from '@/components/UserInteractions.vue';
 
 export default {
   name: 'TheHeader',
-  components: {interactions},
+  components: {UserInteractions},
   data() {
     return {
       formDataLogin: {

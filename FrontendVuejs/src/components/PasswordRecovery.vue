@@ -10,6 +10,7 @@
           id="email"
           v-model="email"
           required
+          autocomplete="off"
         />
       </div>
       <div class="form-group">
@@ -19,6 +20,7 @@
           id="confirmEmail"
           v-model="confirmEmail"
           required
+          autocomplete="off"
         />
       </div>
       <button type="submit">Enviar</button>
@@ -64,6 +66,7 @@ export default {
             title: 'Sucesso',
             text: 'Um e-mail de recuperação de senha foi enviado.',
           });
+        this.$router.push('/verify-code');
         } else {
           Swal.fire({
             icon: 'error',

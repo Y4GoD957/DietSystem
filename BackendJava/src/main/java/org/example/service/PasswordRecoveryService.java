@@ -5,8 +5,6 @@ import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -19,7 +17,7 @@ public class PasswordRecoveryService {
     private UserRepository userRepository;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private EmailService emailService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -40,12 +38,9 @@ public class PasswordRecoveryService {
             user.setVerificationCodeExpiration(expirationTime);
             userRepository.save(user);
 
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(user.getEmail());
-            mailMessage.setSubject("Código de Recuperação de Senha");
-            mailMessage.setText("Seu código de recuperação de senha é: " + verificationCode);
-
-            mailSender.send(mailMessage);
+            String subject = "Código de Recuperação de Senha";
+            String body = "Seu código de recuperação de senha é: " + verificationCode;
+            emailService.sendSimpleEmail(email, subject, body);
         }
     }
 
