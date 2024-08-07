@@ -22,7 +22,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Desabilita CSRF
+                .csrf(AbstractHttpConfigurer::disable) // Desabilita CSRF para APIs
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/auth/login",
                                 "/api/users/register",
@@ -31,10 +31,11 @@ public class SecurityConfig {
                                 "/api/users/contact",
                                 "/api/users/contact/{email}").permitAll() // Permite acesso sem autenticação
                         .requestMatchers("/api/usage/calculator",
-                                "/api/users/contact").authenticated()
+                                "/api/users/contact").authenticated() // Requer autenticação para endpoints específicos
                         .anyRequest().authenticated()) // Requer autenticação para outras requisições
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults()); // Configura autenticação básica
 
         return http.build();
     }
 }
+

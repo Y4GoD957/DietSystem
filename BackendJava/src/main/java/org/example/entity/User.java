@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
@@ -14,6 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int user_id;
 
     @Column(nullable = false, unique = true)
@@ -34,9 +35,6 @@ public class User {
     @Column(nullable = true)
     private String message;
 
-    @Column(nullable = true)
-    private String verificationCode;
-
-    @Column(nullable = true)
-    private LocalDateTime verificationCodeExpiration;
+    @OneToMany(mappedBy = "user")
+    private Set<Diet> diets; // Relacionamento com Diet
 }

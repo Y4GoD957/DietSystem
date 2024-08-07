@@ -35,7 +35,7 @@
       <div class="about-content">
         <h2>Nada Como um Café Quentinho</h2>
         <p>Cada um de nós traz um conjunto único de habilidades para a mesa, desde a criação de interfaces bonitas e funcionais até a construção de sistemas backend robustos. Gostamos de trabalhar em um ambiente colaborativo onde todas as ideias são bem-vindas e a criatividade é incentivada.</p>
-        <a href="" class="read-more">Leia Mais</a>
+        <a href="/AboutUs" class="read-more">Leia Mais</a>
       </div>
     </section>
   </div>
@@ -95,17 +95,20 @@
     </div>
   </section>
 
+<TheFooter />
 </template>
 
 <script>
 import TheHeader from '@/components/TheHeader.vue';
 import Swal from 'sweetalert2';
 import axios from '@/plugins/axios.js';
+import TheFooter from '@/components/TheFooter.vue';
 
 export default {
   name: 'HomePage',
   components: {
-    TheHeader
+    TheHeader,
+    TheFooter
   },
   data() {
     return {
@@ -225,8 +228,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 300px;
-  margin-bottom: 400px;
+  margin-top: 100px;
+  margin-bottom: 200px;
   padding: 0 20px;
   position: relative; /* Adicionado para posicionamento relativo */
   left: 50%; /* Move o elemento para a direita em 50% do próprio elemento */
@@ -234,9 +237,13 @@ export default {
   text-align: center; /* Centraliza todo o conteúdo */
 }
 
+#about {
+  margin-top: 250px;
+  margin-bottom: 100px;
+}
+
 #services {
-  margin-top: 400px;
-  margin-bottom: 200px;
+  margin-top: 250px;
 }
 
 #contact {

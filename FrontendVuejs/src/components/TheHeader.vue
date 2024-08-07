@@ -4,10 +4,10 @@
       <img src="@/assets/logo.png" width="100%" height="100%" alt="Logo Sys Diet" />
     </h2>
     <nav class="navigation">
-      <a href="#main">Início</a>
-      <a href="#about">Sobre</a>
-      <a href="#services">Serviços</a>
-      <a href="#contact">Contato</a>
+      <a class="header-and-footer" href="/">Início</a>
+      <a class="header-and-footer" href="/AboutUs">Sobre</a>
+      <a class="header-and-footer" href="#services">Serviços</a>
+      <a class="header-and-footer" href="/ContactPage">Contato</a>
       <button v-if="!isAuthenticated" class="btnLogin-popup">Login</button>
       <button v-else class="btnLogout" @click="handleLogout">Logout</button>
     </nav>
@@ -33,7 +33,7 @@
 
         <div class="remember-forgot">
           <label><input type="checkbox" />Manter login</label>
-          <a href="./password-recovery">Esqueci minha senha</a>
+          <a href="">Esqueci minha senha</a>
         </div>
 
         <button type="submit" class="btn">Entrar</button>
@@ -203,45 +203,11 @@ export default {
 </script>
 
 <style scoped>
-#login {
-  display: flex;
-  justify-content: center;
-}
-
 .logo {
   font-size: 2em;
   color: #fff;
   user-select: none;
   cursor: pointer;
-}
-
-.navigation a {
-  position: relative;
-  font-size: 1.1em;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 40px;
-  cursor: pointer;
-}
-
-.navigation a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 3px;
-  background: #fff;
-  border-radius: 5px;
-  transform-origin: right;
-  transform: scaleX(0);
-  transition: transform 0.5s;
-}
-
-.navigation a:hover::after {
-  transform-origin: left;
-  transform: scaleX(1);
 }
 
 .navigation .btnLogin-popup {
@@ -286,8 +252,8 @@ export default {
 
 .wrapper {
   position: fixed;
-  top: 50%; /* Centraliza verticalmente */
-  left: 50%; /* Centraliza horizontalmente */
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%) scale(0);
   width: 400px;
   height: 440px;
@@ -300,7 +266,7 @@ export default {
   align-items: center;
   overflow: hidden;
   transition: transform 0.5s ease, height 0.2s ease;
-  z-index: 1000; /* Garante que esteja sobre outros elementos */
+  z-index: 1000;
 }
 
 .wrapper.active-popup {
@@ -368,13 +334,14 @@ export default {
   margin: 25px 0 10px;
 }
 
-.register-link p a {
+.login-register p a {
   color: #162938;
   text-decoration: none;
   font-weight: 600;
+  cursor: pointer;
 }
 
-.register-link p a:hover {
+.login-register p a:hover {
   text-decoration: underline;
 }
 

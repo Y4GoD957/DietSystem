@@ -4,9 +4,8 @@ import DietSelection from '../views/DietSelection.vue'
 import DietCalculator from '../views/DietCalculator.vue'
 import TermsAndServices from '../views/TermsAndServices.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
-import PasswordRecovery from '../components/PasswordRecovery.vue'
-import VerifyCode from '@/components/VerifyCode.vue'
-import ResetPassword from '@/components/ResetPassword.vue'
+import AboutUs from '@/views/AboutUs.vue'
+import ContactPage from '@/views/ContactPage.vue'
 
 const routes = [
   {
@@ -15,19 +14,14 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/password-recovery',
-    name: 'Password Recovery',
-    component: PasswordRecovery
+    path: '/AboutUs',
+    name: 'About Us',
+    component: AboutUs
   },
   {
-    path: '/verify-code',
-    name: 'VerifyCode',
-    component: VerifyCode
-  },
-  {
-    path: '/reset-password',
-    name: 'ResetPassword',
-    component: ResetPassword
+    path: '/ContactPage',
+    name: 'Contact Page',
+    component: ContactPage
   },
   {
     path:'/diet',
