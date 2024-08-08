@@ -19,17 +19,22 @@ public class DietService {
     @Autowired
     private UserRepository userRepository;
 
-    public Diet saveDiet(Long userId, Diet diet) {
-        User user = userRepository.findById(Math.toIntExact(userId)).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
-        diet.setUser(user);
+    public Diet saveDiet(Diet diet) {
+        User user = diet.getUser();
+        if (user == null || !userRepository.existsById(user.getUser_id())) {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
         return dietRepository.save(diet);
     }
 
-    public List<Diet> getDietsByUserId(int user_id) {
-        Optional<User> user = userRepository.findByUser_id(user_id);
-        if (user != null) {
-            return dietRepository.findByUser_UserId(user_id);
+    public Optional<User> findById(int userId) {
+        return userRepository.findById(userId);
+    }
+
+    public List<Diet> getDietsByUserId(int userId) {
+        if (userRepository.existsById(userId)) {
+            return dietRepository.findById(userId);
         }
-        return null;
+        return List.of();
     }
 }

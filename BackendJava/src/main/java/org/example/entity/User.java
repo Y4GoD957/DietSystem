@@ -35,6 +35,6 @@ public class User {
     @Column(nullable = true)
     private String message;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Diet> diets; // Relacionamento com Diet
 }
