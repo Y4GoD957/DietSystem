@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DietDTO {
-    private int userId;
+    private int user_id;
     private String height;
     private String gender;
     private int age;

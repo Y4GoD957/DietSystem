@@ -22,20 +22,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Desabilita CSRF para APIs
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/api/auth/login",
-                                "/api/users/register",
-                                "/api/users/{user_id}",
-                                "/api/users/all",
-                                "/api/users/contact",
-                                "/api/users/contact/{email}").permitAll() // Permite acesso sem autenticação
-                        .requestMatchers("/api/usage/calculator",
-                                "/api/users/contact").authenticated() // Requer autenticação para endpoints específicos
-                        .anyRequest().authenticated()) // Requer autenticação para outras requisições
-                .httpBasic(Customizer.withDefaults()); // Configura autenticação básica
+                        .anyRequest().permitAll()) // Todos os endpoints são públicos, Obs: Irei Alterar isso quando o código estiver pronto, porém está me dando dor de cabeça configurar esse código por agora.
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 }
-

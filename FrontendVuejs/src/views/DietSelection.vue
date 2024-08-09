@@ -67,60 +67,72 @@ export default {
         gender: '',
         age: '',
         activities: '',
-        diet: ''
+        diet: '',
+        user_id: ''
       }
     };
   },
   methods: {
     handleDiet() {
         if (this.validateForm()) {
-            axios.get('http://localhost:8080/diet')
-                .then(response => {
-                    const userId = response.data.user_id;
-                    const url = `http://localhost:8080/diet/${userId}`;
-                    axios.post(url, this.formDataDiet)
-                        .then(response => {
-                            if (response.status === 200 || response.status === 201) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Perfeito!',
-                                    text: 'Dados enviados com sucesso!',
-                                });
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
 
-                                this.$router.push('/diet/calculator');
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Erro',
-                                    text: 'Não foi possível enviar os dados. Tente novamente mais tarde.',
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            if (error.response) {
-                                this.handleHttpError(error.response.status);
-                            } else {
-                                console.error('Erro ao enviar dados da dieta:', error);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Erro',
-                                    text: 'Ocorreu um erro ao enviar os dados da dieta. Tente novamente mais tarde.',
-                                });
-                            }
-                        });
-                })
-                .catch(error => {
-                    if (error.response) {
-                        this.handleHttpError(error.response.status);
-                    } else {
-                        console.error('Erro ao obter dados do usuário:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erro',
-                            text: 'Ocorreu um erro ao obter dados do usuário. Tente novamente mais tarde.',
-                        });
-                    }
+            if (!userId) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Não foi possível obter o ID do usuário. Faça o login novamente.',
                 });
+                return;
+            }
+
+            if (!token) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Não foi possível obter o token de autenticação. Faça o login novamente.',
+                });
+                return;
+            }
+
+            // Adiciona o user_id ao formDataDiet
+            this.formDataDiet.user_id = userId;
+
+            // Envia a solicitação para salvar a dieta
+            axios.post('/diet/save-diet', this.formDataDiet, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (response.status === 200 || response.status === 201) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Perfeito!',
+                        text: 'Dados enviados com sucesso!',
+                    });
+                    this.$router.push('/diet/calculator');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: 'Não foi possível enviar os dados. Tente novamente mais tarde.',
+                    });
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    this.handleHttpError(error.response.status);
+                } else {
+                    console.error('Erro ao enviar dados da dieta:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: 'Ocorreu um erro ao enviar os dados da dieta. Tente novamente mais tarde.',
+                    });
+                }
+            });
         } else {
             Swal.fire({
                 icon: 'error',
@@ -187,7 +199,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 6.25rem;
+  margin-bottom: 6.25rem;
 }
 
 .wrapperDiet form {

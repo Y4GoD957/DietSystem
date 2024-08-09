@@ -111,94 +111,102 @@ export default {
   },
   methods: {
     goToHomePage() {
-      this.$router.push('/').then(() => {
-        window.location.reload();
-        window.scrollTo(0, 0);
-      });
-    },
-    handleLogin() {
-      axios.post('/auth/login', this.formDataLogin)
-        .then(response => {
-          if (response.data.success) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userEmail', response.data.email);
-            Swal.fire({
-              icon: 'success',
-              title: 'Sucesso!',
-              text: 'Seus dados foram validados!'
-            });
-            this.isAuthenticated = true;
-            this.$router.push('/diet');
-          }
-        })
-        .catch(error => {
-            console.error('Erro ao fazer login:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro!',
-                text: 'Credenciais inválidas. Por favor, tente novamente.'
-            });
+        this.$router.push('/').then(() => {
+            window.location.reload();
+            window.scrollTo(0, 0);
         });
     },
-    handleRegister() {
-      if (this.validateName() && this.validatePassword()) {
-        axios.post('/users/register', this.formDataRegister)
-          .then(response => {
-            if (response.status === 201) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Parabéns!',
-                text: 'O seu cadastro foi realizado com sucesso!'
-              });
-              this.formDataRegister = {
-                username: '',
-                email: '',
-                password: ''
-              };
-            }
-          }) 
-          .catch(error => {
-                let message = 'Não foi possível realizar o cadastro. Tente novamente.';
-                if (error.response && error.response.status === 400) {
-                    message = error.response.data;
+    handleLogin() {
+        axios.post('/auth/login', this.formDataLogin)
+            .then(response => {
+                if (response.data.token) { // Verifica se o token está presente
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('userEmail', response.data.email);
+                    localStorage.setItem('userId', response.data.user_id);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Seus dados foram validados!'
+                    });
+                    this.isAuthenticated = true;
+                    this.$router.push('/diet');
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Não foi possível autenticar. Tente novamente.'
+                    });
                 }
+            })
+            .catch(error => {
+                console.error('Erro ao fazer login:', error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro!',
-                    text: message
+                    text: 'Credenciais inválidas. Por favor, tente novamente.'
                 });
-          });
-      } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Erro!',
-            text: 'Por favor, certifique-se de que não há caracteres especiais e espaços no nome e a senha contenha no mínimo 8 caracteres.'
-        });
-      }
+            });
+    },
+    handleRegister() {
+        if (this.validateName() && this.validatePassword()) {
+            axios.post('/users/register', this.formDataRegister)
+                .then(response => {
+                    if (response.status === 201) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Parabéns!',
+                            text: 'O seu cadastro foi realizado com sucesso!'
+                        });
+                        this.formDataRegister = {
+                            username: '',
+                            email: '',
+                            password: ''
+                        };
+                    }
+                }) 
+                .catch(error => {
+                    let message = 'Não foi possível realizar o cadastro. Tente novamente.';
+                    if (error.response && error.response.status === 400) {
+                        message = error.response.data;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: message
+                    });
+                });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Por favor, certifique-se de que não há caracteres especiais e espaços no nome e a senha contenha no mínimo 8 caracteres.'
+            });
+        }
     },
     validateName() {
-      const nameRegex = /^[a-zA-Z0-9]+$/;
-      this.isNameValid = nameRegex.test(this.formDataRegister.username);
-      return this.isNameValid;
+        const nameRegex = /^[a-zA-Z0-9]+$/;
+        this.isNameValid = nameRegex.test(this.formDataRegister.username);
+        return this.isNameValid;
     },
     validatePassword() {
-      this.isPasswordValid = this.formDataRegister.password.length >= 8;
-      return this.isPasswordValid;
+        this.isPasswordValid = this.formDataRegister.password.length >= 8;
+        return this.isPasswordValid;
     },
     displayAsterisk(field) {
-      this.showAsterisk[field] = true;
+        this.showAsterisk[field] = true;
     },
     hideAsterisk(field) {
-      this.showAsterisk[field] = false;
+        this.showAsterisk[field] = false;
     },
     handleLogout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userEmail');
-      this.isAuthenticated = false;
-      this.$router.push('/');
-      location.reload();
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userId');
+        this.isAuthenticated = false;
+        this.$router.push('/');
+        location.reload();
     }
-  }
+}
 };
 </script>
 

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -56,5 +57,14 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public Optional<User> findById(int userId) {
+        return userRepository.findById(userId);
+    }
+
+    public int getUserId(int user_id) {
+        Optional<User> user = userRepository.findById(user_id);
+        return user.map(User::getUser_id).orElse(-1); // Retorna o user_id do usuário ou -1 se não encontrado
     }
 }
