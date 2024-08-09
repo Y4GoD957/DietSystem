@@ -36,9 +36,9 @@
       <fieldset>
         <legend>Objetivo:</legend>
         <div class="column">
-          <label><input type="radio" name="dieta" v-model="formDataDiet.diet" value="bulking"> Bulking (Ganho de Massa)</label>
-          <label><input type="radio" name="dieta" v-model="formDataDiet.diet" value="cutting"> Cutting (Emagrecimento)</label>
-          <label><input type="radio" name="dieta" v-model="formDataDiet.diet" value="maintaining"> Maintaining (Manter Peso)</label>
+          <label><input type="radio" name="dieta" v-model="formDataDiet.diet" value="Bulking (Ganho de Massa)"> Bulking (Ganho de Massa)</label>
+          <label><input type="radio" name="dieta" v-model="formDataDiet.diet" value="Cutting (Emagrecimento)"> Cutting (Emagrecimento)</label>
+          <label><input type="radio" name="dieta" v-model="formDataDiet.diet" value="Maintaining (Manter Peso)"> Maintaining (Manter Peso)</label>
         </div>
       </fieldset>
 

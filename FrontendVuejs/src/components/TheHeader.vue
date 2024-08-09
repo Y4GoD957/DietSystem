@@ -8,9 +8,12 @@
       <a class="header-and-footer" href="/AboutUs">Sobre</a>
       <a class="header-and-footer" href="#services">Serviços</a>
       <a class="header-and-footer" href="/ContactPage">Contato</a>
-      <button v-if="!isAuthenticated" class="btnLogin-popup">Login</button>
-      <button v-else class="btnLogout" @click="handleLogout">Logout</button>
     </nav>
+    <button v-if="!isAuthenticated" class="btnLogin-popup">Login</button>
+      <div v-else class="auth-buttons">
+        <button class="btnProfile" @click="goToProfile">Perfil</button>
+        <button class="btnLogout" @click="handleLogout">Logout</button>
+      </div>
   </header>
 
   <section id="login">
@@ -32,7 +35,7 @@
         </div>
 
         <div class="remember-forgot">
-          <label><input type="checkbox" />Manter login</label>
+          <label><input type="checkbox" v-model="keepLoggedIn" />Manter login</label>
           <a href="">Esqueci minha senha</a>
         </div>
 
@@ -107,7 +110,15 @@ export default {
         email: false,
         password: false
       },
+      keepLoggedIn: false // Nova variável para a checkbox
     };
+  },
+  mounted() {
+    // Carrega o e-mail salvo como 'lastUsedEmail' (se houver)
+    const savedLastEmail = localStorage.getItem('lastUsedEmail');
+    if (savedLastEmail) {
+      this.formDataLogin.email = savedLastEmail;
+    }
   },
   methods: {
     goToHomePage() {
@@ -123,6 +134,14 @@ export default {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('userEmail', response.data.email);
                     localStorage.setItem('userId', response.data.user_id);
+
+                    // Se a checkbox "Manter login" estiver marcada, salvar o e-mail em 'lastUsedEmail'
+                    if (this.keepLoggedIn) {
+                      localStorage.setItem('lastUsedEmail', this.formDataLogin.email);
+                    } else {
+                      localStorage.removeItem('lastUsedEmail');
+                    }
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Sucesso!',
@@ -205,6 +224,9 @@ export default {
         this.isAuthenticated = false;
         this.$router.push('/');
         location.reload();
+    },
+    goToProfile() {
+        this.$router.push('/profile');
     }
 }
 };
@@ -218,7 +240,7 @@ export default {
   cursor: pointer;
 }
 
-.navigation .btnLogin-popup {
+.btnLogin-popup {
   width: 130px;
   height: 50px;
   background: transparent;
@@ -233,15 +255,21 @@ export default {
   transition: 0.5s;
 }
 
-.navigation .btnLogin-popup:hover {
+.btnLogin-popup:hover {
   background: #fff;
   color: #162938;
 }
 
-.navigation .btnLogout {
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.btnProfile,
+.btnLogout {
   width: 130px;
-  height: 50px;
-  background: red;
+  height: 40px; /* Altura reduzida para dividir o espaço */
+  background: transparent;
   border: 2px solid #fff;
   outline: none;
   border-radius: 6px;
@@ -249,11 +277,16 @@ export default {
   font-size: 1.1em;
   color: #fff;
   font-weight: 500;
-  margin-left: 40px;
+  margin: 5px 0; /* Espaçamento vertical entre os botões */
   transition: 0.5s;
 }
 
-.navigation .btnLogout:hover {
+.btnProfile:hover {
+  background: #fff;
+  color: #162938;
+}
+
+.btnLogout:hover {
   background: #fff;
   color: red;
 }

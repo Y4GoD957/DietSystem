@@ -6,6 +6,7 @@ import TermsAndServices from '../views/TermsAndServices.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import AboutUs from '@/views/AboutUs.vue'
 import ContactPage from '@/views/ContactPage.vue'
+import ProfilePage from '@/views/ProfilePage.vue'
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/ContactPage',
     name: 'Contact Page',
     component: ContactPage
+  },
+  {
+    path: '/Profile',
+    name: 'Profile Page',
+    component: ProfilePage
   },
   {
     path:'/diet',
