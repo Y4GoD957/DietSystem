@@ -7,9 +7,10 @@ import org.example.service.DietService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/diet")
@@ -43,12 +44,26 @@ public class DietController {
             diet.setDiet(dietDto.getDiet());
             diet.setUser(user);
 
-            // Salvar a dieta
+            // Salvar ou atualizar a dieta
             dietService.saveDiet(diet);
-            return ResponseEntity.status(201).body("Dieta salva com sucesso");
+            return ResponseEntity.status(201).body("Dieta salva ou atualizada com sucesso");
         } catch (Exception e) {
             e.printStackTrace(); // Log para depuração
             return ResponseEntity.status(500).body("Erro interno no servidor");
         }
     }
+
+    @GetMapping("/check/{user_id}")
+    public ResponseEntity<Map<String, Boolean>> checkDietData(@PathVariable("user_id") int userId) {
+        boolean hasDietData = dietService.userHasDiet(userId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("hasDietData", hasDietData);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> testEndpoint() {
+        return ResponseEntity.ok("Endpoint is working!");
+    }
+
 }

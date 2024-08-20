@@ -9,8 +9,8 @@
       <fieldset>
         <legend>Sexo:</legend>
         <div class="label-centered">
-          <label><input type="radio" name="sexo" v-model="formDataDiet.gender" value="masculino"> Masculino</label>
-          <label><input type="radio" name="sexo" v-model="formDataDiet.gender" value="feminino"> Feminino</label>
+          <label><input type="radio" name="sexo" v-model="formDataDiet.gender" value="Masculino"> Masculino</label>
+          <label><input type="radio" name="sexo" v-model="formDataDiet.gender" value="Feminino"> Feminino</label>
         </div>
       </fieldset>
 

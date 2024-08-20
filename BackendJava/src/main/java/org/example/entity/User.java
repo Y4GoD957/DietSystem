@@ -16,7 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int user_id;
+    private int userId; // Nome no Java é userId, mas na base de dados continua user_id
 
     @Column(nullable = false, unique = true)
     private String username;

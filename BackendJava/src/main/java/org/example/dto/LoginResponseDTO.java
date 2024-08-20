@@ -11,6 +11,7 @@ public class LoginResponseDTO {
     private String message;
     private String email;
     private int user_id;
+    private String redirectUrl;
 
     public LoginResponseDTO(boolean success, String token, String message, String email, int user_id) {
         this.success = success;

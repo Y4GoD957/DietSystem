@@ -91,7 +91,7 @@ public class UserController {
     @PutMapping("/{user_id}")
     public ResponseEntity<String> updateUser(@PathVariable int user_id, @RequestBody User u) {
         try {
-            u.setUser_id(user_id);
+            u.setUserId(user_id);
             userService.updateUser(u);
             return ResponseEntity.ok("Usuário atualizado com sucesso");
         } catch (Exception e) {

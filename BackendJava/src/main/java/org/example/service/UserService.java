@@ -65,6 +65,6 @@ public class UserService {
 
     public int getUserId(int user_id) {
         Optional<User> user = userRepository.findById(user_id);
-        return user.map(User::getUser_id).orElse(-1); // Retorna o user_id do usuário ou -1 se não encontrado
+        return user.map(User::getUserId).orElse(-1); // Retorna o user_id do usuário ou -1 se não encontrado
     }
 }

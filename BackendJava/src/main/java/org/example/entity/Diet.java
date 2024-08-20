@@ -7,7 +7,7 @@ import lombok.Setter;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "diets")
+@Table(name = "diets", uniqueConstraints = @UniqueConstraint(columnNames = "user_id"))
 @Getter
 @Setter
 public class Diet {
@@ -31,7 +31,7 @@ public class Diet {
     @Column(nullable = false)
     private String diet;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private User user; // Chave estrangeira para User

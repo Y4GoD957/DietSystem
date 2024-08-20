@@ -141,7 +141,7 @@ export default {
                     } else {
                       localStorage.removeItem('lastUsedEmail');
                     }
-
+            
                     Swal.fire({
                         icon: 'success',
                         title: 'Sucesso!',
@@ -222,8 +222,7 @@ export default {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userId');
         this.isAuthenticated = false;
-        this.$router.push('/');
-        location.reload();
+        window.location.href = 'http://localhost:5173';
     },
     goToProfile() {
         this.$router.push('/profile');

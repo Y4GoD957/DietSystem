@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DietRepository extends JpaRepository<Diet, Integer> {
 
-    List<Diet> findById(int user_id);
-
+    // Retorna uma dieta para um user_id específico
+    List<Diet> findByUserUserId(int userId); // Utilizando userId ao invés de user_id
 }

@@ -37,7 +37,7 @@ public class AuthenticationService {
                     token,
                     "Autenticação bem-sucedida",
                     user.getEmail(),
-                    user.getUser_id()
+                    user.getUserId()
             );
         } else {
             throw new Exception("Credenciais inválidas");
@@ -50,7 +50,7 @@ public class AuthenticationService {
 
         return Jwts.builder()
                 .setSubject(user.getEmail())
-                .claim("user_id", user.getUser_id())
+                .claim("user_id", user.getUserId())
                 .setIssuedAt(now)
                 .setExpiration(new Date(nowMillis + 3600000)) // Token válido por 1 hora
                 .signWith(key)
