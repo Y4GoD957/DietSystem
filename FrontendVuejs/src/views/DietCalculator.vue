@@ -1,20 +1,16 @@
 <template>
-<TheHeader />
-
-
+  <TheHeader />
 </template>
 
 <script>
-import TheHeader from '@/components/TheHeader.vue';
+import TheHeader from '@/components/TheHeader.vue'
 
 export default {
-    name: 'DietCalculator',
-    components: {
-        TheHeader
-    }
+  name: 'DietCalculator',
+  components: {
+    TheHeader
+  }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

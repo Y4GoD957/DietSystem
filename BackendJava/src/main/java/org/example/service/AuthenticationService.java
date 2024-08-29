@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import org.example.dto.LoginResponseDTO;
 import org.example.dto.UserDTO;
 import org.example.entity.User;
+import org.example.repository.DietRepository;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,22 +23,31 @@ public class AuthenticationService {
     private UserRepository userRepository;
 
     @Autowired
+    private DietRepository dietRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
+    // Método de autenticação modificado para redirecionar com base nos dados de dieta
     public LoginResponseDTO authenticate(UserDTO userDTO) throws Exception {
         User user = userRepository.findByEmail(userDTO.getEmail())
                 .orElseThrow(() -> new Exception("Usuário não encontrado"));
 
         if (passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
             String token = generateToken(user);
+            boolean hasDietData = dietRepository.existsByUserId(user.getUserId());
+
+            String redirectEndpoint = hasDietData ? "/Services" : "/diet";
+
             return new LoginResponseDTO(
                     true,
                     token,
                     "Autenticação bem-sucedida",
                     user.getEmail(),
-                    user.getUserId()
+                    user.getUserId(),
+                    redirectEndpoint
             );
         } else {
             throw new Exception("Credenciais inválidas");

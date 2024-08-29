@@ -1,71 +1,106 @@
 <template>
   <TheHeader />
-  
-  <section id="main" class="diet-system-section section-main">
-  <div class="content-wrapper">
-    <div class="left-column">
-      <div class="image-wrapper">
-        <img src="@/assets/mainImg.jpg" alt="Imagem da Diet System">
-      </div>
-    </div>
-    <div class="right-column">
-      <div class="text-wrapper">
-        <h1>O que é Diet System?</h1>
-        <br>
-        <p>Diet System é uma empresa dedicada à regulagem dietética e à promoção da saúde alimentar. Nosso foco é proporcionar dietas personalizadas e orientação nutricional para ajudar nossos clientes a alcançar seus objetivos de saúde.</p>
-        <p>Nossa abordagem é baseada em evidências científicas, combinando conhecimento especializado com tecnologia para oferecer soluções eficazes e personalizadas.</p>
-        <p>A Diet System tem como missão principal cuidar da saúde dos seus clientes, oferecendo planos alimentares adequados às necessidades individuais, garantindo assim uma vida mais saudável e equilibrada.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section id="about" class="section-about">
-  <div class="heading">
-    <h1>Sobre Nós</h1>
-    <p>Oi! Somos uma equipe de desenvolvedores super entusiasmados com o mundo da tecnologia. Adoramos criar coisas novas e resolver problemas complexos, sempre com um sorriso no rosto e uma xícara de café na mão.</p>
-  </div>
-  <div class="container">
-    <section class="about">
-      <div class="about-image">
+  <section id="main" class="diet-system-section section-main">
+    <div class="content-wrapper">
+      <div class="left-column">
         <div class="image-wrapper">
-          <img src="@/assets/coffee.jpg" alt="Imagem Sobre Nós">
+          <img src="@/assets/mainImg.jpg" alt="Imagem da Diet System" />
         </div>
       </div>
-      <div class="about-content">
-        <h2>Nada Como um Café Quentinho</h2>
-        <p>Cada um de nós traz um conjunto único de habilidades para a mesa, desde a criação de interfaces bonitas e funcionais até a construção de sistemas backend robustos. Gostamos de trabalhar em um ambiente colaborativo onde todas as ideias são bem-vindas e a criatividade é incentivada.</p>
-        <a href="/AboutUs" class="read-more">Leia Mais</a>
+      <div class="right-column">
+        <div class="text-wrapper">
+          <h1>O que é Diet System?</h1>
+          <br />
+          <p>
+            Diet System é uma empresa dedicada à regulagem dietética e à promoção da saúde
+            alimentar. Nosso foco é proporcionar dietas personalizadas e orientação nutricional para
+            ajudar nossos clientes a alcançar seus objetivos de saúde.
+          </p>
+          <p>
+            Nossa abordagem é baseada em evidências científicas, combinando conhecimento
+            especializado com tecnologia para oferecer soluções eficazes e personalizadas.
+          </p>
+          <p>
+            A Diet System tem como missão principal cuidar da saúde dos seus clientes, oferecendo
+            planos alimentares adequados às necessidades individuais, garantindo assim uma vida mais
+            saudável e equilibrada.
+          </p>
+        </div>
       </div>
-    </section>
-  </div>
-</section>
+    </div>
+  </section>
 
-<section id="services" class="section-services">
-  <div class="heading">
-    <h1>Nossos Serviços</h1>
-    <p>Aqui estão alguns dos serviços que oferecemos para nossos clientes:</p>
-  </div>
+  <section id="about" class="section-about">
+    <div class="heading">
+      <h1>Sobre Nós</h1>
+      <p>
+        Oi! Somos uma equipe de desenvolvedores super entusiasmados com o mundo da tecnologia.
+        Adoramos criar coisas novas e resolver problemas complexos, sempre com um sorriso no rosto e
+        uma xícara de café na mão.
+      </p>
+    </div>
+    <div class="container">
+      <section class="about">
+        <div class="about-image">
+          <div class="image-wrapper">
+            <img src="@/assets/coffee.jpg" alt="Imagem Sobre Nós" />
+          </div>
+        </div>
+        <div class="about-content">
+          <h2>Nada Como um Café Quentinho</h2>
+          <p>
+            Cada um de nós traz um conjunto único de habilidades para a mesa, desde a criação de
+            interfaces bonitas e funcionais até a construção de sistemas backend robustos. Gostamos
+            de trabalhar em um ambiente colaborativo onde todas as ideias são bem-vindas e a
+            criatividade é incentivada.
+          </p>
+          <a href="/AboutUs" class="read-more">Leia Mais</a>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section id="services" class="section-services">
+    <div class="heading">
+      <h1>Nossos Serviços</h1>
+      <p>Aqui estão alguns dos serviços que oferecemos para nossos clientes:</p>
+    </div>
     <div class="service-wrapper">
       <div class="service">
         <h2>Calcular metabolismo basal.</h2>
-        <br>
-        <p>Nosso serviço de calcular o metabolismo basal utiliza metodologias avançadas para determinar a taxa metabólica basal de cada indivíduo. Isso permite uma compreensão precisa de quantas calorias seu corpo queima em repouso, fornecendo uma base sólida para ajustar sua dieta e alcançar seus objetivos de saúde.</p>
+        <br />
+        <p>
+          Nosso serviço de calcular o metabolismo basal utiliza metodologias avançadas para
+          determinar a taxa metabólica basal de cada indivíduo. Isso permite uma compreensão precisa
+          de quantas calorias seu corpo queima em repouso, fornecendo uma base sólida para ajustar
+          sua dieta e alcançar seus objetivos de saúde.
+        </p>
       </div>
       <div class="service">
         <h2>Fazer uma dieta personalizada.</h2>
-        <br>
-        <p>Criamos dietas personalizadas que são adaptadas às suas necessidades específicas, levando em consideração seu metabolismo, objetivos de saúde e futuramente preferências alimentares. Nossa abordagem é guiada por nutricionistas qualificados para garantir que você receba um plano alimentar equilibrado e sustentável.</p>
+        <br />
+        <p>
+          Criamos dietas personalizadas que são adaptadas às suas necessidades específicas, levando
+          em consideração seu metabolismo, objetivos de saúde e futuramente preferências
+          alimentares. Nossa abordagem é guiada por nutricionistas qualificados para garantir que
+          você receba um plano alimentar equilibrado e sustentável.
+        </p>
       </div>
       <div class="service">
         <h2>Manter nossos clientes saudáveis.</h2>
-        <br>
-        <p>Nosso compromisso é manter nossos clientes saudáveis através de programas abrangentes de acompanhamento e suporte contínuo. Além de oferecer dietas personalizadas e calcular o metabolismo basal, incentivamos hábitos de vida saudáveis e fornecemos recursos educacionais para promover uma jornada de saúde holística e duradoura.</p>
+        <br />
+        <p>
+          Nosso compromisso é manter nossos clientes saudáveis através de programas abrangentes de
+          acompanhamento e suporte contínuo. Além de oferecer dietas personalizadas e calcular o
+          metabolismo basal, incentivamos hábitos de vida saudáveis e fornecemos recursos
+          educacionais para promover uma jornada de saúde holística e duradoura.
+        </p>
       </div>
     </div>
-</section>
+  </section>
 
-<section id="contact" class="section-contact">
+  <section id="contact" class="section-contact">
     <div class="wrapperContact">
       <h2 class="titleContact">Fale Conosco</h2>
 
@@ -75,7 +110,7 @@
           <input type="text" v-model="formDataContact.name" />
           <label>Nome Completo</label>
         </div>
-        
+
         <div class="input-box">
           <span class="icon"><ion-icon name="mail"></ion-icon></span>
           <input type="email" v-model="formDataContact.email" />
@@ -84,25 +119,25 @@
 
         <div class="input-box">
           <span class="icon"><ion-icon name="call"></ion-icon></span>
-          <input type="text" v-model="formDataContact.phone"/>
+          <input type="text" v-model="formDataContact.phone" />
           <label>Celular</label>
         </div>
-          
+
         <textarea v-model="formDataContact.message" placeholder="Sua Mensagem"></textarea>
-        
+
         <button type="submit" class="btn">Enviar</button>
       </form>
     </div>
   </section>
 
-<TheFooter />
+  <TheFooter />
 </template>
 
 <script>
-import TheHeader from '@/components/TheHeader.vue';
-import Swal from 'sweetalert2';
-import axios from '@/plugins/axios.js';
-import TheFooter from '@/components/TheFooter.vue';
+import TheHeader from '@/components/TheHeader.vue'
+import Swal from 'sweetalert2'
+import axios from '@/plugins/axios.js'
+import TheFooter from '@/components/TheFooter.vue'
 
 export default {
   name: 'HomePage',
@@ -118,7 +153,7 @@ export default {
         phone: '',
         message: ''
       }
-    };
+    }
   },
   methods: {
     async handleContact() {
@@ -126,25 +161,25 @@ export default {
         Swal.fire({
           icon: 'warning',
           title: 'Atenção',
-          text: 'Você precisa estar logado para enviar o formulário.',
-        });
-        return;
+          text: 'Você precisa estar logado para enviar o formulário.'
+        })
+        return
       }
 
-      const loggedInUserEmail = localStorage.getItem('userEmail');
+      const loggedInUserEmail = localStorage.getItem('userEmail')
 
       if (this.formDataContact.email !== loggedInUserEmail) {
         Swal.fire({
           icon: 'warning',
           title: 'Atenção',
-          text: 'O email do formulário não corresponde ao email do usuário logado.',
-        });
-        return;
+          text: 'O email do formulário não corresponde ao email do usuário logado.'
+        })
+        return
       }
 
       if (this.validateForm()) {
         try {
-          const response = await axios.get(`/users/contact/${this.formDataContact.email}`);
+          const response = await axios.get(`/users/contact/${this.formDataContact.email}`)
 
           if (response.status === 200 && response.data) {
             Swal.fire({
@@ -156,68 +191,68 @@ export default {
               cancelButtonText: 'Cancelar'
             }).then(async (result) => {
               if (result.isConfirmed) {
-                this.submitContactData();
+                this.submitContactData()
               }
-            });
+            })
           } else {
-            this.submitContactData();
+            this.submitContactData()
           }
         } catch (error) {
           Swal.fire({
             icon: 'error',
             title: 'Erro',
-            text: 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.',
-          });
+            text: 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.'
+          })
         }
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
-          text: 'Por favor, preencha todos os campos corretamente.',
-        });
+          text: 'Por favor, preencha todos os campos corretamente.'
+        })
       }
     },
 
     async submitContactData() {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token')
 
         const response = await axios.post('/users/contact', this.formDataContact, {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           }
-        });
+        })
 
         if (response.status === 200) {
-          localStorage.setItem('userEmail', response.data.email);
+          localStorage.setItem('userEmail', response.data.email)
           Swal.fire({
             icon: 'success',
             title: 'Sucesso',
-            text: 'Dados enviados com sucesso!',
-          });
+            text: 'Dados enviados com sucesso!'
+          })
         } else {
           Swal.fire({
             icon: 'error',
             title: 'Erro',
-            text: 'Não foi possível enviar os dados. Tente novamente mais tarde.',
-          });
+            text: 'Não foi possível enviar os dados. Tente novamente mais tarde.'
+          })
         }
       } catch (error) {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
-          text: 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.',
-        });
+          text: 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.'
+        })
       }
     },
 
     isUserLoggedIn() {
-      return !!localStorage.getItem('token');
+      return !!localStorage.getItem('token')
     },
 
     validateForm() {
-      const { name, email, phone, message } = this.formDataContact;
-      return name && email && phone && message !== '';
+      const { name, email, phone, message } = this.formDataContact
+      return name && email && phone && message !== ''
     }
   }
 }
@@ -303,7 +338,7 @@ export default {
 }
 
 .text-wrapper h1::after {
-  content: "";
+  content: '';
   position: absolute;
   width: 75%;
   height: 2px;
@@ -362,8 +397,8 @@ export default {
 }
 
 .heading h1::after {
-  content: "";
-  position:absolute;
+  content: '';
+  position: absolute;
   width: 100%;
   height: 4px;
   display: block;
@@ -405,7 +440,7 @@ export default {
 }
 
 .image-wrapper:hover img {
-  transform:scale(1.2);
+  transform: scale(1.2);
 }
 
 .about-content {
@@ -434,12 +469,12 @@ export default {
   border: 2px solid #162938;
   border-radius: 25px;
   margin-top: 15px;
-  transition: 0.3s ease
+  transition: 0.3s ease;
 }
 
 .about-content .read-more:hover {
   background-color: #162938;
-  color:#fff;
+  color: #fff;
 }
 
 .wrapperContact {
@@ -451,7 +486,7 @@ export default {
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   margin-top: 300px;
-  margin-bottom: 100px
+  margin-bottom: 100px;
 }
 
 .form-contact {

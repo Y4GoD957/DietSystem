@@ -56,7 +56,7 @@ footer {
 .input-box input:focus ~ label,
 .input-box input:valid ~ label,
 .input-box textarea:focus ~ label,
-.input-box textarea:valid ~ label  {
+.input-box textarea:valid ~ label {
   top: -5px;
 }
 

@@ -24,7 +24,9 @@ public class AuthenticationController {
             LoginResponseDTO response = authenticationService.authenticate(userDTO);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            LoginResponseDTO response = new LoginResponseDTO(false, null, e.getMessage(), null, -1);
+            // Ajuste para incluir o redirectEndpoint padrão
+            String redirectEndpoint = "/diet"; // Definindo um endpoint padrão em caso de falha
+            LoginResponseDTO response = new LoginResponseDTO(false, null, e.getMessage(), null, -1, redirectEndpoint);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }

@@ -1,38 +1,44 @@
 <template>
-    <footer>
-      <div class="footer-section">
-        <h3>Central de Atendimento</h3>
-        <ul>
-          <li><p><ion-icon name="time-outline"></ion-icon> Atendimento: seg. à dom. 07 às 23h</p></li>
-          <li><p><ion-icon name="logo-whatsapp"></ion-icon> Contato: +55 (61) 98190-5006</p></li>
-          <li><p><ion-icon name="mail-outline"></ion-icon> Email: contato@dietsystem.com</p></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Serviços ao Cliente</h3>
-        <ul>
-          <li><a class="header-and-footer" href="">Cálculo de Metabolismo Basal</a></li>
-          <li><a class="header-and-footer" href="">Formulador de Dietas</a></li>
-          <li><a class="header-and-footer" href="">Recomendação de Exercícios</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Informações e Políticas</h3>
-        <ul>
-          <li><a class="header-and-footer" href="/AboutUs">Sobre Nós</a></li>
-          <li><a class="header-and-footer" href="/terms">Termos e Serviços</a></li>
-          <li><a class="header-and-footer" href="/privacy-policy">Política de Privacidade</a></li>
-        </ul>
-      </div>
-    </footer>
+  <footer>
+    <div class="footer-section">
+      <h3>Central de Atendimento</h3>
+      <ul>
+        <li>
+          <p><ion-icon name="time-outline"></ion-icon> Atendimento: seg. à dom. 07 às 23h</p>
+        </li>
+        <li>
+          <p><ion-icon name="logo-whatsapp"></ion-icon> Contato: +55 (61) 98190-5006</p>
+        </li>
+        <li>
+          <p><ion-icon name="mail-outline"></ion-icon> Email: contato@dietsystem.com</p>
+        </li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>Serviços ao Cliente</h3>
+      <ul>
+        <li><a class="header-and-footer" href="">Cálculo de Metabolismo Basal</a></li>
+        <li><a class="header-and-footer" href="">Formulador de Dietas</a></li>
+        <li><a class="header-and-footer" href="">Recomendação de Exercícios</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>Informações e Políticas</h3>
+      <ul>
+        <li><a class="header-and-footer" href="/AboutUs">Sobre Nós</a></li>
+        <li><a class="header-and-footer" href="/terms">Termos e Serviços</a></li>
+        <li><a class="header-and-footer" href="/privacy-policy">Política de Privacidade</a></li>
+      </ul>
+    </div>
+  </footer>
 </template>
-  
+
 <script>
-  export default {
-    name: 'TheFooter'
-  };
+export default {
+  name: 'TheFooter'
+}
 </script>
-  
+
 <style scoped>
 .footer-section {
   margin: 10px;
@@ -54,4 +60,4 @@
   margin-bottom: 10px;
   font-weight: bold; /* Deixa os itens em negrito */
 }
-</style>  
+</style>

@@ -30,16 +30,16 @@ const routes = [
     component: ProfilePage
   },
   {
-    path:'/diet',
+    path: '/diet',
     name: 'Diet',
     component: DietSelection,
-    meta: { requiresAuth: true}
+    meta: { requiresAuth: true }
   },
   {
-    path:'/diet/calculator',
-    name:'Calculator',
+    path: '/diet/calculator',
+    name: 'Calculator',
     component: DietCalculator,
-    meta: { requiresAuth: true}
+    meta: { requiresAuth: true }
   },
   {
     path: '/terms',
@@ -56,17 +56,17 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
-});
+})
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const isAuthenticated = localStorage.getItem('token');
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+  const isAuthenticated = localStorage.getItem('token')
 
   if (requiresAuth && !isAuthenticated) {
-    next('/');
+    next('/')
   } else {
-    next();
+    next()
   }
-});
+})
 
 export default router

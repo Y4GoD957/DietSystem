@@ -1,32 +1,53 @@
 <template>
   <TheHeader />
-    <div class="containerContact">
-      <form @submit.prevent="handleContact">
-        <h1>Página de Contato</h1>
-        <input type="text" id="Name" placeholder="Nome Completo:" required autocomplete="off" v-model="formDataContact.name"/>
-        <input type="email" id="email" placeholder="Email:" required autocomplete="off" v-model="formDataContact.email"/>
-        <input type="text" id="phone" placeholder="Celular:" required autocomplete="off" v-model="formDataContact.phone"/>
-        <h4>Digite sua mensagem aqui...</h4>
-        <textarea required autocomplete="off" v-model="formDataContact.message"></textarea>
-        <input type="submit" value="Enviar" id="button" />
-      </form>
-    </div>
+  <div class="containerContact">
+    <form @submit.prevent="handleContact">
+      <h1>Página de Contato</h1>
+      <input
+        type="text"
+        id="Name"
+        placeholder="Nome Completo:"
+        required
+        autocomplete="off"
+        v-model="formDataContact.name"
+      />
+      <input
+        type="email"
+        id="email"
+        placeholder="Email:"
+        required
+        autocomplete="off"
+        v-model="formDataContact.email"
+      />
+      <input
+        type="text"
+        id="phone"
+        placeholder="Celular:"
+        required
+        autocomplete="off"
+        v-model="formDataContact.phone"
+      />
+      <h4>Digite sua mensagem aqui...</h4>
+      <textarea required autocomplete="off" v-model="formDataContact.message"></textarea>
+      <input type="submit" value="Enviar" id="button" />
+    </form>
+  </div>
   <TheFooter />
 </template>
 
 <script>
-import TheFooter from '@/components/TheFooter.vue';
-import Swal from 'sweetalert2';
-import axios from '@/plugins/axios.js';
-import TheHeader from '@/components/TheHeader.vue';
+import TheFooter from '@/components/TheFooter.vue'
+import Swal from 'sweetalert2'
+import axios from '@/plugins/axios.js'
+import TheHeader from '@/components/TheHeader.vue'
 
 export default {
   name: 'ContactPage',
-  components: { 
+  components: {
     TheHeader,
     TheFooter
-   },
-   data() {
+  },
+  data() {
     return {
       formDataContact: {
         name: '',
@@ -34,7 +55,7 @@ export default {
         phone: '',
         message: ''
       }
-    };
+    }
   },
   methods: {
     async handleContact() {
@@ -42,25 +63,25 @@ export default {
         Swal.fire({
           icon: 'warning',
           title: 'Atenção',
-          text: 'Você precisa estar logado para enviar o formulário.',
-        });
-        return;
+          text: 'Você precisa estar logado para enviar o formulário.'
+        })
+        return
       }
 
-      const loggedInUserEmail = localStorage.getItem('userEmail');
+      const loggedInUserEmail = localStorage.getItem('userEmail')
 
       if (this.formDataContact.email !== loggedInUserEmail) {
         Swal.fire({
           icon: 'warning',
           title: 'Atenção',
-          text: 'O email do formulário não corresponde ao email do usuário logado.',
-        });
-        return;
+          text: 'O email do formulário não corresponde ao email do usuário logado.'
+        })
+        return
       }
 
       if (this.validateForm()) {
         try {
-          const response = await axios.get(`/users/contact/${this.formDataContact.email}`);
+          const response = await axios.get(`/users/contact/${this.formDataContact.email}`)
 
           if (response.status === 200 && response.data) {
             Swal.fire({
@@ -72,68 +93,68 @@ export default {
               cancelButtonText: 'Cancelar'
             }).then(async (result) => {
               if (result.isConfirmed) {
-                this.submitContactData();
+                this.submitContactData()
               }
-            });
+            })
           } else {
-            this.submitContactData();
+            this.submitContactData()
           }
         } catch (error) {
           Swal.fire({
             icon: 'error',
             title: 'Erro',
-            text: 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.',
-          });
+            text: 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.'
+          })
         }
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
-          text: 'Por favor, preencha todos os campos corretamente.',
-        });
+          text: 'Por favor, preencha todos os campos corretamente.'
+        })
       }
     },
 
     async submitContactData() {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token')
 
         const response = await axios.post('/users/contact', this.formDataContact, {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           }
-        });
+        })
 
         if (response.status === 200) {
-          localStorage.setItem('userEmail', response.data.email);
+          localStorage.setItem('userEmail', response.data.email)
           Swal.fire({
             icon: 'success',
             title: 'Sucesso',
-            text: 'Dados enviados com sucesso!',
-          });
+            text: 'Dados enviados com sucesso!'
+          })
         } else {
           Swal.fire({
             icon: 'error',
             title: 'Erro',
-            text: 'Não foi possível enviar os dados. Tente novamente mais tarde.',
-          });
+            text: 'Não foi possível enviar os dados. Tente novamente mais tarde.'
+          })
         }
       } catch (error) {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
-          text: 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.',
-        });
+          text: 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.'
+        })
       }
     },
 
     isUserLoggedIn() {
-      return !!localStorage.getItem('token');
+      return !!localStorage.getItem('token')
     },
 
     validateForm() {
-      const { name, email, phone, message } = this.formDataContact;
-      return name && email && phone && message !== '';
+      const { name, email, phone, message } = this.formDataContact
+      return name && email && phone && message !== ''
     }
   }
 }
