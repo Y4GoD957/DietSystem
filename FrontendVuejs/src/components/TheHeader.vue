@@ -167,7 +167,7 @@ export default {
             // Salva os dados do token no localStorage
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userEmail', response.data.email)
-            localStorage.setItem('userId', response.data.userId)
+            localStorage.setItem('userId', response.data.user_id)
 
             // Se a checkbox "Manter login" estiver marcada, salvar o e-mail em 'lastUsedEmail'
             if (this.keepLoggedIn) {

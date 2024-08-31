@@ -69,22 +69,40 @@
               class="form-control"
             />
           </div>
+        </div>
+
+        <!-- Divider -->
+        <hr class="divider" />
+
+        <!-- Password Reset Section -->
+        <div class="section">
+          <h2>Redefinir Senha</h2>
+          <div class="form-group">
+            <label for="password">Nova Senha:</label>
+            <input
+              :type="passwordVisible ? 'text' : 'password'"
+              id="password"
+              v-model="newPassword"
+              placeholder="********"
+              class="form-control"
+            />
+          </div>
 
           <div class="form-group">
-            <label for="password">Senha:</label>
-            <div class="password-wrapper">
-              <input
-                :type="passwordVisible ? 'text' : 'password'"
-                id="password"
-                autocomplete="off"
-                v-model="user.password"
-                placeholder="********"
-                class="form-control"
-              />
-              <span class="icon" @click="togglePasswordVisibility">
-                <ion-icon :name="passwordVisible ? 'eye' : 'eye-off'"></ion-icon>
-              </span>
-            </div>
+            <label for="confirm_password">Confirmar Nova Senha:</label>
+            <input
+              :type="passwordVisible ? 'text' : 'password'"
+              id="confirm_password"
+              v-model="confirmPassword"
+              placeholder="********"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <button type="button" @click="togglePasswordVisibility" class="btn btn-secondary">
+              {{ passwordVisible ? 'Ocultar Senha' : 'Mostrar Senha' }}
+            </button>
           </div>
         </div>
 
@@ -137,6 +155,9 @@
               autocomplete="off"
               placeholder="Idade"
               class="form-control"
+              step="1"
+              min="10"
+              max="110"
             />
           </div>
 
@@ -221,6 +242,9 @@
               autocomplete="off"
               placeholder="Altura"
               class="form-control"
+              step="0.01"
+              min="0.50"
+              max="2.50"
             />
           </div>
         </div>
@@ -255,6 +279,8 @@ export default {
         phone: '',
         password: ''
       },
+      newPassword: '',
+      confirmPassword: '',
       diet: {
         diet_id: '',
         activities: '',
@@ -270,49 +296,71 @@ export default {
     }
   },
   created() {
-    this.loadProfile()
-    this.loadDietSettings()
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+      this.loadProfile(userId)
+      this.loadDietSettings(userId)
+    } else {
+      console.error('ID do usuário não encontrado no localStorage')
+    }
   },
   methods: {
-    loadProfile() {
+    loadProfile(userId) {
       axios
-        .get('/api/profile')
+        .get(`/users/profile/${userId}`)
         .then((response) => {
-          this.user = response.data.user
+          this.user = response.data
         })
         .catch((error) => {
           console.error('Erro ao carregar o perfil:', error)
         })
     },
-    loadDietSettings() {
+    loadDietSettings(userId) {
       axios
-        .get('/api/diet-settings')
+        .get(`/users/diet-settings/${userId}`)
         .then((response) => {
-          this.diet = response.data.diet
+          this.diet = response.data
         })
         .catch((error) => {
           console.error('Erro ao carregar a dieta:', error)
         })
     },
     updateProfile() {
-      axios
-        .put('/api/profile', this.user)
-        .then(() => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Perfil Atualizado!',
-            text: 'O seu perfil foi atualizado com sucesso!'
-          })
-        })
-        .catch((error) => {
-          console.error('Erro ao atualizar o perfil:', error)
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro!',
-            text: 'Tivemos um problema ao atualizar o seu perfil. Por favor, tente novamente mais tarde.'
-          })
-        })
-    },
+  if (this.user.password && this.user.password !== this.confirmPassword) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: 'As senhas não coincidem. Por favor, tente novamente.'
+    });
+    return;
+  }
+
+  // Prepare os dados para envio
+  const updateData = {
+    ...this.user,
+    password: this.newPassword || this.user.password, // Usa a nova senha se fornecida
+    confirmPassword: this.confirmPassword || this.user.confirmPassword, // Usa a confirmação de senha se fornecida
+    diets: [this.diet] // Envia a dieta como um array
+  };
+
+  axios
+    .put(`/users/profile/${this.user.user_id}`, updateData)
+    .then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Perfil Atualizado!',
+        text: 'O seu perfil foi atualizado com sucesso!'
+      });
+    })
+    .catch((error) => {
+      console.error('Erro ao atualizar o perfil:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro!',
+        text: 'Tivemos um problema ao atualizar o seu perfil. Por favor, tente novamente mais tarde.'
+      });
+    });
+},
     togglePasswordVisibility() {
       this.passwordVisible = !this.passwordVisible
     },

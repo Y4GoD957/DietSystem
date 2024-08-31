@@ -5,23 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab76946-1c62-4ea6-8915-534a1d206bcd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../BackendGo/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/components/jwt.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/components/middleware.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/components/userService.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/database/mongodb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/model/Users.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/repository/users.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BackendGo/server/server.go" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/UserProfileResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/exception/UserNotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/dto/LoginResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/LoginResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/dto/DietDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/DietDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/UserDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/repository/DietRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/repository/DietRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/MyApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/PasswordEncoderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/TheHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/components/TheHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/DietSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/DietSelection.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,10 +47,13 @@
 }</component>
   <component name="GitLabMergeRequestsSettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;first&quot;: &quot;https://gitlab.com/Y4GoD/DietSystem.git&quot;,
+    &quot;first&quot;: &quot;https://gitlab.com/Y4GoD957/DietSystem.git&quot;,
     &quot;second&quot;: &quot;bdbcd634-fc27-45ae-b1aa-a27ddde71ae9&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -66,32 +65,65 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.DietSystem.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MyApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/yagos/OneDrive/Documents/PROJETOS DE PROGRAMAÇÃO/DietSystem/BackendJava/libs/mysql-connector-j-8.4.0.jar&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/yagos/OneDrive/Documents/PROJETOS DE PROGRAMAÇÃO/DietSystem/BackendJava/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.DietSystem.executor": "Run",
+    "Application.MyApplication.executor": "Run",
+    "JUnit.PasswordEncoderTest.executor": "Run",
+    "JUnit.PasswordEncoderTest.testPasswordHashing.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/yagos/OneDrive/Documents/PROJETOS DE PROGRAMAÇÃO/DietSystem/BackendJava/libs/mysql-connector-j-8.4.0.jar",
+    "onboarding.tips.debug.path": "C:/Users/yagos/OneDrive/Documents/PROJETOS DE PROGRAMAÇÃO/DietSystem/BackendJava/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.DietSystem">
     <configuration name="DietSystem" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.example.MyApplication" />
       <module name="demo" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PasswordEncoderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example" />
+      <option name="MAIN_CLASS_NAME" value="com.example.PasswordEncoderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PasswordEncoderTest.testPasswordHashing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example" />
+      <option name="MAIN_CLASS_NAME" value="com.example.PasswordEncoderTest" />
+      <option name="METHOD_NAME" value="testPasswordHashing" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -109,6 +141,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.PasswordEncoderTest.testPasswordHashing" />
+        <item itemvalue="JUnit.PasswordEncoderTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

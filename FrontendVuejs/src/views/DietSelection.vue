@@ -10,7 +10,7 @@
         name="altura"
         v-model="formDataDiet.height"
         step="0.01"
-        min="0"
+        min="0.50"
         max="2.50"
       />
 
@@ -35,7 +35,7 @@
         name="idade"
         v-model="formDataDiet.age"
         step="1"
-        min="0"
+        min="10"
         max="110"
       />
 

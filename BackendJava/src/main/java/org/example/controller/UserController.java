@@ -1,14 +1,17 @@
 package org.example.controller;
 
+import org.example.dto.DietDTO;
 import org.example.dto.UserContactDTO;
 import org.example.dto.UserDTO;
+import org.example.dto.UserProfileResponseDTO;
 import org.example.entity.User;
 import org.example.exception.EmailAlreadyExistsException;
 import org.example.exception.UserAlreadyExistsException;
+import org.example.exception.UserNotFoundException;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody UserDTO userDto) {
@@ -120,5 +126,45 @@ public class UserController {
             e.printStackTrace(); // Log para depuração
             return ResponseEntity.status(500).body("Erro interno no servidor");
         }
+    }
+
+    @GetMapping("/profile/{user_id}")
+    public ResponseEntity<UserDTO> getUserProfile(@PathVariable int user_id) {
+        try {
+            UserDTO userDTO = userService.getUserProfile(user_id);
+            return ResponseEntity.ok(userDTO);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(404).body(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @PutMapping("/profile/{user_id}")
+    public ResponseEntity<String> updateProfile(@PathVariable int user_id, @RequestBody UserDTO userDTO) {
+        try {
+            // Verifica se a senha foi alterada e, se sim, criptografa a nova senha
+            if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
+                if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
+                    return ResponseEntity.badRequest().body("As senhas não coincidem.");
+                }
+                // O método de serviço já criptografa a senha
+            }
+
+            userService.updateUserProfile(user_id, userDTO);
+            return ResponseEntity.noContent().build();
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Erro interno no servidor");
+        }
+    }
+
+    @GetMapping("/diet-settings/{user_id}")
+    public ResponseEntity<DietDTO> getDietSettings(@PathVariable int user_id) {
+        DietDTO diet = userService.getDietSettings(user_id);
+        return ResponseEntity.ok(diet);
     }
 }
