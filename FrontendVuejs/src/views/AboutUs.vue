@@ -44,7 +44,9 @@
       <h2>Nossos Desenvolvedores</h2>
       <div class="developers-list">
         <div class="developer">
-          <img src="@/assets/Developer.jpg" alt="Desenvolvedor 1" />
+            <a href="https://www.linkedin.com/in/yago-santos-porto/" target="_blank">
+             <img src="@/assets/Developer.jpg" alt="Desenvolvedor 1" />
+            </a>
           <h3>Yago Santos Porto</h3>
         </div>
       </div>

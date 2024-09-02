@@ -6,7 +6,7 @@
     <nav class="navigation">
       <a class="header-and-footer" href="/">Início</a>
       <a class="header-and-footer" href="/AboutUs">Sobre</a>
-      <a class="header-and-footer" href="#services">Serviços</a>
+      <a class="header-and-footer" href="/Services">Serviços</a>
       <a class="header-and-footer" href="/ContactPage">Contato</a>
     </nav>
     <button v-if="!isAuthenticated" class="btnLogin-popup">Login</button>

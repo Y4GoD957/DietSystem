@@ -326,41 +326,41 @@ export default {
         })
     },
     updateProfile() {
-  if (this.user.password && this.user.password !== this.confirmPassword) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Erro!',
-      text: 'As senhas não coincidem. Por favor, tente novamente.'
-    });
-    return;
-  }
+      if (this.user.password && this.user.password !== this.confirmPassword) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: 'As senhas não coincidem. Por favor, tente novamente.'
+        })
+        return
+      }
 
-  // Prepare os dados para envio
-  const updateData = {
-    ...this.user,
-    password: this.newPassword || this.user.password, // Usa a nova senha se fornecida
-    confirmPassword: this.confirmPassword || this.user.confirmPassword, // Usa a confirmação de senha se fornecida
-    diets: [this.diet] // Envia a dieta como um array
-  };
+      // Prepare os dados para envio
+      const updateData = {
+        ...this.user,
+        password: this.newPassword || this.user.password, // Usa a nova senha se fornecida
+        confirmPassword: this.confirmPassword || this.user.confirmPassword, // Usa a confirmação de senha se fornecida
+        diets: [this.diet] // Envia a dieta como um array
+      }
 
-  axios
-    .put(`/users/profile/${this.user.user_id}`, updateData)
-    .then(() => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Perfil Atualizado!',
-        text: 'O seu perfil foi atualizado com sucesso!'
-      });
-    })
-    .catch((error) => {
-      console.error('Erro ao atualizar o perfil:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro!',
-        text: 'Tivemos um problema ao atualizar o seu perfil. Por favor, tente novamente mais tarde.'
-      });
-    });
-},
+      axios
+        .put(`/users/profile/${this.user.user_id}`, updateData)
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Perfil Atualizado!',
+            text: 'O seu perfil foi atualizado com sucesso!'
+          })
+        })
+        .catch((error) => {
+          console.error('Erro ao atualizar o perfil:', error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Tivemos um problema ao atualizar o seu perfil. Por favor, tente novamente mais tarde.'
+          })
+        })
+    },
     togglePasswordVisibility() {
       this.passwordVisible = !this.passwordVisible
     },

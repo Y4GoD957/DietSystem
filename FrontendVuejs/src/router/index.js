@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import DietSelection from '../views/DietSelection.vue'
-import DietCalculator from '../views/DietCalculator.vue'
 import TermsAndServices from '../views/TermsAndServices.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import AboutUs from '@/views/AboutUs.vue'
 import ContactPage from '@/views/ContactPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
+import ServicesPage from '@/views/ServicesPage.vue'
 
 const routes = [
   {
@@ -18,6 +18,11 @@ const routes = [
     path: '/AboutUs',
     name: 'About Us',
     component: AboutUs
+  },
+  {
+    path: '/Services',
+    name: 'Services Page',
+    component: ServicesPage
   },
   {
     path: '/ContactPage',
@@ -33,12 +38,6 @@ const routes = [
     path: '/diet',
     name: 'Diet',
     component: DietSelection,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/diet/calculator',
-    name: 'Calculator',
-    component: DietCalculator,
     meta: { requiresAuth: true }
   },
   {
