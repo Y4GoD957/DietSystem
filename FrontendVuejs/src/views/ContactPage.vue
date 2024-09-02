@@ -32,6 +32,8 @@
       <input type="submit" value="Enviar" id="button" />
     </form>
   </div>
+  <WhatsAppPopup />
+  <ScrollToTopButton />
   <TheFooter />
 </template>
 
@@ -40,12 +42,16 @@ import TheFooter from '@/components/TheFooter.vue'
 import Swal from 'sweetalert2'
 import axios from '@/plugins/axios.js'
 import TheHeader from '@/components/TheHeader.vue'
+import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 
 export default {
   name: 'ContactPage',
   components: {
     TheHeader,
-    TheFooter
+    TheFooter,
+    WhatsAppPopup,
+    ScrollToTopButton
   },
   data() {
     return {

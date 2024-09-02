@@ -60,18 +60,24 @@
       </div>
     </div>
   </div>
+  <WhatsAppPopup />
+  <ScrollToTopButton />
   <TheFooter />
 </template>
 
 <script>
 import TheHeader from '@/components/TheHeader.vue'
 import TheFooter from '@/components/TheFooter.vue'
+import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 
 export default {
   name: 'ServicesPage',
   components: {
     TheHeader,
-    TheFooter
+    TheFooter,
+    WhatsAppPopup,
+    ScrollToTopButton
   },
   methods: {
     calculateBMR() {

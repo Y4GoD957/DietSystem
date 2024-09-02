@@ -115,6 +115,8 @@
       <input type="submit" value="Gerar Dieta" />
     </form>
   </div>
+  <WhatsAppPopup />
+  <ScrollToTopButton />
   <TheFooter />
 </template>
 
@@ -123,12 +125,16 @@ import TheHeader from '@/components/TheHeader.vue'
 import Swal from 'sweetalert2'
 import axios from '@/plugins/axios.js'
 import TheFooter from '@/components/TheFooter.vue'
+import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 
 export default {
   name: 'DietSelection',
   components: {
     TheHeader,
-    TheFooter
+    TheFooter,
+    WhatsAppPopup,
+    ScrollToTopButton
   },
   data() {
     return {

@@ -252,9 +252,10 @@
         <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
       </form>
     </div>
-
-    <TheFooter />
   </div>
+  <WhatsAppPopup />
+  <ScrollToTopButton />
+  <TheFooter />
 </template>
 
 <script>
@@ -262,12 +263,16 @@ import TheHeader from '@/components/TheHeader.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import axios from '@/plugins/axios.js'
 import Swal from 'sweetalert2'
+import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 
 export default {
   name: 'ProfilePage',
   components: {
     TheHeader,
-    TheFooter
+    TheFooter,
+    WhatsAppPopup,
+    ScrollToTopButton
   },
   data() {
     return {

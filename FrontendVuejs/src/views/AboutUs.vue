@@ -44,27 +44,32 @@
       <h2>Nossos Desenvolvedores</h2>
       <div class="developers-list">
         <div class="developer">
-            <a href="https://www.linkedin.com/in/yago-santos-porto/" target="_blank">
-             <img src="@/assets/Developer.jpg" alt="Desenvolvedor 1" />
-            </a>
+          <a href="https://www.linkedin.com/in/yago-santos-porto/" target="_blank">
+            <img src="@/assets/Developer.jpg" alt="Desenvolvedor 1" />
+          </a>
           <h3>Yago Santos Porto</h3>
         </div>
       </div>
     </section>
   </div>
-
+  <WhatsAppPopup />
+  <ScrollToTopButton />
   <TheFooter />
 </template>
 
 <script>
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import TheHeader from '@/components/TheHeader.vue'
+import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
 
 export default {
   name: 'AboutUs',
   components: {
     TheHeader,
-    TheFooter
+    TheFooter,
+    WhatsAppPopup,
+    ScrollToTopButton
   }
 }
 </script>

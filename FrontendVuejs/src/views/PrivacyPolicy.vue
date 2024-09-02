@@ -80,18 +80,24 @@
       </ul>
     </div>
   </div>
+  <WhatsAppPopup />
+  <ScrollToTopButton />
   <TheFooter />
 </template>
 
 <script>
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import TheHeader from '@/components/TheHeader.vue'
+import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
 
 export default {
   name: 'PrivacyPolicy',
   components: {
     TheHeader,
-    TheFooter
+    TheFooter,
+    WhatsAppPopup,
+    ScrollToTopButton
   }
 }
 </script>
