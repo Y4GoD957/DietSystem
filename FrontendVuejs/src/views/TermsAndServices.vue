@@ -1,6 +1,6 @@
 <template>
+  <TheHeader />
   <div class="terms-container">
-    <TheHeader />
     <div class="terms-content">
       <h1>Termos e Serviços</h1>
 

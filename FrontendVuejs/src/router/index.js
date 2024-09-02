@@ -7,6 +7,7 @@ import AboutUs from '@/views/AboutUs.vue'
 import ContactPage from '@/views/ContactPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
 import ServicesPage from '@/views/ServicesPage.vue'
+import TMBCalculate from '@/views/TMBCalculate.vue'
 
 const routes = [
   {
@@ -38,6 +39,12 @@ const routes = [
     path: '/diet',
     name: 'Diet',
     component: DietSelection,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/TMBCalculate',
+    name: 'TMB Calculate',
+    component: TMBCalculate,
     meta: { requiresAuth: true }
   },
   {

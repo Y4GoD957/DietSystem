@@ -1,7 +1,6 @@
 <template>
+  <TheHeader />
   <div class="privacy-policy">
-    <TheHeader />
-
     <div class="contentPrivacy">
       <h1>Política de Privacidade</h1>
       <br />

@@ -75,9 +75,14 @@ public class UserService {
 
     @Transactional
     public void updateUserProfile(int userId, UserDTO userDTO) {
+        // Obter o usuário atual do banco de dados para comparação de senha
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado com o ID: " + userId));
+
         // Verificar se a nova senha e a confirmação da senha são iguais
         String newPassword = userDTO.getPassword();
         String confirmPassword = userDTO.getConfirmPassword();
+        String passwordToSave;
 
         if (newPassword != null && !newPassword.isEmpty()) {
             if (confirmPassword == null || confirmPassword.isEmpty()) {
@@ -90,18 +95,20 @@ public class UserService {
             }
 
             // Criptografar a nova senha após a verificação
-            String encodedPassword = passwordEncoder.encode(newPassword);
-            userDTO.setPassword(encodedPassword); // Define a senha criptografada no UserDTO
+            passwordToSave = passwordEncoder.encode(newPassword);
+        } else {
+            // Manter a senha existente se não houver nova senha
+            passwordToSave = existingUser.getPassword();
         }
 
-        // Atualiza os dados do usuário com a senha possivelmente criptografada
+        // Atualiza os dados do usuário com a senha possivelmente criptografada ou existente
         int updatedRows = userRepository.updateUserProfile(
                 userId,
                 userDTO.getUsername(),
                 userDTO.getEmail(),
                 userDTO.getName(),
                 userDTO.getPhone(),
-                userDTO.getPassword() // Senha criptografada ou senha existente
+                passwordToSave // Usar a senha criptografada ou senha existente
         );
 
         // Verifica se o usuário foi atualizado
@@ -128,6 +135,7 @@ public class UserService {
             }
         }
     }
+
 
     public DietDTO getDietSettings(int userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));

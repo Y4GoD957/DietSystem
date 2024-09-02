@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab76946-1c62-4ea6-8915-534a1d206bcd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/AboutUs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/AboutUs.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ServicesPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/ServicesPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/PasswordEncoderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/PasswordEncoderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/PrivacyPolicy.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/PrivacyPolicy.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/TermsAndServices.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/TermsAndServices.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

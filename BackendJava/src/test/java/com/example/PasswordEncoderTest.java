@@ -13,8 +13,8 @@ public class PasswordEncoderTest {
 
     @Test
     public void testPasswordHashing() {
-        String rawPassword = "usuarioteste"; // A senha original para comparação
-        String existingHash = "$2a$10$kSsZnyocz2r.JJBb8bGx3u/ZNwduhw1OxRfB4u0z4B0vq6tFz1Hsy"; // Corrija o formato do hash, deve começar com $2a$ para bcrypt
+        String rawPassword = "123123123"; // A senha original para comparação
+        String existingHash = "$2a$10$SM.yaAru4jPBjRDg7V5d1.ApBgM.V0RhsTXrnwxElewTQ5Ta10DUm"; // Corrija o formato do hash, deve começar com $2a$ para bcrypt
 
         // Testa se a senha bruta corresponde ao hash existente
         boolean matches = passwordEncoder.matches(rawPassword, existingHash);
