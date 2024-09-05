@@ -165,9 +165,9 @@ export default {
     'formDataDiet.weight': function (newValue) {
       // Substitui a vírgula por ponto se houver
       if (newValue) {
-        this.formDataDiet.weight = newValue.toString().replace(',', '.');
+        this.formDataDiet.weight = newValue.toString().replace(',', '.')
       }
-    },
+    }
   },
   methods: {
     handleDiet() {

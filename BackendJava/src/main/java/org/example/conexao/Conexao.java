@@ -14,10 +14,10 @@ public class Conexao {
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-
     private static Connection connection;
 
-    public static Connection getConexao() {
+    // Singleton pattern for the database connection
+    public static synchronized Connection getConexao() {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -33,35 +33,34 @@ public class Conexao {
         if (connection != null) {
             try {
                 connection.close();
+                connection = null; // Reset connection after closing
             } catch (SQLException e) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, "Erro ao fechar a conexão", e);
             }
         }
     }
 
     // Method to close the connection and statement
     public static void closeConexao(PreparedStatement stmt) {
-        closeConexao();
-
         if (stmt != null) {
             try {
                 stmt.close();
             } catch (SQLException e) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, "Erro ao fechar o PreparedStatement", e);
             }
         }
+        closeConexao(); // Close the connection after statement
     }
 
     // Method to close the connection, statement, and result set
     public static void closeConexao(PreparedStatement stmt, ResultSet rs) {
-        closeConexao(stmt);
-
         if (rs != null) {
             try {
                 rs.close();
             } catch (SQLException e) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, "Erro ao fechar o ResultSet", e);
             }
         }
+        closeConexao(stmt); // Close the statement and connection
     }
 }

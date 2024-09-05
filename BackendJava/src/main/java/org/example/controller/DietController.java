@@ -21,13 +21,19 @@ import java.util.Optional;
 public class DietController {
 
     @Autowired
-    private DietService dietService;
+    private final DietService dietService;
 
     @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    private DietRepository dietRepository;
+    private final DietRepository dietRepository;
+
+    public DietController(DietService dietService, UserService userService, DietRepository dietRepository) {
+        this.dietService = dietService;
+        this.userService = userService;
+        this.dietRepository = dietRepository;
+    }
 
     @PostMapping("/save-diet")
     public ResponseEntity<String> saveDiet(@RequestBody DietDTO dietDto) {
@@ -78,32 +84,26 @@ public class DietController {
     @PutMapping("/calculate/{userId}")
     public void calculateAndSaveDiet(@PathVariable int userId) {
         // Encontre todas as dietas associadas ao usuário
-        Optional<Diet> diets = dietRepository.findByUserUserId(userId);
+        Optional<Diet> optionalDiet = dietRepository.findByUserUserId(userId);
 
-        if (diets.isPresent()) {
-            // Supondo que você deseja atualizar o primeiro item da lista
-            Diet diet = diets.get();
+        if (optionalDiet.isPresent()) {
+            // Supondo que você deseja atualizar a dieta encontrada
+            Diet diet = optionalDiet.get();
 
+            // Cálculos
             double tmb = dietService.calculateTMB(diet.getGender(), diet.getAge(), diet.getHeight(), diet.getWeight());
             double imc = dietService.calculateIMC(diet.getHeight(), diet.getWeight());
             double caloric_expenditure = dietService.calculateCaloricExpenditure(tmb, diet.getActivities());
             double ideal_weight = dietService.calculateIdealWeight(diet.getHeight());
 
-            // Atualize os valores de acordo com os cálculos
+            // Atualize os valores calculados no objeto Diet
             diet.setTmb(tmb);
             diet.setImc(imc);
             diet.setCaloricExpenditure(caloric_expenditure);
             diet.setIdealWeight(ideal_weight);
 
-            // Atualize o registro na base de dados
-            dietRepository.updateDiet(
-                    diet.getDiet_id(),
-                    diet.getActivities(),
-                    diet.getAge(),
-                    diet.getDiet(),
-                    diet.getGender(),
-                    diet.getHeight(),
-                    diet.getWeight());
+            // Salve os valores calculados no banco de dados
+            dietRepository.save(diet);  // Aqui é onde os valores são salvos no banco de dados
         } else {
             // Lidar com o caso onde não há dietas para o usuário
             System.out.println("Nenhuma dieta encontrada para o usuário com ID: " + userId);
@@ -118,5 +118,11 @@ public class DietController {
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/diet-settings/{user_id}")
+    public ResponseEntity<DietDTO> getDietSettings(@PathVariable int user_id) {
+        DietDTO diet = dietService.getDietSettings(user_id);
+        return ResponseEntity.ok(diet);
     }
 }

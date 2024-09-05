@@ -156,8 +156,8 @@
         <a class="links" href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank"
           ><li>
             Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO. A new predictive
-              equation for resting energy expenditure in healthy individuals. Am J Clin Nutr. 1990
-              Feb;51(2):241-7. doi: 10.1093/ajcn/51.2.241.
+            equation for resting energy expenditure in healthy individuals. Am J Clin Nutr. 1990
+            Feb;51(2):241-7. doi: 10.1093/ajcn/51.2.241.
           </li></a
         >
         <a
@@ -165,15 +165,15 @@
           href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1091498/"
           target="_blank"
           ><li>
-            HARRIS JA, BENEDICT FG. A Biometric Study of Human Basal Metabolism. Proc Natl Acad
-              Sci U S A. 1918 Dec;4(12):370-3. doi: 10.1073/pnas.4.12.370.
+            HARRIS JA, BENEDICT FG. A Biometric Study of Human Basal Metabolism. Proc Natl Acad Sci
+            U S A. 1918 Dec;4(12):370-3. doi: 10.1073/pnas.4.12.370.
           </li></a
         >
         <a class="links" href="https://pubmed.ncbi.nlm.nih.gov/6741850/" target="_blank"
           ><li>
             ROZA AM, SHIZGAL HM. The Harris Benedict equation reevaluated: resting energy
-              requirements and the body cell mass. Am J Clin Nutr. 1984 Aug;40(2):168-82. doi:
-              10.1093/ajcn/40.2.168.
+            requirements and the body cell mass. Am J Clin Nutr. 1984 Aug;40(2):168-82. doi:
+            10.1093/ajcn/40.2.168.
           </li></a
         >
       </ul>
@@ -220,24 +220,26 @@ export default {
   },
   methods: {
     loadMetrics(userId) {
-      axios.get(`/diet/metrics/${userId}`)
+      axios
+        .get(`/diet/metrics/${userId}`)
         .then(({ data }) => {
-          this.metrics = data;
+          this.metrics = data
         })
-        .catch(error => {
-          console.error('Erro ao carregar as métricas:', error);
-        });
+        .catch((error) => {
+          console.error('Erro ao carregar as métricas:', error)
+        })
     },
     calculateAndSaveDiet(userId) {
-      axios.put(`/diet/calculate/${userId}`)
+      axios
+        .put(`/diet/calculate/${userId}`)
         .then(() => {
-          console.log('Cálculos realizados e salvos com sucesso');
-          this.loadMetrics(userId); // Recarregue os dados para atualizar a tela
+          console.log('Cálculos realizados e salvos com sucesso')
+          this.loadMetrics(userId) // Recarregue os dados para atualizar a tela
         })
-        .catch(error => {
-          console.error('Erro ao calcular e salvar os dados da dieta:', error);
-        });
-    },
+        .catch((error) => {
+          console.error('Erro ao calcular e salvar os dados da dieta:', error)
+        })
+    }
   }
 }
 </script>

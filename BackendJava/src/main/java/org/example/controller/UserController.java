@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.example.dto.DietDTO;
 import org.example.dto.UserContactDTO;
 import org.example.dto.UserDTO;
 import org.example.entity.User;
@@ -10,7 +9,6 @@ import org.example.exception.UserNotFoundException;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +18,11 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody UserDTO userDto) {
@@ -159,11 +158,5 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Erro interno no servidor");
         }
-    }
-
-    @GetMapping("/diet-settings/{user_id}")
-    public ResponseEntity<DietDTO> getDietSettings(@PathVariable int user_id) {
-        DietDTO diet = userService.getDietSettings(user_id);
-        return ResponseEntity.ok(diet);
     }
 }

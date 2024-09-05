@@ -24,16 +24,16 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true)
+    @Column()
     private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = true, length = 20)
+    @Column(length = 20)
     private String phone;
 
-    @Column(nullable = true)
+    @Column()
     private String message;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)

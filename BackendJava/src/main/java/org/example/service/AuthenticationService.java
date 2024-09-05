@@ -20,15 +20,21 @@ import java.util.Date;
 public class AuthenticationService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private DietRepository dietRepository;
+    private final DietRepository dietRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    public AuthenticationService(UserRepository userRepository, DietRepository dietRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.dietRepository = dietRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     // Método de autenticação modificado para redirecionar com base nos dados de dieta
     public LoginResponseDTO authenticate(UserDTO userDTO) throws Exception {

@@ -2,7 +2,6 @@ package org.example.service;
 
 import org.example.dto.DietDTO;
 import org.example.dto.UserDTO;
-import org.example.entity.Diet;
 import org.example.entity.User;
 import org.example.exception.EmailAlreadyExistsException;
 import org.example.exception.UserAlreadyExistsException;
@@ -22,13 +21,19 @@ import java.util.stream.Collectors;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private DietRepository dietRepository;
+    private final DietRepository dietRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, DietRepository dietRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.dietRepository = dietRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void createUser(User user) throws UserAlreadyExistsException, EmailAlreadyExistsException {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
@@ -137,13 +142,6 @@ public class UserService {
         }
     }
 
-
-    public DietDTO getDietSettings(int userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
-        Diet diet = user.getDiets().stream().findFirst().orElseThrow(() -> new RuntimeException("Dieta não encontrada"));
-        return convertToDietDTO(diet);
-    }
-
     public UserDTO getUserProfile(int userId) {
         // Busca o usuário no repositório
         User user = userRepository.findById(userId)
@@ -183,17 +181,5 @@ public class UserService {
             userDTO.setDiets(dietDTOs);
         }
         return userDTO;
-    }
-
-    private DietDTO convertToDietDTO(Diet diet) {
-        DietDTO dietDTO = new DietDTO();
-        dietDTO.setDiet_id(diet.getDiet_id());
-        dietDTO.setActivities(diet.getActivities());
-        dietDTO.setAge(diet.getAge());
-        dietDTO.setDiet(diet.getDiet());
-        dietDTO.setGender(diet.getGender());
-        dietDTO.setHeight(diet.getHeight());
-        dietDTO.setWeight(diet.getWeight());
-        return dietDTO;
     }
 }
