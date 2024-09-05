@@ -1,8 +1,11 @@
 package org.example.controller;
 
 import org.example.dto.DietDTO;
+import org.example.dto.MetricsDTO;
 import org.example.entity.Diet;
 import org.example.entity.User;
+import org.example.exception.ResourceNotFoundException;
+import org.example.repository.DietRepository;
 import org.example.service.DietService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/diet")
@@ -22,12 +26,16 @@ public class DietController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DietRepository dietRepository;
+
     @PostMapping("/save-diet")
     public ResponseEntity<String> saveDiet(@RequestBody DietDTO dietDto) {
         try {
             // Validar o DietDTO antes de salvar a dieta
-            if (dietDto.getUser_id() <= 0 || dietDto.getHeight() == null || dietDto.getGender() == null ||
-                    dietDto.getAge() <= 0 || dietDto.getActivities() <= 0 || dietDto.getDiet() == null) {
+            if (dietDto.getUser_id() <= 0 || dietDto.getHeight() == 0 || dietDto.getGender() == null ||
+                    dietDto.getAge() <= 0 || dietDto.getWeight() == 0.0 || dietDto.getActivities() <= 0 ||
+                    dietDto.getDiet() == null) {
                 return ResponseEntity.status(400).body("Dados de entrada inválidos");
             }
 
@@ -37,11 +45,12 @@ public class DietController {
 
             // Criar a entidade Diet
             Diet diet = new Diet();
-            diet.setHeight(dietDto.getHeight());
-            diet.setGender(dietDto.getGender());
-            diet.setAge(dietDto.getAge());
             diet.setActivities(dietDto.getActivities());
+            diet.setAge(dietDto.getAge());
             diet.setDiet(dietDto.getDiet());
+            diet.setGender(dietDto.getGender());
+            diet.setHeight(dietDto.getHeight());
+            diet.setWeight(dietDto.getWeight());
             diet.setUser(user);
 
             // Salvar ou atualizar a dieta
@@ -66,4 +75,48 @@ public class DietController {
         return ResponseEntity.ok("Endpoint is working!");
     }
 
+    @PutMapping("/calculate/{userId}")
+    public void calculateAndSaveDiet(@PathVariable int userId) {
+        // Encontre todas as dietas associadas ao usuário
+        Optional<Diet> diets = dietRepository.findByUserUserId(userId);
+
+        if (diets.isPresent()) {
+            // Supondo que você deseja atualizar o primeiro item da lista
+            Diet diet = diets.get();
+
+            double tmb = dietService.calculateTMB(diet.getGender(), diet.getAge(), diet.getHeight(), diet.getWeight());
+            double imc = dietService.calculateIMC(diet.getHeight(), diet.getWeight());
+            double caloric_expenditure = dietService.calculateCaloricExpenditure(tmb, diet.getActivities());
+            double ideal_weight = dietService.calculateIdealWeight(diet.getHeight());
+
+            // Atualize os valores de acordo com os cálculos
+            diet.setTmb(tmb);
+            diet.setImc(imc);
+            diet.setCaloricExpenditure(caloric_expenditure);
+            diet.setIdealWeight(ideal_weight);
+
+            // Atualize o registro na base de dados
+            dietRepository.updateDiet(
+                    diet.getDiet_id(),
+                    diet.getActivities(),
+                    diet.getAge(),
+                    diet.getDiet(),
+                    diet.getGender(),
+                    diet.getHeight(),
+                    diet.getWeight());
+        } else {
+            // Lidar com o caso onde não há dietas para o usuário
+            System.out.println("Nenhuma dieta encontrada para o usuário com ID: " + userId);
+        }
+    }
+
+    @GetMapping("/metrics/{userId}")
+    public ResponseEntity<MetricsDTO> getMetrics(@PathVariable int userId) {
+        try {
+            MetricsDTO metrics = dietService.getMetricsByUserId(userId);
+            return ResponseEntity.ok(metrics);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

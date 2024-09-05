@@ -3,15 +3,15 @@
 
   <div class="wrapperDiet">
     <form @submit.prevent="handleDiet">
-      <label for="altura">Altura (m):</label>
+      <label for="altura">Altura (cm):</label>
       <input
         type="number"
         id="altura"
         name="altura"
         v-model="formDataDiet.height"
-        step="0.01"
-        min="0.50"
-        max="2.50"
+        step="1"
+        min="50"
+        max="250"
       />
 
       <fieldset>
@@ -37,6 +37,17 @@
         step="1"
         min="10"
         max="110"
+      />
+
+      <label for="peso">Peso:</label>
+      <input
+        type="number"
+        id="peso"
+        name="peso"
+        v-model="formDataDiet.weight"
+        step="0.1"
+        min="10"
+        max="300"
       />
 
       <fieldset>
@@ -142,11 +153,21 @@ export default {
         height: '',
         gender: '',
         age: '',
+        weight: '',
         activities: '',
         diet: '',
         user_id: ''
       }
     }
+  },
+  watch: {
+    // Observa mudanças no valor do peso e faz a conversão
+    'formDataDiet.weight': function (newValue) {
+      // Substitui a vírgula por ponto se houver
+      if (newValue) {
+        this.formDataDiet.weight = newValue.toString().replace(',', '.');
+      }
+    },
   },
   methods: {
     handleDiet() {
@@ -189,7 +210,7 @@ export default {
                 title: 'Perfeito!',
                 text: 'Dados enviados com sucesso!'
               })
-              this.$router.push('/diet/calculator')
+              this.$router.push('/Services')
             } else {
               Swal.fire({
                 icon: 'error',
@@ -219,8 +240,8 @@ export default {
       }
     },
     validateForm() {
-      const { height, gender, age, activities, diet } = this.formDataDiet
-      return height && gender && age && activities !== '' && diet !== ''
+      const { height, gender, age, weight, activities, diet } = this.formDataDiet
+      return height && gender && age && weight && activities && diet !== ''
     },
     handleHttpError(status) {
       switch (status) {

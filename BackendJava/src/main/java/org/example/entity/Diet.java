@@ -17,7 +17,7 @@ public class Diet {
     private int diet_id;
 
     @Column(nullable = false)
-    private String height;
+    private int height;
 
     @Column(nullable = false)
     private String gender;
@@ -26,10 +26,25 @@ public class Diet {
     private int age;
 
     @Column(nullable = false)
+    private double weight;
+
+    @Column(nullable = false)
     private int activities;
 
     @Column(nullable = false)
     private String diet;
+
+    @Column
+    private double tmb;
+
+    @Column
+    private double imc;
+
+    @Column(name = "caloric_expediture")
+    private double caloricExpenditure;
+
+    @Column(name = "ideal_weight")
+    private double idealWeight;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

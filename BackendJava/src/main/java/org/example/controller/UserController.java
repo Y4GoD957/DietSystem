@@ -3,7 +3,6 @@ package org.example.controller;
 import org.example.dto.DietDTO;
 import org.example.dto.UserContactDTO;
 import org.example.dto.UserDTO;
-import org.example.dto.UserProfileResponseDTO;
 import org.example.entity.User;
 import org.example.exception.EmailAlreadyExistsException;
 import org.example.exception.UserAlreadyExistsException;

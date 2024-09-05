@@ -121,12 +121,13 @@ public class UserService {
             for (DietDTO dietDTO : userDTO.getDiets()) {
                 int updatedDietRows = dietRepository.updateDiet(
                         dietDTO.getDiet_id(),
-                        dietDTO.getHeight(),
-                        dietDTO.getGender(),
-                        dietDTO.getAge(),
                         dietDTO.getActivities(),
-                        dietDTO.getDiet()
-                );
+                        dietDTO.getAge(),
+                        dietDTO.getDiet(),
+                        dietDTO.getGender(),
+                        dietDTO.getHeight(),
+                        dietDTO.getWeight()
+                        );
 
                 // Verifica se a dieta foi atualizada
                 if (updatedDietRows == 0) {
@@ -170,11 +171,12 @@ public class UserService {
                             dietDTO.setUser_id(null); // Ou outro valor apropriado se não houver usuário associado
                         }
 
-                        dietDTO.setHeight(diet.getHeight());
-                        dietDTO.setGender(diet.getGender());
-                        dietDTO.setAge(diet.getAge());
                         dietDTO.setActivities(diet.getActivities());
+                        dietDTO.setAge(diet.getAge());
                         dietDTO.setDiet(diet.getDiet());
+                        dietDTO.setGender(diet.getGender());
+                        dietDTO.setHeight(diet.getHeight());
+                        dietDTO.setWeight(diet.getWeight());
                         return dietDTO;
                     })
                     .collect(Collectors.toList());
@@ -191,6 +193,7 @@ public class UserService {
         dietDTO.setDiet(diet.getDiet());
         dietDTO.setGender(diet.getGender());
         dietDTO.setHeight(diet.getHeight());
+        dietDTO.setWeight(diet.getWeight());
         return dietDTO;
     }
 }

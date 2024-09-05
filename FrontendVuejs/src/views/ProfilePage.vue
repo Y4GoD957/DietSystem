@@ -242,9 +242,24 @@
               autocomplete="off"
               placeholder="Altura"
               class="form-control"
-              step="0.01"
-              min="0.50"
-              max="2.50"
+              step="1"
+              min="50"
+              max="250"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="weight">Peso (kg):</label>
+            <input
+              type="number"
+              id="weight"
+              v-model="diet.weight"
+              autocomplete="off"
+              placeholder="Peso"
+              class="form-control"
+              step="0.1"
+              min="10"
+              max="300"
             />
           </div>
         </div>
@@ -292,13 +307,23 @@ export default {
         age: '',
         diet: '',
         gender: '',
-        height: ''
+        height: '',
+        weight: ''
       },
       passwordVisible: false,
       activitiesVisible: false, // Controle para dropdown de atividades
       genderVisible: false, // Controle para dropdown de gênero
       objectiveVisible: false // Controle para dropdown de objetivo
     }
+  },
+  watch: {
+    // Observa mudanças no valor do peso e faz a conversão
+    'formDataDiet.weight': function (newValue) {
+      // Substitui a vírgula por ponto se houver
+      if (newValue) {
+        this.diet.weight = newValue.toString().replace(',', '.');
+      }
+    },
   },
   created() {
     const userId = localStorage.getItem('userId')

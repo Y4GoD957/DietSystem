@@ -8,9 +8,10 @@ import lombok.Setter;
 public class DietDTO {
     private int diet_id;
     private Integer user_id;
-    private String height;
+    private int height;
     private String gender;
     private int age;
+    private double weight;
     private int activities;
     private String diet;
 }

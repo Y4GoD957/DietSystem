@@ -70,6 +70,8 @@ import TheHeader from '@/components/TheHeader.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
 import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import Swal from 'sweetalert2'
+import axios from '@/plugins/axios.js'
 
 export default {
   name: 'ServicesPage',
@@ -79,18 +81,125 @@ export default {
     WhatsAppPopup,
     ScrollToTopButton
   },
+  data() {
+    return {
+      diet: null // Adicionando a propriedade diet para armazenar dados de dieta
+    }
+  },
+  created() {
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+      this.loadDietSettings(userId)
+    } else {
+      console.error('ID do usuário não encontrado no localStorage')
+    }
+  },
   methods: {
+    loadDietSettings(userId) {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Token de autenticação não encontrado. Faça login novamente.'
+        })
+        return
+      }
+
+      axios
+        .get(`/users/diet-settings/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then((response) => {
+          this.diet = response.data
+        })
+        .catch((error) => {
+          console.error('Erro ao carregar a dieta:', error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Ocorreu um erro ao carregar as configurações de dieta. Tente novamente mais tarde.'
+          })
+        })
+    },
+    checkLoginAndDietData(callback) {
+      const token = localStorage.getItem('token')
+      const userId = localStorage.getItem('userId')
+
+      if (!token || !userId) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Você precisa estar logado para acessar esta funcionalidade.'
+        })
+        return
+      }
+
+      // Checa se existem dados de dieta para o userId
+      axios
+        .get(`/users/diet-settings/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then((response) => {
+          if (response.data) {
+            this.diet = response.data
+            callback() // Chama a função específica do método se a verificação for bem-sucedida
+          } else {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Atenção',
+              text: 'Não existem dados de dieta associados a este usuário.'
+            })
+          }
+        })
+        .catch((error) => {
+          console.error('Erro ao carregar a dieta:', error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Ocorreu um erro ao verificar os dados de dieta. Tente novamente mais tarde.'
+          })
+        })
+    },
     calculateBMR() {
-      // Lógica para calcular o metabolismo basal
-      alert('Função para calcular o metabolismo basal não implementada.')
+      this.checkLoginAndDietData(() => {
+        // Sucesso ao verificar login e dados de dieta
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso',
+          text: 'Metabolismo Basal calculado com sucesso!'
+        }).then(() => {
+          this.$router.push('/Services/TMBCalculate') // Redireciona após sucesso
+        })
+      })
     },
     createDiet() {
-      // Lógica para criar uma dieta personalizada
-      alert('Função para formular uma dieta não implementada.')
+      this.checkLoginAndDietData(() => {
+        // Sucesso ao verificar login e dados de dieta
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso',
+          text: 'Dieta personalizada criada com sucesso!'
+        }).then(() => {
+          this.$router.push('/Services/DietCreated') // Redireciona após sucesso
+        })
+      })
     },
     getExerciseRecommendation() {
-      // Lógica para obter uma recomendação de exercícios
-      alert('Função para recomendação de exercícios não implementada.')
+      this.checkLoginAndDietData(() => {
+        // Sucesso ao verificar login e dados de dieta
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso',
+          text: 'Recomendação de exercícios obtida com sucesso!'
+        }).then(() => {
+          this.$router.push('/Services/ExerciseRecommendation') // Redireciona após sucesso
+        })
+      })
     }
   }
 }

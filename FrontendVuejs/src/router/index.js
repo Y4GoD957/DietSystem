@@ -36,24 +36,24 @@ const routes = [
     component: ProfilePage
   },
   {
-    path: '/diet',
+    path: '/Diet',
     name: 'Diet',
     component: DietSelection,
     meta: { requiresAuth: true }
   },
   {
-    path: '/TMBCalculate',
+    path: '/Services/TMBCalculate',
     name: 'TMB Calculate',
     component: TMBCalculate,
     meta: { requiresAuth: true }
   },
   {
-    path: '/terms',
+    path: '/Terms',
     name: 'Terms And Services',
     component: TermsAndServices
   },
   {
-    path: '/privacy-policy',
+    path: '/Privacy-policy',
     name: 'PrivacyPolicy',
     component: PrivacyPolicy
   }
