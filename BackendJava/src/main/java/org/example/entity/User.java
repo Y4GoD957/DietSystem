@@ -36,6 +36,9 @@ public class User {
     @Column()
     private String message;
 
+    @Column(nullable = false)
+    private String position;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<Diet> diets; // Relacionamento com Diet

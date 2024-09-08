@@ -107,7 +107,7 @@ export default {
       }
 
       axios
-        .get(`/users/diet-settings/${userId}`, {
+        .get(`/diet/diet-settings/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -139,7 +139,7 @@ export default {
 
       // Checa se existem dados de dieta para o userId
       axios
-        .get(`/users/diet-settings/${userId}`, {
+        .get(`/diet/diet-settings/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -185,7 +185,7 @@ export default {
           title: 'Sucesso',
           text: 'Dieta personalizada criada com sucesso!'
         }).then(() => {
-          this.$router.push('/Services/DietCreated') // Redireciona após sucesso
+          this.$router.push('/Services/MealsPage') // Redireciona após sucesso
         })
       })
     },

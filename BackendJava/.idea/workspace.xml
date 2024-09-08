@@ -5,19 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab76946-1c62-4ea6-8915-534a1d206bcd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/Exercise.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/ExercisePlan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/Meal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/MealItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/conexao/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/conexao/Conexao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/DietController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/DietController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/DietService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/DietService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/DietSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/DietSelection.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/ScrollToTopButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/components/ScrollToTopButton.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/TMBCalculate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/TMBCalculate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ServicesPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/ServicesPage.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

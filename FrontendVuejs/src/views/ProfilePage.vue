@@ -347,7 +347,7 @@ export default {
     },
     loadDietSettings(userId) {
       axios
-        .get(`/users/diet-settings/${userId}`)
+        .get(`/diet/diet-settings/${userId}`)
         .then((response) => {
           this.diet = response.data
         })

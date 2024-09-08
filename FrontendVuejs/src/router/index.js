@@ -8,6 +8,7 @@ import ContactPage from '@/views/ContactPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
 import ServicesPage from '@/views/ServicesPage.vue'
 import TMBCalculate from '@/views/TMBCalculate.vue'
+import MealsPage from '@/views/MealsPage.vue'
 
 const routes = [
   {
@@ -45,6 +46,12 @@ const routes = [
     path: '/Services/TMBCalculate',
     name: 'TMB Calculate',
     component: TMBCalculate,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/Services/MealsPage',
+    name: 'Meals Page',
+    component: MealsPage,
     meta: { requiresAuth: true }
   },
   {

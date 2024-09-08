@@ -22,7 +22,7 @@ export default {
     handleScroll() {
       const scrollPosition = window.scrollY
       const pageHeight = document.documentElement.scrollHeight - window.innerHeight
-      this.showButton = scrollPosition > pageHeight * 0.6
+      this.showButton = scrollPosition > pageHeight * 0.4
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
