@@ -76,10 +76,14 @@ public class DietService {
     }
 
     public double calculateCaloricExpenditure(double tmb, int activities) {
-        double activityFactor = activities == 1 ? 1.2 :
-                activities == 2 ? 1.55 :
-                        activities == 3 ? 1.55 :
-                                1.9;  // Valor padrão
+        double activityFactor = activities == 0 ? 1.0 :
+                                activities == 1 ? 1.2 :
+                                activities == 2 ? 1.375 :
+                                activities == 3 ? 1.375 :
+                                        activities == 4 ? 1.55 :
+                                                activities == 5 ? 1.55 :
+                                                        activities == 6 ? 1.725 :
+                                                                1.9;
         double caloricExpenditure = tmb * activityFactor;
         return BigDecimal.valueOf(caloricExpenditure).setScale(2, RoundingMode.HALF_UP).doubleValue(); // Formata com 2 casas decimais
     }

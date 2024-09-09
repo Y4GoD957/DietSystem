@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dto.DietDTO;
 import org.example.dto.UserDTO;
+import org.example.entity.Diet;
 import org.example.entity.User;
 import org.example.exception.EmailAlreadyExistsException;
 import org.example.exception.UserAlreadyExistsException;
@@ -36,13 +37,23 @@ public class UserService {
     }
 
     public void createUser(User user) throws UserAlreadyExistsException, EmailAlreadyExistsException {
+        // Verificar se o nome de usuário já existe
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new UserAlreadyExistsException("Usuário já existente!");
         }
+
+        // Verificar se o e-mail já existe
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("E-mail já existente!");
         }
+
+        // Definir o valor padrão para a coluna "position" como "common"
+        user.setPosition("common");
+
+        // Codificar a senha antes de salvar
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Salvar o usuário no banco de dados
         userRepository.save(user);
     }
 
@@ -106,9 +117,10 @@ public class UserService {
             passwordToSave = existingUser.getPassword();
         }
 
-        // Atualiza os dados do usuário com a senha possivelmente criptografada ou existente
+        // Atualiza os dados do usuário, exceto `userId` e `position` (mantém os valores existentes)
         int updatedRows = userRepository.updateUserProfile(
                 userId,
+                existingUser.getPosition(), // Mantém o valor de position existente
                 userDTO.getUsername(),
                 userDTO.getEmail(),
                 userDTO.getName(),
@@ -124,15 +136,20 @@ public class UserService {
         // Atualiza a dieta associada ao usuário
         if (userDTO.getDiets() != null && !userDTO.getDiets().isEmpty()) {
             for (DietDTO dietDTO : userDTO.getDiets()) {
+                // Busca a dieta existente no banco de dados para garantir que o diet_id não seja alterado
+                Diet existingDiet = dietRepository.findById(dietDTO.getDiet_id())
+                        .orElseThrow(() -> new RuntimeException("Dieta não encontrada com o ID: " + dietDTO.getDiet_id()));
+
+                // Atualiza os dados da dieta, exceto o `diet_id` (mantém o valor existente)
                 int updatedDietRows = dietRepository.updateDiet(
-                        dietDTO.getDiet_id(),
+                        existingDiet.getDiet_id(), // Mantém o diet_id existente
                         dietDTO.getActivities(),
                         dietDTO.getAge(),
                         dietDTO.getDiet(),
                         dietDTO.getGender(),
                         dietDTO.getHeight(),
                         dietDTO.getWeight()
-                        );
+                );
 
                 // Verifica se a dieta foi atualizada
                 if (updatedDietRows == 0) {
@@ -149,6 +166,7 @@ public class UserService {
 
         // Mapeia o usuário para um DTO
         UserDTO userDTO = new UserDTO();
+        userDTO.setPosition(user.getPosition());
         userDTO.setUser_id(user.getUserId());
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());

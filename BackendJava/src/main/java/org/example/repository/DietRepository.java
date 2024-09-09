@@ -19,8 +19,8 @@ public interface DietRepository extends JpaRepository<Diet, Integer> {
 
 
     @Modifying
-    @Query("UPDATE Diet d SET d.height = :height, d.gender = :gender, d.age = :age, d.weight = :weight, d.activities = :activities, d.diet = :diet WHERE d.diet_id = :dietId")
-    int updateDiet(@Param("dietId") int dietId,
+    @Query("UPDATE Diet d SET d.height = :height, d.gender = :gender, d.age = :age, d.weight = :weight, d.activities = :activities, d.diet = :diet WHERE d.diet_id = :diet_id")
+    int updateDiet(@Param("diet_id") int diet_id,
                    @Param("activities") int activities,
                    @Param("age") int age,
                    @Param("diet") String diet,
