@@ -1,5 +1,4 @@
 <template>
-  <div>
     <TheHeader />
 
     <div class="profile-container">
@@ -8,28 +7,23 @@
         <h1>{{ headingText }}</h1>
       </div>
 
-     <!-- Navigation Tabs -->
-     <div class="tabs-container">
+      <!-- Navigation Tabs -->
+      <div class="tabs-container">
         <div class="tabs">
-          <button 
-            :class="{ 'active': currentTab === 'profile' }" 
-            @click="selectTab('profile')">
+          <button :class="{ active: currentTab === 'profile' }" @click="selectTab('profile')">
             Perfil
           </button>
-          <button 
-            :class="{ 'active': currentTab === 'dieta' }" 
-            @click="selectTab('dieta')">
+          <button :class="{ active: currentTab === 'dieta' }" @click="selectTab('dieta')">
             Dieta
           </button>
-          <button 
-            :class="{ 'active': currentTab === 'exercicios' }" 
-            @click="selectTab('exercicios')">
+          <button :class="{ active: currentTab === 'exercicios' }" @click="selectTab('exercicios')">
             Exercícios
           </button>
-          <button 
-            v-if="user.position === 'admin'" 
-            :class="{ 'active': currentTab === 'usuarios' }" 
-            @click="selectTab('usuarios')">
+          <button
+            v-if="user.position === 'admin'"
+            :class="{ active: currentTab === 'usuarios' }"
+            @click="selectTab('usuarios')"
+          >
             Usuários
           </button>
         </div>
@@ -313,28 +307,123 @@
 
         <div v-if="currentTab === 'dieta'">
           <!-- Dieta Content -->
-          <h1>Conteúdo da Dieta</h1>
-          <!-- Implementação futura para conteúdo de dieta -->
+          <h2>Conteúdo da Dieta</h2>
+          <!-- TMB (Taxa de Metabolismo Basal) -->
+          <div class="form-group">
+            <label for="tmb">Taxa de Metabolismo Basal (TMB):</label>
+            <input type="text" id="tmb" v-model="diet.tmb" readonly class="form-control readonly" />
+          </div>
+
+          <!-- Gasto Calórico -->
+          <div class="form-group">
+            <label for="caloric-expenditure">Gasto Calórico:</label>
+            <input
+              type="text"
+              id="caloric_expenditure"
+              v-model="diet.caloric_expenditure"
+              readonly
+              class="form-control readonly"
+            />
+          </div>
+
+          <!-- IMC (Índice de Massa Corporal) -->
+          <div class="form-group">
+            <label for="imc">Índice de Massa Corporal (IMC):</label>
+            <input type="text" id="imc" v-model="diet.imc" readonly class="form-control readonly" />
+          </div>
+
+          <!-- Peso Ideal -->
+          <div class="form-group">
+            <label for="ideal-weight">Peso Ideal:</label>
+            <input
+              type="text"
+              id="ideal_weight"
+              v-model="diet.ideal_weight"
+              readonly
+              class="form-control readonly"
+            />
+          </div>
         </div>
 
         <div v-if="currentTab === 'exercicios'">
           <!-- Exercícios Content -->
-          <h1>Conteúdo de Exercícios</h1>
+          <h2>Conteúdo de Exercícios</h2>
           <!-- Implementação futura para conteúdo de exercícios -->
         </div>
 
+        <!-- Usuários Content -->
         <div v-if="currentTab === 'usuarios'">
-          <!-- Usuários Content -->
-          <h1>Conteúdo de Usuários</h1>
-          <!-- Implementação futura para conteúdo de usuários -->
-        </div>
+  <h2>Lista de Usuários</h2>
+
+  <!-- Condição para mostrar a tabela ou o formulário de edição -->
+  <div v-if="!editingUser">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID do Usuário</th>
+          <th>Tipo do Usuário</th>
+          <th>Usuário</th>
+          <th>Email</th>
+          <th>Nome Completo</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in allUsers" :key="user.userId">
+          <td>{{ user.userId }}</td> <!-- Corrigindo a exibição do ID -->
+          <td>{{ user.position }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.phone }}</td>
+          <td>
+            <!-- Botão de editar com ajuste no estilo -->
+            <button @click="editUser(user)" class="btn btn-edit">
+              <ion-icon name="create-outline"></ion-icon> <span>Editar</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulário de edição do usuário -->
+  <div v-if="editingUser">
+    <h2>Editando Usuário: {{ editingUser.name }}</h2>
+    <div class="section">
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" v-model="editingUser.name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" v-model="editingUser.email" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" v-model="editingUser.phone" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Tipo do Usuário</label>
+        <input type="text" v-model="editingUser.position" class="form-control" />
+      </div>
+    </div>
+
+    <!-- Botões de Ação -->
+    <div class="action-buttons">
+      <button @click="cancelEdit" class="btn btn-cancel">Cancelar</button>
+      <button @click="saveUser" class="btn btn-save">Editar Dados</button>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
 
     <WhatsAppPopup />
     <ScrollToTopButton />
     <TheFooter />
-  </div>
 </template>
 
 <script>
@@ -365,6 +454,7 @@ export default {
         phone: '',
         password: ''
       },
+      allUsers: [], // Armazena todos os usuários para a aba "Usuários"
       newPassword: '',
       confirmPassword: '',
       diet: {
@@ -374,18 +464,24 @@ export default {
         diet: '',
         gender: '',
         height: '',
-        weight: ''
+        weight: '',
+        tmb: '',
+        imc: '',
+        caloric_expenditure: '',
+        ideal_weight: ''
       },
       passwordVisible: false,
       activitiesVisible: false, // Controle para dropdown de atividades
       genderVisible: false, // Controle para dropdown de gênero
       objectiveVisible: false, // Controle para dropdown de objetivo
-      headingText: 'Perfil de Usuário' // Texto do cabeçalho
+      headingText: 'Perfil de Usuário', // Texto do cabeçalho
+      isEditingUser: false, // Controla se estamos editando um usuário
+      selectedUser: null, // Armazena o usuário selecionado para edição
     }
   },
   watch: {
     // Observa mudanças no valor do peso e faz a conversão
-    'formDataDiet.weight': function (newValue) {
+    'diet.weight': function (newValue) {
       // Substitui a vírgula por ponto se houver
       if (newValue) {
         this.diet.weight = newValue.toString().replace(',', '.')
@@ -400,28 +496,31 @@ export default {
     } else {
       console.error('ID do usuário não encontrado no localStorage')
     }
+
+    // Carrega todos os usuários ao criar o componente
+    this.loadAllUsers()
   },
   methods: {
     selectTab(tab) {
-      this.currentTab = tab;
-      this.updateHeadingText();
+      this.currentTab = tab
+      this.updateHeadingText()
     },
     updateHeadingText() {
       switch (this.currentTab) {
         case 'profile':
-          this.headingText = 'Perfil de Usuário';
-          break;
+          this.headingText = 'Perfil de Usuário'
+          break
         case 'dieta':
-          this.headingText = 'Conteúdo da Dieta';
-          break;
+          this.headingText = 'Conteúdo da Dieta'
+          break
         case 'exercicios':
-          this.headingText = 'Conteúdo de Exercícios';
-          break;
+          this.headingText = 'Conteúdo de Exercícios'
+          break
         case 'usuarios':
-          this.headingText = 'Conteúdo de Usuários';
-          break;
+          this.headingText = 'Conteúdo de Usuários'
+          break
         default:
-          this.headingText = 'Perfil de Usuário';
+          this.headingText = 'Perfil de Usuário'
       }
     },
     loadProfile(userId) {
@@ -445,7 +544,7 @@ export default {
         })
     },
     updateProfile() {
-      if (this.user.password && this.user.password !== this.confirmPassword) {
+      if (this.newPassword && this.newPassword !== this.confirmPassword) {
         Swal.fire({
           icon: 'error',
           title: 'Erro!',
@@ -457,9 +556,7 @@ export default {
       // Prepare os dados para envio
       const updateData = {
         ...this.user,
-        password: this.newPassword || this.user.password, // Usa a nova senha se fornecida
-        confirmPassword: this.confirmPassword || this.user.confirmPassword, // Usa a confirmação de senha se fornecida
-        diets: [this.diet] // Envia a dieta como um array
+        password: this.newPassword || this.user.password // Usa a nova senha se fornecida
       }
 
       axios
@@ -491,7 +588,36 @@ export default {
     },
     toggleObjectiveVisibility() {
       this.objectiveVisible = !this.objectiveVisible
-    }
+    },
+
+    // Funções para gerenciar usuários na aba "Usuários"
+    loadAllUsers() {
+      axios
+        .get('/users/all')
+        .then((response) => {
+          this.allUsers = response.data
+        })
+        .catch((error) => {
+          console.error('Erro ao carregar usuários:', error)
+        })
+    },
+    editUser(user) {
+      this.editingUser = { ...user } // Clona o objeto para evitar modificações diretas
+    },
+    cancelEdit() {
+      this.editingUser = null // Cancela a edição e retorna à tabela de usuários
+    },
+    saveUser() {
+      // Lógica para salvar as alterações
+      axios.put(`/users/${this.editingUser.user_id}`, this.editingUser)
+        .then(() => {
+          this.editingUser = null
+          this.loadAllUsers() // Recarrega a lista de usuários
+        })
+        .catch(error => {
+          console.error('Erro ao salvar o usuário', error)
+        })
+    },
   }
 }
 </script>
@@ -585,6 +711,19 @@ export default {
   margin: 20px 0;
 }
 
+/* Estilos para inputs */
+.form-control {
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  width: 100%;
+}
+
+.readonly-input {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
 .btn-primary {
   width: 100%;
   padding: 15px;
@@ -636,27 +775,136 @@ export default {
   background-color: #e0e0e0;
 }
 
+/* Container das abas */
 .tabs-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
+/* Estilo das abas */
 .tabs {
   display: flex;
-  border-bottom: 1px solid #ddd;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 600px; /* Reduzindo a largura */
+  border-bottom: none; /* Remover linha abaixo das tabs */
 }
 
+/* Estilo dos botões das abas */
 .tabs button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #f0f0f0;
+  flex: 1;
+  padding: 10px 15px; /* Reduzindo o padding */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px 5px 0 0;
   cursor: pointer;
-  margin: 0 5px;
+  font-size: 14px; /* Reduzindo a fonte */
+  color: #162938;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+  margin: 0 3px; /* Reduzindo o espaço entre as abas */
 }
 
+/* Aba ativa */
 .tabs button.active {
-  background-color: #007bff;
-  color: white;
+  background-color: #162938;
+  color: #fff;
+  font-weight: bold;
+  border-bottom: 1px solid #162938; /* Completar a borda inferior da aba ativa */
+}
+
+/* Hover nas abas */
+.tabs button:hover {
+  background-color: #e0e0e0;
+  color: #162938;
+}
+
+/* Estilo para o conteúdo ativo da aba */
+.tab-content {
+  padding: 15px; /* Reduzindo o padding do conteúdo */
+  border: 1px solid #ccc;
+  border-radius: 0 5px 5px 5px;
+  background-color: #fff;
+  margin-top: -1px; /* Ajusta o alinhamento para conectar ao botão da aba */
+}
+
+.tab-content.hidden {
+  display: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  table-layout: fixed; /* Garante que a largura das células seja uniforme */
+}
+
+.table td, .table th {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  word-wrap: break-word; /* Quebra o texto em várias linhas, se necessário */
+}
+
+.table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  color: #3a383f;
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px #bfbfc3;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.btn-save {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 10px 20px;
+  background-color: #162938; /* Cor do site */
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-save:hover {
+  background-color: #0e1f26; /* Efeito hover */
+}
+
+.btn-edit {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  background-color: #162938; /* Cor do site */
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap; /* Evita que o texto quebre */
+}
+
+.btn-edit ion-icon {
+  margin-right: 5px; /* Espaçamento entre o ícone e o texto */
+}
+
+.btn-edit:hover {
+  background-color: #0e1f26;
+}
+
+.btn-cancel:hover {
+  box-shadow: inset 0 0 0 1px #a9a9a9;
 }
 </style>

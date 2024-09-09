@@ -14,5 +14,9 @@ public class DietDTO {
     private double weight;
     private int activities;
     private String diet;
+    private double caloric_expenditure;
+    private double ideal_weight;
+    private double imc;
+    private double tmb;
 }
 

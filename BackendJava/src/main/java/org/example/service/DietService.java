@@ -145,6 +145,10 @@ public class DietService {
         dietDTO.setHeight(diet.getHeight());
         dietDTO.setWeight(diet.getWeight());
         dietDTO.setUser_id(diet.getUser().getUserId());
+        dietDTO.setCaloric_expenditure(diet.getCaloricExpenditure());
+        dietDTO.setIdeal_weight(diet.getIdealWeight());
+        dietDTO.setImc(diet.getImc());
+        dietDTO.setTmb(diet.getTmb());
         return dietDTO;
     }
 }
