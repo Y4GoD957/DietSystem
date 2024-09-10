@@ -1,4 +1,4 @@
-# Sistema de Saúde Alimentar
+# Sistema de Saúde Alimentar (Diet System)
 
 Este projeto é um sistema completo que ajuda os usuários a manter uma alimentação saudável, gerenciar suas dietas e recomendar exercícios personalizados. Ele calcula métricas importantes como IMC, TMB, gasto calórico e peso ideal, gerando planos alimentares e de exercícios com base nos dados individuais dos usuários.
 
