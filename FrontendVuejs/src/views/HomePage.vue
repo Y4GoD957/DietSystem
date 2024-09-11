@@ -66,36 +66,50 @@
       <h1>Nossos Serviços</h1>
       <p>Aqui estão alguns dos serviços que oferecemos para nossos clientes:</p>
     </div>
-    <div class="service-wrapper">
-      <div class="service">
-        <h2>Calcular metabolismo basal.</h2>
-        <br />
-        <p>
-          Nosso serviço de calcular o metabolismo basal utiliza metodologias avançadas para
-          determinar a taxa metabólica basal de cada indivíduo. Isso permite uma compreensão precisa
-          de quantas calorias seu corpo queima em repouso, fornecendo uma base sólida para ajustar
-          sua dieta e alcançar seus objetivos de saúde.
-        </p>
+    <div class="container">
+      <div class="card p-2" style="width: 18rem; height: 100%">
+        <div class="card-body">
+          <h3 class="card-title">Calcular metabolismo basal.</h3>
+          <br />
+          <p class="card-text">
+            Nosso serviço de calcular o metabolismo basal utiliza metodologias avançadas para
+            determinar a taxa metabólica basal de cada indivíduo. Isso permite uma compreensão
+            precisa de quantas calorias seu corpo queima em repouso, fornecendo uma base sólida para
+            ajustar sua dieta e alcançar seus objetivos de saúde.
+          </p>
+          <br />
+          <button class="btn-service" @click="goToTMB">Ir para o Serviço</button>
+        </div>
       </div>
-      <div class="service">
-        <h2>Fazer uma dieta personalizada.</h2>
-        <br />
-        <p>
-          Criamos dietas personalizadas que são adaptadas às suas necessidades específicas, levando
-          em consideração seu metabolismo, objetivos de saúde e futuramente preferências
-          alimentares. Nossa abordagem é guiada por nutricionistas qualificados para garantir que
-          você receba um plano alimentar equilibrado e sustentável.
-        </p>
+
+      <div class="card p-2" style="width: 18rem; height: 100%">
+        <div class="card-body">
+          <h3 class="card-title">Fazer uma dieta personalizada.</h3>
+          <br />
+          <p class="card-text">
+            Criamos dietas personalizadas que são adaptadas às suas necessidades específicas,
+            levando em consideração seu metabolismo, objetivos de saúde e futuramente preferências
+            alimentares. Nossa abordagem é guiada por nutricionistas qualificados para garantir que
+            você receba um plano alimentar equilibrado e sustentável.
+          </p>
+          <br />
+          <button class="btn-service" @click="goToDiet">Ir para o Serviço</button>
+        </div>
       </div>
-      <div class="service">
-        <h2>Manter nossos clientes saudáveis.</h2>
-        <br />
-        <p>
-          Nosso compromisso é manter nossos clientes saudáveis através de programas abrangentes de
-          acompanhamento e suporte contínuo. Além de oferecer dietas personalizadas e calcular o
-          metabolismo basal, incentivamos hábitos de vida saudáveis e fornecemos recursos
-          educacionais para promover uma jornada de saúde holística e duradoura.
-        </p>
+
+      <div class="card p-2" style="width: 18rem; height: 100%">
+        <div class="card-body">
+          <h3 class="card-title">Recomendação de Exercícios.</h3>
+          <br />
+          <p class="card-text">
+            A prática regular de exercícios físicos é essencial para manter o corpo saudável e
+            prevenir uma série de problemas de saúde. No entanto, não basta simplesmente se
+            exercitar; é fundamental que os exercícios sejam realizados de forma adequada,
+            respeitando as particularidades de cada indivíduo. Por isso, a recomendação de
+            exercícios físicos personalizados desempenha um papel crucial.
+          </p>
+          <button class="btn-service" @click="goToExercise">Ir para o Serviço</button>
+        </div>
       </div>
     </div>
   </section>
@@ -123,7 +137,15 @@
           <label>Celular</label>
         </div>
 
-        <textarea v-model="formDataContact.message" placeholder="Sua Mensagem"></textarea>
+        <div class="form-floating">
+          <textarea
+            class="form-control"
+            v-model="formDataContact.message"
+            placeholder="Sua Mensagem"
+            style="height: 100px"
+          ></textarea>
+          <label for="floatingTextarea2">Feedback</label>
+        </div>
 
         <button type="submit" class="btn-homepage">Enviar</button>
       </form>
@@ -258,12 +280,46 @@ export default {
     validateForm() {
       const { name, email, phone, message } = this.formDataContact
       return name && email && phone && message !== ''
+    },
+    goToTMB() {
+      this.$router.push('/Services/TMBCalculate')
+    },
+    goToDiet() {
+      this.$router.push('/Services/MealsPage')
+    },
+    goToExercise() {
+      this.$router.push('/Services/ExerciseRecommendation')
     }
   }
 }
 </script>
 
 <style scoped>
+.btn-service {
+  width: 200px;
+  height: 40px;
+  background: transparent;
+  border: 1.5px solid #162938;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #162938;
+  font-weight: 500;
+  transition: 0.5s;
+}
+
+.btn-service:hover {
+  background: #162938;
+  color: #fff;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 80px; /* Espaçamento entre os cartões */
+}
+
 h1 {
   font-weight: bold;
 }
@@ -366,26 +422,6 @@ h2 {
   line-height: 1.6;
 }
 
-.service-wrapper {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  margin-top: 50px; /* Ajuste conforme necessário */
-}
-
-.service {
-  position: relative;
-  width: 300px; /* Ajuste conforme necessário */
-  min-height: 300px; /* Altura mínima para garantir que caiba todo o conteúdo */
-  background: #fff;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 20px; /* Reduzindo a distância entre os serviços */
-}
-
 .titleContact h2 {
   font-size: 2em;
   color: #162938;
@@ -453,7 +489,7 @@ h2 {
 }
 
 .image-wrapper:hover img {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .about-content {

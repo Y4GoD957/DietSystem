@@ -503,19 +503,6 @@ export default {
   color: #162938;
 }
 
-/* Conteúdo das abas */
-.tab-content {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 0 5px 5px 5px;
-  background-color: #fff;
-  margin-top: -1px;
-}
-
-.tab-content.hidden {
-  display: none;
-}
-
 /* Estilo da tabela */
 .table {
   width: 100%;

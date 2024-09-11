@@ -1,35 +1,38 @@
 <template>
   <TheHeader />
-  <div class="containerContact">
-    <form @submit.prevent="handleContact">
-      <h1>Página de Contato</h1>
-      <input
-        type="text"
-        id="Name"
-        placeholder="Nome Completo:"
-        required
-        autocomplete="off"
-        v-model="formDataContact.name"
-      />
-      <input
-        type="email"
-        id="email"
-        placeholder="Email:"
-        required
-        autocomplete="off"
-        v-model="formDataContact.email"
-      />
-      <input
-        type="text"
-        id="phone"
-        placeholder="Celular:"
-        required
-        autocomplete="off"
-        v-model="formDataContact.phone"
-      />
-      <h4>Digite sua mensagem aqui...</h4>
-      <textarea required autocomplete="off" v-model="formDataContact.message"></textarea>
-      <input type="submit" value="Enviar" id="button" />
+  <div class="wrapperContact">
+    <h2 class="display-6">Fale Conosco</h2>
+
+    <form @submit.prevent="handleContact" class="form-contact">
+      <div class="input-box-homepage">
+        <span class="icon"><ion-icon name="person"></ion-icon></span>
+        <input type="text" v-model="formDataContact.name" placeholder=" " />
+        <label>Nome Completo</label>
+      </div>
+
+      <div class="input-box-homepage">
+        <span class="icon"><ion-icon name="mail"></ion-icon></span>
+        <input type="email" v-model="formDataContact.email" placeholder=" " />
+        <label>E-mail</label>
+      </div>
+
+      <div class="input-box-homepage">
+        <span class="icon"><ion-icon name="call"></ion-icon></span>
+        <input type="text" v-model="formDataContact.phone" placeholder=" " />
+        <label>Celular</label>
+      </div>
+
+      <div class="form-floating">
+        <textarea
+          class="form-control"
+          v-model="formDataContact.message"
+          placeholder="Sua Mensagem"
+          style="height: 100px"
+        ></textarea>
+        <label for="floatingTextarea2">Feedback</label>
+      </div>
+
+      <button type="submit" class="btn-homepage">Enviar</button>
     </form>
   </div>
   <WhatsAppPopup />
@@ -167,78 +170,26 @@ export default {
 </script>
 
 <style>
-.containerContact {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.containerContact form {
-  width: 670px;
-  display: flex;
-  flex-direction: column; /* Coloca os elementos em colunas */
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, 0.8); /* Fundo branco com opacidade */
-  backdrop-filter: blur(20px); /* Blur mais perceptível */
+.wrapperContact {
+  max-width: 600px; /* Aumenta a largura conforme necessário */
+  margin: 0 auto;
   padding: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.5); /* Borda com opacidade */
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* Sombra */
-  box-sizing: border-box;
+  background: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  margin-top: 10rem;
+  margin-bottom: 10rem;
 }
 
-.containerContact form h1 {
-  color: #162938; /* Título escuro */
-  font-weight: 700;
-  margin-bottom: 20px;
-  text-align: center;
+.form-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaço entre os elementos */
 }
 
-.containerContact form input,
-.containerContact form textarea {
-  width: 100%; /* Ajusta a largura para 100% do contêiner */
-  height: 50px;
-  padding: 10px;
-  margin-bottom: 20px;
-  outline: none;
-  border: none;
-  font-size: 20px;
-  background: none;
-  border-bottom: 2px solid #162938; /* Linha inferior escura */
-  color: #162938; /* Texto escuro */
-}
-
-.containerContact form input::placeholder,
-.containerContact form textarea::placeholder {
-  color: #162938; /* Placeholder escuro */
-}
-
-.containerContact form textarea {
-  min-height: 100px; /* Altura mínima do textarea */
-  max-height: 100px;
-  resize: none; /* Remove o redimensionamento do textarea */
-}
-
-.containerContact form #button {
-  border: none;
-  background: #162938; /* Botão escuro */
-  border-radius: 5px;
-  margin-top: 20px;
-  font-weight: 600;
-  font-size: 24px;
-  color: #fff; /* Texto do botão branco */
-  width: 200px;
-  height: 60px;
-  padding: 0;
-  margin-bottom: 30px;
-  transition: 0.3s;
-}
-
-.containerContact form #button:hover {
-  background: #0f1d27; /* Botão com uma tonalidade mais escura ao passar o mouse */
-  color: #fff; /* Texto do botão continua branco */
-  transition: 0.3s ease-in-out;
+.form-contact textarea {
+  resize: none;
+  height: 150px; /* Ajuste a altura conforme necessário */
 }
 </style>

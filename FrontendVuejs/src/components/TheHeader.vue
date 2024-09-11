@@ -35,7 +35,10 @@
           </div>
 
           <div class="remember-forgot">
-            <label><input class="form-check-input mt-0" type="checkbox" v-model="keepLoggedIn" />Manter login</label>
+            <label
+              ><input class="form-check-input mt-0" type="checkbox" v-model="keepLoggedIn" />Manter
+              login</label
+            >
             <a href="">Esqueci minha senha</a>
           </div>
 
@@ -64,11 +67,7 @@
 
           <div class="input-box-homepage">
             <span class="icon"><ion-icon name="mail"></ion-icon></span>
-            <input
-              type="email"
-              v-model="formDataRegister.email"
-              placeholder=" "
-            />
+            <input type="email" v-model="formDataRegister.email" placeholder=" " />
             <label>E-mail</label>
           </div>
 
@@ -281,7 +280,7 @@ export default {
   width: 130px;
   height: 40px; /* Altura reduzida para dividir o espaço */
   background: transparent;
-  border: 2px solid #fff;
+  border: 1.5px solid #fff;
   outline: none;
   border-radius: 6px;
   cursor: pointer;
@@ -423,6 +422,6 @@ export default {
 }
 
 .mt-0 {
-  margin-top: 2px
+  margin-top: 2px;
 }
 </style>

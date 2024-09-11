@@ -210,8 +210,9 @@ div {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 15px 15px 15px 15px;
-  background-color: var(--site-background);
+  background-color: #fff;
   margin-top: -1px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona a sombra */
 }
 
 /* Estilo específico para a aba "Usuários" */
@@ -219,5 +220,6 @@ div {
   border: none;
   border-radius: 0;
   background-color: transparent;
+  box-shadow: none;
 }
 </style>

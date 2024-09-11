@@ -4,7 +4,7 @@
   <div class="about-us">
     <h1 class="page-title">Sobre Nós</h1>
     <div class="hero">
-      <img src="@/assets/FachadaLoja.jpg" alt="Diet System" />
+      <img class="img-fluid" src="@/assets/FachadaLoja.jpg" alt="Diet System" />
     </div>
     <section class="company-info">
       <h2>Sobre a Diet System</h2>
@@ -134,11 +134,19 @@ export default {
 }
 
 .developer img {
-  width: 150px;
-  height: 150px;
+  width: 12.5rem;
+  height: 12.5rem;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* Suavidade no hover */
+}
+
+.developer img:hover {
+  transform: scale(1.1); /* Aumenta o tamanho da imagem */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Adiciona sombra ao hover */
 }
 
 .developer h3 {
