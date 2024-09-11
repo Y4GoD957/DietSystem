@@ -23,23 +23,23 @@
       <div class="form-box login">
         <h2>Login</h2>
         <form @submit.prevent="handleLogin">
-          <div class="input-box">
+          <div class="input-box-homepage">
             <span class="icon"><ion-icon name="mail"></ion-icon></span>
-            <input type="email" v-model="formDataLogin.email" />
+            <input type="email" v-model="formDataLogin.email" placeholder=" " />
             <label>E-mail</label>
           </div>
-          <div class="input-box">
+          <div class="input-box-homepage">
             <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-            <input type="password" v-model="formDataLogin.password" />
+            <input type="password" v-model="formDataLogin.password" placeholder=" " />
             <label>Senha</label>
           </div>
 
           <div class="remember-forgot">
-            <label><input type="checkbox" v-model="keepLoggedIn" />Manter login</label>
+            <label><input class="form-check-input mt-0" type="checkbox" v-model="keepLoggedIn" />Manter login</label>
             <a href="">Esqueci minha senha</a>
           </div>
 
-          <button type="submit" class="btn">Entrar</button>
+          <button type="submit" class="btn-homepage">Entrar</button>
 
           <div class="login-register">
             <p>Não possui uma conta? <a href="#" class="register-link">Cadastrar</a></p>
@@ -50,39 +50,29 @@
       <div class="form-box register">
         <h2>Cadastro</h2>
         <form @submit.prevent="handleRegister">
-          <div class="input-box">
+          <div class="input-box-homepage">
             <span class="icon"><ion-icon name="person"></ion-icon></span>
             <input
               type="text"
               v-model="formDataRegister.username"
               @input="validateName"
               :class="{ 'invalid-input': !isNameValid }"
-              @focus="displayAsterisk('username')"
+              placeholder=" "
             />
-            <label
-              >Usuário<span
-                :class="{ 'invalid-asterisk': !isNameValid }"
-                v-if="showAsterisk.username"
-                >*</span
-              ></label
-            >
+            <label>Usuário</label>
           </div>
 
-          <div class="input-box">
+          <div class="input-box-homepage">
             <span class="icon"><ion-icon name="mail"></ion-icon></span>
             <input
               type="email"
               v-model="formDataRegister.email"
-              @focus="displayAsterisk('email')"
+              placeholder=" "
             />
-            <label
-              >E-mail<span :class="{ 'invalid-asterisk': !isEmailValid }" v-if="showAsterisk.email"
-                >*</span
-              ></label
-            >
+            <label>E-mail</label>
           </div>
 
-          <div class="input-box">
+          <div class="input-box-homepage">
             <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
             <input
               type="password"
@@ -90,18 +80,12 @@
               min="8"
               @input="validatePassword"
               :class="{ 'invalid-input': !isPasswordValid }"
-              @focus="displayAsterisk('password')"
+              placeholder=" "
             />
-            <label
-              >Senha<span
-                :class="{ 'invalid-asterisk': !isPasswordValid }"
-                v-if="showAsterisk.password"
-                >*</span
-              ></label
-            >
+            <label>Senha</label>
           </div>
 
-          <button type="submit" class="btn">Cadastrar</button>
+          <button type="submit" class="btn-homepage">Cadastrar</button>
 
           <div class="login-register">
             <p>Já possui uma conta? <a class="login-link">Login</a></p>
@@ -137,11 +121,6 @@ export default {
       isNameValid: true,
       isEmailValid: true,
       isPasswordValid: true,
-      showAsterisk: {
-        username: false,
-        email: false,
-        password: false
-      },
       keepLoggedIn: false // Nova variável para a checkbox
     }
   },
@@ -249,12 +228,6 @@ export default {
     validatePassword() {
       this.isPasswordValid = this.formDataRegister.password.length >= 8
       return this.isPasswordValid
-    },
-    displayAsterisk(field) {
-      this.showAsterisk[field] = true
-    },
-    hideAsterisk(field) {
-      this.showAsterisk[field] = false
     },
     handleLogout() {
       localStorage.removeItem('token')
@@ -449,16 +422,7 @@ export default {
   text-decoration: underline;
 }
 
-.invalid-input {
-  border-color: red;
-}
-
-.invalid-asterisk {
-  color: red;
-}
-
-.input-box label span {
-  margin-left: 5px;
-  font-size: 1.2em;
+.mt-0 {
+  margin-top: 2px
 }
 </style>

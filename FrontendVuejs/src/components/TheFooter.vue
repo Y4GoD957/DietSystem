@@ -15,11 +15,11 @@
       </ul>
     </div>
     <div class="footer-section">
-      <h3>Serviços ao Cliente</h3>
+      <h3 style="margin-left: 40px;">Serviços ao Cliente</h3>
       <ul>
-        <li><a class="header-and-footer" href="">Cálculo de Metabolismo Basal</a></li>
-        <li><a class="header-and-footer" href="">Formulador de Dietas</a></li>
-        <li><a class="header-and-footer" href="">Recomendação de Exercícios</a></li>
+        <li><a class="header-and-footer" href="/Services/TMBCalculate">Cálculo de Metabolismo Basal</a></li>
+        <li><a class="header-and-footer" href="/Services/MealsPage">Formulador de Dietas</a></li>
+        <li><a class="header-and-footer" href="/Services/ExerciseRecommendation">Recomendação de Exercícios</a></li>
       </ul>
     </div>
     <div class="footer-section">
@@ -40,6 +40,10 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  font-weight: bold;
+}
+
 .footer-section {
   margin: 10px;
   flex: 1;

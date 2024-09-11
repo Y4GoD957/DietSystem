@@ -2,42 +2,40 @@
   <div>
     <TheHeader />
     <div class="profile-container">
-    <!-- Common Heading -->
-    <div class="heading">
-      <h1>{{ heading }}</h1>
-    </div>
-
-
-    <!-- Navigation Tabs -->
-    <div class="tabs-container">
-      <div class="tabs">
-        <button :class="{ active: currentTab === 'profile' }" @click="selectTab('profile')">
-          Perfil
-        </button>
-        <button :class="{ active: currentTab === 'dieta' }" @click="selectTab('dieta')">
-          Dieta
-        </button>
-        <button :class="{ active: currentTab === 'exercicios' }" @click="selectTab('exercicios')">
-          Exercícios
-        </button>
-        <button
-          v-if="user.position === 'admin'"
-          :class="{ active: currentTab === 'usuarios' }"
-          @click="selectTab('usuarios')"
-        >
-          Usuários
-        </button>
+      <!-- Common Heading -->
+      <div class="heading">
+        <h1>{{ heading }}</h1>
       </div>
-    </div>
 
-     <!-- Tab Content -->
-     <div :class="['tab-content', { 'user-content': currentTab === 'usuarios' }]">
+      <!-- Navigation Tabs -->
+      <div class="tabs-container">
+        <div class="tabs">
+          <button :class="{ active: currentTab === 'profile' }" @click="selectTab('profile')">
+            Perfil
+          </button>
+          <button :class="{ active: currentTab === 'dieta' }" @click="selectTab('dieta')">
+            Dieta
+          </button>
+          <button :class="{ active: currentTab === 'exercicios' }" @click="selectTab('exercicios')">
+            Exercícios
+          </button>
+          <button
+            v-if="user.position === 'admin'"
+            :class="{ active: currentTab === 'usuarios' }"
+            @click="selectTab('usuarios')"
+          >
+            Usuários
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Content -->
+      <div :class="['tab-content', { 'user-content': currentTab === 'usuarios' }]">
         <ProfileComponent v-if="currentTab === 'profile'" />
         <DietComponent v-if="currentTab === 'dieta'" />
         <ExerciseComponent v-if="currentTab === 'exercicios'" />
         <UsersComponent v-if="currentTab === 'usuarios'" />
       </div>
-
     </div>
     <WhatsAppPopup />
     <ScrollToTopButton />

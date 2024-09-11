@@ -1,226 +1,224 @@
 <template>
-    <!-- Content Display -->
-    <div class="content">
-      <!-- Profile Content -->
-      <form @submit.prevent="updateProfile">
-        <!-- User Settings -->
-        <div class="section">
-          <h2>Dados do Usuário</h2>
-          <div class="form-group">
-            <label for="user_id">ID do Usuário:</label>
-            <input
-              type="text"
-              id="user_id"
-              v-model="user.user_id"
-              readonly
-              class="form-control readonly"
-            />
-          </div>
+  <!-- Content Display -->
+  <div class="content">
+    <!-- Profile Content -->
+    <form @submit.prevent="updateProfile">
+      <!-- User Settings -->
+      <div class="section">
+        <h2>Dados do Usuário</h2>
+        <div class="form-group">
+          <label for="user_id">ID do Usuário:</label>
+          <input
+            type="text"
+            id="user_id"
+            v-model="user.user_id"
+            readonly
+            class="form-control readonly"
+          />
+        </div>
 
-          <div class="form-group">
-            <label for="position">Tipo do Usuário:</label>
-            <input
-              type="text"
-              id="position"
-              v-model="user.position"
-              readonly
-              class="form-control readonly"
-            />
-          </div>
+        <div class="form-group">
+          <label for="position">Tipo do Usuário:</label>
+          <input
+            type="text"
+            id="position"
+            v-model="user.position"
+            readonly
+            class="form-control readonly"
+          />
+        </div>
 
-          <div class="form-group">
-            <label for="username">Usuário:</label>
-            <input
-              type="text"
-              id="username"
-              v-model="user.username"
-              autocomplete="off"
-              placeholder="Usuário"
-              class="form-control"
-            />
-          </div>
+        <div class="form-group">
+          <label for="username">Usuário:</label>
+          <input
+            type="text"
+            id="username"
+            v-model="user.username"
+            autocomplete="off"
+            placeholder="Usuário"
+            class="form-control"
+          />
+        </div>
 
-          <div class="form-group">
-            <label for="email">E-mail:</label>
-            <input
-              type="email"
-              id="email"
-              v-model="user.email"
-              autocomplete="off"
-              placeholder="E-mail"
-              class="form-control"
-            />
-          </div>
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input
+            type="email"
+            id="email"
+            v-model="user.email"
+            autocomplete="off"
+            placeholder="E-mail"
+            class="form-control"
+          />
+        </div>
 
-          <div class="form-group">
-            <label for="name">Nome Completo:</label>
-            <input
-              type="text"
-              id="name"
-              v-model="user.name"
-              autocomplete="off"
-              placeholder="Nome Completo"
-              class="form-control"
-            />
-          </div>
+        <div class="form-group">
+          <label for="name">Nome Completo:</label>
+          <input
+            type="text"
+            id="name"
+            v-model="user.name"
+            autocomplete="off"
+            placeholder="Nome Completo"
+            class="form-control"
+          />
+        </div>
 
-          <div class="form-group">
-            <label for="phone">Telefone:</label>
-            <input
-              type="text"
-              id="phone"
-              v-model="user.phone"
-              autocomplete="off"
-              placeholder="Telefone"
-              class="form-control"
-            />
+        <div class="form-group">
+          <label for="phone">Telefone:</label>
+          <input
+            type="text"
+            id="phone"
+            v-model="user.phone"
+            autocomplete="off"
+            placeholder="Telefone"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <hr class="divider" />
+
+      <!-- Password Reset Section -->
+      <div class="section">
+        <h2>Redefinir Senha</h2>
+        <div class="form-group">
+          <label for="password">Nova Senha:</label>
+          <input
+            :type="passwordVisible ? 'text' : 'password'"
+            id="password"
+            v-model="newPassword"
+            placeholder="********"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="confirm_password">Confirmar Nova Senha:</label>
+          <input
+            :type="passwordVisible ? 'text' : 'password'"
+            id="confirm_password"
+            v-model="confirmPassword"
+            placeholder="********"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <button type="button" @click="togglePasswordVisibility" class="btn btn-secondary">
+            {{ passwordVisible ? 'Ocultar Senha' : 'Mostrar Senha' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <hr class="divider" />
+
+      <!-- Diet Settings -->
+      <div class="section">
+        <h2>Dados das Métricas para Dieta</h2>
+        <div class="form-group">
+          <label for="diet_id">ID das Métricas:</label>
+          <input
+            type="text"
+            id="diet_id"
+            v-model="diet.diet_id"
+            readonly
+            class="form-control readonly"
+          />
+        </div>
+
+        <!-- Dropdown para Atividades Semanais -->
+        <div class="form-group">
+          <label for="activities">Atividades Semanais:</label>
+          <div class="dropdown" @click="toggleActivitiesVisibility">
+            <span>{{ diet.activities || 'Selecione' }}</span>
+            <ion-icon :name="activitiesVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
+          </div>
+          <div v-if="activitiesVisible" class="dropdown-options">
+            <div v-for="i in 8" :key="i" @click="setActivities(i - 1)">
+              {{ i - 1 }}
+            </div>
           </div>
         </div>
 
-        <!-- Divider -->
-        <hr class="divider" />
+        <div class="form-group">
+          <label for="age">Idade:</label>
+          <input
+            type="number"
+            id="age"
+            v-model="diet.age"
+            autocomplete="off"
+            placeholder="Idade"
+            class="form-control"
+            step="1"
+            min="10"
+            max="110"
+          />
+        </div>
 
-        <!-- Password Reset Section -->
-        <div class="section">
-          <h2>Redefinir Senha</h2>
-          <div class="form-group">
-            <label for="password">Nova Senha:</label>
-            <input
-              :type="passwordVisible ? 'text' : 'password'"
-              id="password"
-              v-model="newPassword"
-              placeholder="********"
-              class="form-control"
-            />
+        <!-- Dropdown para Objetivo -->
+        <div class="form-group">
+          <label for="diet_style">Objetivo:</label>
+          <div class="dropdown" @click="toggleObjectiveVisibility">
+            <span>{{ diet.diet || 'Selecione' }}</span>
+            <ion-icon :name="objectiveVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
           </div>
-
-          <div class="form-group">
-            <label for="confirm_password">Confirmar Nova Senha:</label>
-            <input
-              :type="passwordVisible ? 'text' : 'password'"
-              id="confirm_password"
-              v-model="confirmPassword"
-              placeholder="********"
-              class="form-control"
-            />
-          </div>
-
-          <div class="form-group">
-            <button type="button" @click="togglePasswordVisibility" class="btn btn-secondary">
-              {{ passwordVisible ? 'Ocultar Senha' : 'Mostrar Senha' }}
-            </button>
+          <div v-if="objectiveVisible" class="dropdown-options">
+            <div @click="setObjective('Bulking (Ganho de Massa)')">Bulking (Ganho de Massa)</div>
+            <div @click="setObjective('Cutting (Emagrecimento)')">Cutting (Emagrecimento)</div>
+            <div @click="setObjective('Maintaining (Manter Peso)')">Maintaining (Manter Peso)</div>
           </div>
         </div>
 
-        <!-- Divider -->
-        <hr class="divider" />
-
-        <!-- Diet Settings -->
-        <div class="section">
-          <h2>Dados das Métricas para Dieta</h2>
-          <div class="form-group">
-            <label for="diet_id">ID das Métricas:</label>
-            <input
-              type="text"
-              id="diet_id"
-              v-model="diet.diet_id"
-              readonly
-              class="form-control readonly"
-            />
+        <!-- Dropdown para Gênero -->
+        <div class="form-group">
+          <label for="gender">Gênero:</label>
+          <div class="dropdown" @click="toggleGenderVisibility">
+            <span>{{ diet.gender || 'Selecione' }}</span>
+            <ion-icon :name="genderVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
           </div>
-
-          <!-- Dropdown para Atividades Semanais -->
-          <div class="form-group">
-            <label for="activities">Atividades Semanais:</label>
-            <div class="dropdown" @click="toggleActivitiesVisibility">
-              <span>{{ diet.activities || 'Selecione' }}</span>
-              <ion-icon :name="activitiesVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
-            </div>
-            <div v-if="activitiesVisible" class="dropdown-options">
-              <div v-for="i in 8" :key="i" @click="setActivities(i - 1)">
-                {{ i - 1 }}
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="age">Idade:</label>
-            <input
-              type="number"
-              id="age"
-              v-model="diet.age"
-              autocomplete="off"
-              placeholder="Idade"
-              class="form-control"
-              step="1"
-              min="10"
-              max="110"
-            />
-          </div>
-
-          <!-- Dropdown para Objetivo -->
-          <div class="form-group">
-            <label for="diet_style">Objetivo:</label>
-            <div class="dropdown" @click="toggleObjectiveVisibility">
-              <span>{{ diet.diet || 'Selecione' }}</span>
-              <ion-icon :name="objectiveVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
-            </div>
-            <div v-if="objectiveVisible" class="dropdown-options">
-              <div @click="setObjective('Bulking (Ganho de Massa)')">Bulking (Ganho de Massa)</div>
-              <div @click="setObjective('Cutting (Emagrecimento)')">Cutting (Emagrecimento)</div>
-              <div @click="setObjective('Maintaining (Manter Peso)')">
-                Maintaining (Manter Peso)
-              </div>
-            </div>
-          </div>
-
-          <!-- Dropdown para Gênero -->
-          <div class="form-group">
-            <label for="gender">Gênero:</label>
-            <div class="dropdown" @click="toggleGenderVisibility">
-              <span>{{ diet.gender || 'Selecione' }}</span>
-              <ion-icon :name="genderVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
-            </div>
-            <div v-if="genderVisible" class="dropdown-options">
-              <div @click="setGender('Masculino')">Masculino</div>
-              <div @click="setGender('Feminino')">Feminino</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="height">Altura (cm):</label>
-            <input
-              type="number"
-              id="height"
-              v-model="diet.height"
-              autocomplete="off"
-              placeholder="Altura"
-              class="form-control"
-              step="1"
-              min="50"
-              max="250"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="weight">Peso (kg):</label>
-            <input
-              type="number"
-              id="weight"
-              v-model="diet.weight"
-              autocomplete="off"
-              placeholder="Peso"
-              class="form-control"
-              step="0.1"
-              min="10"
-              max="300"
-            />
+          <div v-if="genderVisible" class="dropdown-options">
+            <div @click="setGender('Masculino')">Masculino</div>
+            <div @click="setGender('Feminino')">Feminino</div>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
-      </form>
-    </div>
+        <div class="form-group">
+          <label for="height">Altura (cm):</label>
+          <input
+            type="number"
+            id="height"
+            v-model="diet.height"
+            autocomplete="off"
+            placeholder="Altura"
+            class="form-control"
+            step="1"
+            min="50"
+            max="250"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="weight">Peso (kg):</label>
+          <input
+            type="number"
+            id="weight"
+            v-model="diet.weight"
+            autocomplete="off"
+            placeholder="Peso"
+            class="form-control"
+            step="0.1"
+            min="10"
+            max="300"
+          />
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -344,7 +342,6 @@ export default {
 </script>
 
 <style scoped>
-
 .section {
   margin-bottom: 30px;
 }

@@ -105,27 +105,27 @@
       <h2 class="titleContact">Fale Conosco</h2>
 
       <form @submit.prevent="handleContact" class="form-contact">
-        <div class="input-box">
+        <div class="input-box-homepage">
           <span class="icon"><ion-icon name="person"></ion-icon></span>
-          <input type="text" v-model="formDataContact.name" />
+          <input type="text" v-model="formDataContact.name" placeholder=" " />
           <label>Nome Completo</label>
         </div>
 
-        <div class="input-box">
+        <div class="input-box-homepage">
           <span class="icon"><ion-icon name="mail"></ion-icon></span>
-          <input type="email" v-model="formDataContact.email" />
+          <input type="email" v-model="formDataContact.email" placeholder=" " />
           <label>E-mail</label>
         </div>
 
-        <div class="input-box">
+        <div class="input-box-homepage">
           <span class="icon"><ion-icon name="call"></ion-icon></span>
-          <input type="text" v-model="formDataContact.phone" />
+          <input type="text" v-model="formDataContact.phone" placeholder=" " />
           <label>Celular</label>
         </div>
 
         <textarea v-model="formDataContact.message" placeholder="Sua Mensagem"></textarea>
 
-        <button type="submit" class="btn">Enviar</button>
+        <button type="submit" class="btn-homepage">Enviar</button>
       </form>
     </div>
   </section>
@@ -264,6 +264,14 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+}
+
 #main {
   display: flex;
   justify-content: center;
