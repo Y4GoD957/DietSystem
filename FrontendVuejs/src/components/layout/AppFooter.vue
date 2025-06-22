@@ -22,11 +22,8 @@
             >Cálculo de Metabolismo Basal</a
           >
         </li>
-        <li><a class="header-and-footer" href="/Services/MealsPage">Formulador de Dietas</a></li>
         <li>
-          <a class="header-and-footer" href="/Services/ExerciseRecommendation"
-            >Recomendação de Exercícios</a
-          >
+          <a class="header-and-footer" href="/Services/MealsPage">Formulador de Dietas</a>
         </li>
       </ul>
     </div>

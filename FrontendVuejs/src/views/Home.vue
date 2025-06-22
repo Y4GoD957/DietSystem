@@ -5,7 +5,7 @@
     <div class="content-wrapper">
       <div class="left-column">
         <div class="image-wrapper">
-          <img src="@/assets/mainImg.jpg" alt="Imagem da Diet System" />
+          <img src="@/assets/imgs/mainImg.jpg" alt="Imagem da Diet System" />
         </div>
       </div>
       <div class="right-column">
@@ -44,7 +44,7 @@
       <section class="about">
         <div class="about-image">
           <div class="image-wrapper">
-            <img src="@/assets/coffee.jpg" alt="Imagem Sobre Nós" />
+            <img src="@/assets/imgs/coffee.jpg" alt="Imagem Sobre Nós" />
           </div>
         </div>
         <div class="about-content">
@@ -96,21 +96,6 @@
           <button class="btn-service" @click="goToDiet">Ir para o Serviço</button>
         </div>
       </div>
-
-      <div class="card p-2" style="width: 18rem; height: 100%">
-        <div class="card-body">
-          <h3 class="card-title">Recomendação de Exercícios.</h3>
-          <br />
-          <p class="card-text">
-            A prática regular de exercícios físicos é essencial para manter o corpo saudável e
-            prevenir uma série de problemas de saúde. No entanto, não basta simplesmente se
-            exercitar; é fundamental que os exercícios sejam realizados de forma adequada,
-            respeitando as particularidades de cada indivíduo. Por isso, a recomendação de
-            exercícios físicos personalizados desempenha um papel crucial.
-          </p>
-          <button class="btn-service" @click="goToExercise">Ir para o Serviço</button>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -157,12 +142,12 @@
 </template>
 
 <script>
-import TheHeader from '@/components/TheHeader.vue'
+import TheHeader from '@/components/layout/AppHeader.vue'
 import Swal from 'sweetalert2'
 import axios from '@/plugins/axios.js'
-import TheFooter from '@/components/TheFooter.vue'
-import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import TheFooter from '@/components/layout/AppFooter.vue'
+import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
+import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
 
 export default {
   name: 'HomePage',
@@ -286,9 +271,6 @@ export default {
     },
     goToDiet() {
       this.$router.push('/Services/MealsPage')
-    },
-    goToExercise() {
-      this.$router.push('/Services/ExerciseRecommendation')
     }
   }
 }

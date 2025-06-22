@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '../views/HomePage.vue'
-import DietSelection from '../views/DietSelection.vue'
-import TermsAndServices from '../views/TermsAndServices.vue'
+import HomePage from '../views/Home.vue'
+import DietSelection from '../views/SelectDietPlan.vue'
+import TermsAndServices from '../views/TermsOfService.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import AboutUs from '@/views/AboutUs.vue'
-import ContactPage from '@/views/ContactPage.vue'
+import ContactPage from '@/views/ContactUs.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
-import ServicesPage from '@/views/ServicesPage.vue'
-import TMBCalculate from '@/views/TMBCalculate.vue'
-import MealsPage from '@/views/MealsPage.vue'
+import ServicesPage from '@/views/OurServices.vue'
+import TMBCalculate from '@/views/TMBCalculator.vue'
+import MealsPage from '@/views/MealsOverview.vue'
 
 const routes = [
   {

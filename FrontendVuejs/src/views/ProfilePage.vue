@@ -16,9 +16,6 @@
           <button :class="{ active: currentTab === 'dieta' }" @click="selectTab('dieta')">
             Dieta
           </button>
-          <button :class="{ active: currentTab === 'exercicios' }" @click="selectTab('exercicios')">
-            Exercícios
-          </button>
           <button
             v-if="user.position === 'admin'"
             :class="{ active: currentTab === 'usuarios' }"
@@ -33,7 +30,6 @@
       <div :class="['tab-content', { 'user-content': currentTab === 'usuarios' }]">
         <ProfileComponent v-if="currentTab === 'profile'" />
         <DietComponent v-if="currentTab === 'dieta'" />
-        <ExerciseComponent v-if="currentTab === 'exercicios'" />
         <UsersComponent v-if="currentTab === 'usuarios'" />
       </div>
     </div>
@@ -45,14 +41,13 @@
 
 <script>
 import axios from '@/plugins/axios.js'
-import TheHeader from '@/components/TheHeader.vue'
-import TheFooter from '@/components/TheFooter.vue'
-import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
-import ProfileComponent from '@/components/profile/ProfileComponent.vue'
-import DietComponent from '@/components/profile/DietComponent.vue'
-import ExerciseComponent from '@/components/profile/ExerciseComponent.vue'
-import UsersComponent from '@/components/profile/UsersComponent.vue'
+import TheHeader from '@/components/layout/AppHeader.vue'
+import TheFooter from '@/components/layout/AppFooter.vue'
+import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
+import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
+import ProfileComponent from '@/components/profile/UserProfile.vue'
+import DietComponent from '@/components/profile/ProfileDiet.vue'
+import UsersComponent from '@/components/profile/UserManagement.vue'
 
 export default {
   name: 'ProfilePage',
@@ -63,7 +58,6 @@ export default {
     ScrollToTopButton,
     ProfileComponent,
     DietComponent,
-    ExerciseComponent,
     UsersComponent
   },
   data() {
@@ -101,9 +95,6 @@ export default {
           break
         case 'dieta':
           this.heading = 'Dieta do Usuário'
-          break
-        case 'exercicios':
-          this.heading = 'Exercícios do Usuário'
           break
         case 'usuarios':
           this.heading = 'Usuários'

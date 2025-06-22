@@ -5,7 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab76946-1c62-4ea6-8915-534a1d206bcd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_blame.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/git_toolbox_blame.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/Exercise.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/ExercisePlan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/DietSystemBackupScript.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db/migration/DietSystemBackupScript.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/.eslintrc.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/.prettierrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/.vscode/extensions.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/.vscode/extensions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/jsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/jsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/assets/Developer.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/assets/FachadaLoja.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/assets/coffee.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/assets/mainImg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/assets/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/assets/whatsapp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/ScrollToTopButton.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/TheFooter.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/TheHeader.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/UserInteractions.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/WhatsAppPopup.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/profile/DietComponent.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/profile/ExerciseComponent.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/profile/ProfileComponent.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/components/profile/UsersComponent.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/AboutUs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/AboutUs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ContactPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/DietSelection.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/HomePage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/MealsPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/PrivacyPolicy.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/PrivacyPolicy.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendVuejs/src/views/ProfilePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/ServicesPage.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/TMBCalculate.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendVuejs/src/views/TermsAndServices.vue" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,8 +178,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PasswordEncoderTest.testPasswordHashing" />
         <item itemvalue="JUnit.PasswordEncoderTest" />
+        <item itemvalue="JUnit.PasswordEncoderTest.testPasswordHashing" />
       </list>
     </recent_temporary>
   </component>

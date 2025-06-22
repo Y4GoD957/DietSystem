@@ -39,26 +39,6 @@
         <button class="action-button" @click="createDiet">Formular Dieta</button>
       </div>
     </div>
-
-    <!-- Introdução à Recomendação de Exercícios -->
-    <div class="section">
-      <h2>Recomendações de Exercícios Físicos</h2>
-      <p>
-        Exercícios físicos regulares são essenciais para manter a saúde do coração, melhorar a força
-        muscular, a flexibilidade e proporcionar um bem-estar geral. Além disso, ajudam a controlar
-        o peso e melhoram o humor e a saúde mental.
-      </p>
-      <p>
-        Incorporar uma rotina de exercícios na sua vida diária pode trazer inúmeros benefícios para
-        a sua saúde física e mental.
-      </p>
-      <div class="button-container">
-        <label>Deseja obter uma recomendação de exercícios?</label>
-        <button class="action-button" @click="getExerciseRecommendation">
-          Gerar Recomendação de Exercícios
-        </button>
-      </div>
-    </div>
   </div>
   <WhatsAppPopup />
   <ScrollToTopButton />
@@ -66,10 +46,10 @@
 </template>
 
 <script>
-import TheHeader from '@/components/TheHeader.vue'
-import TheFooter from '@/components/TheFooter.vue'
-import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import TheHeader from '@/components/layout/AppHeader.vue'
+import TheFooter from '@/components/layout/AppFooter.vue'
+import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
+import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
 import Swal from 'sweetalert2'
 import axios from '@/plugins/axios.js'
 
@@ -186,18 +166,6 @@ export default {
           text: 'Dieta personalizada criada com sucesso!'
         }).then(() => {
           this.$router.push('/Services/MealsPage') // Redireciona após sucesso
-        })
-      })
-    },
-    getExerciseRecommendation() {
-      this.checkLoginAndDietData(() => {
-        // Sucesso ao verificar login e dados de dieta
-        Swal.fire({
-          icon: 'success',
-          title: 'Sucesso',
-          text: 'Recomendação de exercícios obtida com sucesso!'
-        }).then(() => {
-          this.$router.push('/Services/ExerciseRecommendation') // Redireciona após sucesso
         })
       })
     }

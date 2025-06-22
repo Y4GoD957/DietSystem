@@ -12,5 +12,7 @@ export default {
 </script>
 
 <style>
-@import './assets/styles.css';
+@import './assets/css/reset.css';
+@import './assets/css/layout.css';
+@import './assets/css/forms.css';
 </style>

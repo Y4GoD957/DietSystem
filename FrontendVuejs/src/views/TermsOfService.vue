@@ -73,10 +73,10 @@
 </template>
 
 <script>
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
-import TheFooter from '@/components/TheFooter.vue'
-import TheHeader from '@/components/TheHeader.vue'
-import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
+import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
+import TheFooter from '@/components/layout/AppFooter.vue'
+import TheHeader from '@/components/layout/AppHeader.vue'
+import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
 
 export default {
   name: 'TermsAndServices',

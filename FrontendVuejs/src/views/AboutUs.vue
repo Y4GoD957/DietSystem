@@ -4,7 +4,7 @@
   <div class="about-us">
     <h1 class="page-title">Sobre Nós</h1>
     <div class="hero">
-      <img class="img-fluid" src="@/assets/FachadaLoja.jpg" alt="Diet System" />
+      <img class="img-fluid" src="@/assets/imgs/FachadaLoja.jpg" alt="Diet System" />
     </div>
     <section class="company-info">
       <h2>Sobre a Diet System</h2>
@@ -44,8 +44,8 @@
       <h2>Nossos Desenvolvedores</h2>
       <div class="developers-list">
         <div class="developer">
-          <a href="https://www.linkedin.com/in/yago-santos-porto/" target="_blank">
-            <img src="@/assets/Developer.jpg" alt="Desenvolvedor 1" />
+          <a href="https://www.linkedin.com/in/yago-s-porto" target="_blank">
+            <img src="@/assets/imgs/Developer.jpg" alt="Desenvolvedor 1" />
           </a>
           <h3>Yago Santos Porto</h3>
         </div>
@@ -58,10 +58,10 @@
 </template>
 
 <script>
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
-import TheFooter from '@/components/TheFooter.vue'
-import TheHeader from '@/components/TheHeader.vue'
-import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
+import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
+import TheFooter from '@/components/layout/AppFooter.vue'
+import TheHeader from '@/components/layout/AppHeader.vue'
+import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
 
 export default {
   name: 'AboutUs',

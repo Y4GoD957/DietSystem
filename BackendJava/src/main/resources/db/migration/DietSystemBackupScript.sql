@@ -4,8 +4,6 @@ select * from usuarios;
 select * from diets;
 select * from meals;
 select * from meal_items;
-select * from exercise_plans;
-select * from exercises;
 
 ALTER TABLE usuarios
 ADD COLUMN name VARCHAR(255) NOT NULL,
@@ -46,6 +44,13 @@ WHERE diet_id = 2;
 
 DROP TABLE IF EXISTS diets;
 
+DROP TABLE exercise_plans, exercises;
+
+ALTER TABLE exercise_recommendations
+ADD COLUMN location_type VARCHAR(20) NOT NULL;
+
+DROP TABLE exercise_recommendations, recommended_exercises;
+
 CREATE TABLE usuarios (
 	user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255),
@@ -64,7 +69,7 @@ CREATE TABLE diets (
     gender VARCHAR(255) NOT NULL,
     age INT NOT NULL,
     activities INT NOT NULL,
-    diet VARCHAR(255) NOT NULL,
+    diet VARCHAR(255) NOT NULL, -- Bulking (Ganho de Massa), Cutting (Emagrecimento), Maintaining (Manter Peso).
     tmb DOUBLE,
     imc DOUBLE,
     caloric_expenditure DOUBLE,
@@ -98,22 +103,23 @@ CREATE TABLE meal_items (
     FOREIGN KEY (meal_id) REFERENCES meals(meal_id) ON DELETE CASCADE
 );
 
-CREATE TABLE exercise_plans (
-    plan_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE exercise_recommendations (
+    recommendation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     diet_id INT NOT NULL,
-    objective VARCHAR(255) NOT NULL,  -- Ex: 'Ganho de massa', 'Emagrecimento'
-    duration_weeks INT NOT NULL,  -- Duração do plano em semanas
-    total_calories_burned DOUBLE,  -- Total de calorias queimadas estimadas
-    FOREIGN KEY (diet_id) REFERENCES diets(diet_id) ON DELETE CASCADE
+    location VARCHAR(50) NOT NULL, -- 'casa' ou 'academia'
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES usuarios(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (diet_id) REFERENCES diets(diet_id) ON DELETE CASCADE,
+    UNIQUE(user_id) -- Garante 1 recomendação por usuário
 );
 
-CREATE TABLE exercises (
+CREATE TABLE recommended_exercises (
     exercise_id INT AUTO_INCREMENT PRIMARY KEY,
-    plan_id INT NOT NULL,
-    exercise_name VARCHAR(255) NOT NULL,  -- Nome do exercício, Ex: 'Agachamento'
-    sets INT NOT NULL,  -- Número de séries
-    reps INT NOT NULL,  -- Número de repetições por série
-    calories_burned_per_set DOUBLE NOT NULL,  -- Calorias queimadas por série
-    difficulty VARCHAR(50),  -- Ex: 'Fácil', 'Moderado', 'Difícil'
-    FOREIGN KEY (plan_id) REFERENCES exercise_plans(plan_id) ON DELETE CASCADE
+    recommendation_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    sets INT NOT NULL,
+    reps INT NOT NULL,
+    estimated_calories_burned DOUBLE NOT NULL,
+    FOREIGN KEY (recommendation_id) REFERENCES exercise_recommendations(recommendation_id) ON DELETE CASCADE
 );

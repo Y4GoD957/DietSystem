@@ -41,12 +41,12 @@
 </template>
 
 <script>
-import TheFooter from '@/components/TheFooter.vue'
+import TheFooter from '@/components/layout/AppFooter.vue'
 import Swal from 'sweetalert2'
 import axios from '@/plugins/axios.js'
-import TheHeader from '@/components/TheHeader.vue'
-import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import TheHeader from '@/components/layout/AppHeader.vue'
+import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
+import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
 
 export default {
   name: 'ContactPage',

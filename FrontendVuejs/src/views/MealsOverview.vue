@@ -53,10 +53,10 @@
 </template>
 
 <script>
-import TheHeader from '@/components/TheHeader.vue'
-import TheFooter from '@/components/TheFooter.vue'
-import WhatsAppPopup from '@/components/WhatsAppPopup.vue'
-import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import TheHeader from '@/components/layout/AppHeader.vue'
+import TheFooter from '@/components/layout/AppFooter.vue'
+import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
+import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
 
 export default {
   name: 'MealsPage',

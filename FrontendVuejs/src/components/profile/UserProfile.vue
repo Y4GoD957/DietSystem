@@ -292,6 +292,18 @@ export default {
           console.error('Erro ao carregar a dieta:', error)
         })
     },
+    setActivities(value) {
+      this.diet.activities = value
+      this.activitiesVisible = false // fecha o dropdown após selecionar
+    },
+    setObjective(objective) {
+      this.diet.diet = objective
+      this.objectiveVisible = false
+    },
+    setGender(gender) {
+      this.diet.gender = gender
+      this.genderVisible = false
+    },
     updateProfile() {
       if (this.newPassword && this.newPassword !== this.confirmPassword) {
         Swal.fire({

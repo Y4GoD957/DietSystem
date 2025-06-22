@@ -1,7 +1,7 @@
 <template>
   <header>
     <h2 class="logo" @click="goToHomePage">
-      <img src="@/assets/logo.png" width="100%" height="100%" alt="Logo Sys Diet" />
+      <img src="@/assets/imgs/logo.png" width="100%" height="100%" alt="Logo Sys Diet" />
     </h2>
     <nav class="navigation">
       <a class="header-and-footer" href="/">Início</a>
@@ -9,16 +9,21 @@
       <a class="header-and-footer" href="/Services">Serviços</a>
       <a class="header-and-footer" href="/ContactPage">Contato</a>
     </nav>
-    <button v-if="!isAuthenticated" class="btnLogin-popup">Login</button>
+    <button v-if="!isAuthenticated" class="btnLogin-popup" @click="openAuthModal">Login</button>
     <div v-else class="auth-buttons">
       <button class="btnProfile" @click="goToProfile">Perfil</button>
       <button class="btnLogout" @click="handleLogout">Logout</button>
     </div>
   </header>
 
-  <section id="login">
-    <div class="wrapper">
-      <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
+  <section id="login" v-if="showAuthModal">
+    <div
+      class="wrapper"
+      :class="{ 'active-popup': showAuthModal, active: authMode === 'register' }"
+    >
+      <span class="icon-close" @click="closeAuthModal">
+        <ion-icon name="close-outline"></ion-icon>
+      </span>
 
       <div class="form-box login">
         <h2>Login</h2>
@@ -35,17 +40,20 @@
           </div>
 
           <div class="remember-forgot">
-            <label
-              ><input class="form-check-input mt-0" type="checkbox" v-model="keepLoggedIn" />Manter
-              login</label
-            >
+            <label>
+              <input class="form-check-input mt-0" type="checkbox" v-model="keepLoggedIn" />Manter
+              login
+            </label>
             <a href="">Esqueci minha senha</a>
           </div>
 
           <button type="submit" class="btn-homepage">Entrar</button>
 
           <div class="login-register">
-            <p>Não possui uma conta? <a href="#" class="register-link">Cadastrar</a></p>
+            <p>
+              Não possui uma conta?
+              <a href="#" @click.prevent="authMode = 'register'">Cadastrar</a>
+            </p>
           </div>
         </form>
       </div>
@@ -87,24 +95,23 @@
           <button type="submit" class="btn-homepage">Cadastrar</button>
 
           <div class="login-register">
-            <p>Já possui uma conta? <a class="login-link">Login</a></p>
+            <p>
+              Já possui uma conta?
+              <a href="#" @click.prevent="authMode = 'login'">Login</a>
+            </p>
           </div>
         </form>
       </div>
     </div>
-
-    <UserInteractions />
   </section>
 </template>
 
 <script>
 import Swal from 'sweetalert2'
 import axios from '@/plugins/axios.js'
-import UserInteractions from '@/components/UserInteractions.vue'
 
 export default {
   name: 'TheHeader',
-  components: { UserInteractions },
   data() {
     return {
       formDataLogin: {
@@ -120,7 +127,9 @@ export default {
       isNameValid: true,
       isEmailValid: true,
       isPasswordValid: true,
-      keepLoggedIn: false // Nova variável para a checkbox
+      keepLoggedIn: false, // Nova variável para a checkbox
+      showAuthModal: false,
+      authMode: 'login'
     }
   },
   mounted() {
@@ -237,6 +246,14 @@ export default {
     },
     goToProfile() {
       this.$router.push('/profile')
+    },
+    openAuthModal() {
+      this.showAuthModal = true
+      this.authMode = 'login'
+    },
+    closeAuthModal() {
+      this.showAuthModal = false
+      this.authMode = 'login'
     }
   }
 }
