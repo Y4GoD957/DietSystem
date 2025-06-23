@@ -1,9 +1,8 @@
 <template>
   <div class="diet-container">
-    <!-- Dieta Content -->
     <h2>Conteúdo da Dieta</h2>
 
-    <!-- TMB (Taxa de Metabolismo Basal) -->
+    <!-- TMB -->
     <div class="form-group">
       <label for="tmb">Taxa de Metabolismo Basal (TMB):</label>
       <input type="text" id="tmb" v-model="diet.tmb" readonly class="form-control readonly" />
@@ -14,14 +13,14 @@
       <label for="caloric-expenditure">Gasto Calórico:</label>
       <input
         type="text"
-        id="caloric_expenditure"
-        v-model="diet.caloric_expenditure"
+        id="caloric-expenditure"
+        v-model="diet.caloricExpenditure"
         readonly
         class="form-control readonly"
       />
     </div>
 
-    <!-- IMC (Índice de Massa Corporal) -->
+    <!-- IMC -->
     <div class="form-group">
       <label for="imc">Índice de Massa Corporal (IMC):</label>
       <input type="text" id="imc" v-model="diet.imc" readonly class="form-control readonly" />
@@ -32,8 +31,8 @@
       <label for="ideal-weight">Peso Ideal:</label>
       <input
         type="text"
-        id="ideal_weight"
-        v-model="diet.ideal_weight"
+        id="ideal-weight"
+        v-model="diet.idealWeight"
         readonly
         class="form-control readonly"
       />
@@ -51,25 +50,36 @@ export default {
       diet: {
         tmb: '',
         imc: '',
-        caloric_expenditure: '',
-        ideal_weight: ''
+        caloricExpenditure: '',
+        idealWeight: ''
       }
     }
   },
-  created() {
-    const userId = localStorage.getItem('userId')
-    if (userId) {
-      this.loadDietSettings(userId)
-    } else {
-      console.error('ID do usuário não encontrado no localStorage')
+  mounted() {
+    this.loadDietSettings()
+  },
+  computed: {
+    userId() {
+      return localStorage.getItem('userId')
     }
   },
   methods: {
-    loadDietSettings(userId) {
+    loadDietSettings() {
+      if (!this.userId) {
+        console.error('ID do usuário não encontrado no localStorage')
+        return
+      }
+
       axios
-        .get(`/diet/diet-settings/${userId}`)
+        .get(`/diet/diet-settings/${this.userId}`)
         .then((response) => {
-          this.diet = response.data
+          const { tmb, imc, caloric_expenditure, ideal_weight } = response.data
+          this.diet = {
+            tmb,
+            imc,
+            caloricExpenditure: caloric_expenditure,
+            idealWeight: ideal_weight
+          }
         })
         .catch((error) => {
           console.error('Erro ao carregar a dieta:', error)

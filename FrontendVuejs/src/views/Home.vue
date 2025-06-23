@@ -143,11 +143,11 @@
 
 <script>
 import TheHeader from '@/components/layout/AppHeader.vue'
-import Swal from 'sweetalert2'
-import axios from '@/plugins/axios.js'
 import TheFooter from '@/components/layout/AppFooter.vue'
 import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
 import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
+import Swal from 'sweetalert2'
+import axios from '@/plugins/axios.js'
 
 export default {
   name: 'HomePage',
@@ -170,105 +170,82 @@ export default {
   methods: {
     async handleContact() {
       if (!this.isUserLoggedIn()) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Atenção',
-          text: 'Você precisa estar logado para enviar o formulário.'
-        })
+        this.showAlert('warning', 'Atenção', 'Você precisa estar logado para enviar o formulário.')
         return
       }
 
       const loggedInUserEmail = localStorage.getItem('userEmail')
+      const { email } = this.formDataContact
 
-      if (this.formDataContact.email !== loggedInUserEmail) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Atenção',
-          text: 'O email do formulário não corresponde ao email do usuário logado.'
-        })
+      if (email !== loggedInUserEmail) {
+        this.showAlert('warning', 'Atenção', 'O email do formulário não corresponde ao email do usuário logado.')
         return
       }
 
-      if (this.validateForm()) {
-        try {
-          const response = await axios.get(`/users/contact/${this.formDataContact.email}`)
+      if (!this.validateForm()) {
+        this.showAlert('error', 'Erro', 'Por favor, preencha todos os campos corretamente.')
+        return
+      }
 
-          if (response.status === 200 && response.data) {
-            Swal.fire({
-              title: 'Dados já existentes',
-              text: 'Você já enviou dados de contato. Deseja alterar?',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonText: 'Sim, alterar',
-              cancelButtonText: 'Cancelar'
-            }).then(async (result) => {
-              if (result.isConfirmed) {
-                this.submitContactData()
-              }
-            })
-          } else {
-            this.submitContactData()
-          }
-        } catch (error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.'
+      try {
+        const response = await axios.get(`/users/contact/${email}`)
+
+        if (response.status === 200 && response.data) {
+          const confirm = await Swal.fire({
+            title: 'Dados já existentes',
+            text: 'Você já enviou dados de contato. Deseja alterar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, alterar',
+            cancelButtonText: 'Cancelar'
           })
+
+          if (confirm.isConfirmed) {
+            await this.submitContactData()
+          }
+        } else {
+          await this.submitContactData()
         }
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro',
-          text: 'Por favor, preencha todos os campos corretamente.'
-        })
+      } catch {
+        this.showAlert('error', 'Erro', 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.')
       }
     },
 
     async submitContactData() {
       try {
         const token = localStorage.getItem('token')
-
         const response = await axios.post('/users/contact', this.formDataContact, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         })
 
         if (response.status === 200) {
           localStorage.setItem('userEmail', response.data.email)
-          Swal.fire({
-            icon: 'success',
-            title: 'Sucesso',
-            text: 'Dados enviados com sucesso!'
-          })
+          this.showAlert('success', 'Sucesso', 'Dados enviados com sucesso!')
         } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível enviar os dados. Tente novamente mais tarde.'
-          })
+          this.showAlert('error', 'Erro', 'Não foi possível enviar os dados. Tente novamente mais tarde.')
         }
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro',
-          text: 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.'
-        })
+      } catch {
+        this.showAlert('error', 'Erro', 'Ocorreu um erro ao enviar os dados. Tente novamente mais tarde.')
       }
+    },
+
+    validateForm() {
+      const { name, email, phone, message } = this.formDataContact
+      return !!(name && email && phone && message)
     },
 
     isUserLoggedIn() {
       return !!localStorage.getItem('token')
     },
 
-    validateForm() {
-      const { name, email, phone, message } = this.formDataContact
-      return name && email && phone && message !== ''
+    showAlert(icon, title, text) {
+      Swal.fire({ icon, title, text })
     },
+
     goToTMB() {
       this.$router.push('/Services/TMBCalculate')
     },
+
     goToDiet() {
       this.$router.push('/Services/MealsPage')
     }

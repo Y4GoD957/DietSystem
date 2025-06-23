@@ -2,36 +2,54 @@
   <div>
     <TheHeader />
     <div class="profile-container">
-      <!-- Common Heading -->
+      <!-- Heading -->
       <div class="heading">
         <h1>{{ heading }}</h1>
       </div>
 
-      <!-- Navigation Tabs -->
-      <div class="tabs-container">
-        <div class="tabs">
-          <button :class="{ active: currentTab === 'profile' }" @click="selectTab('profile')">
+      <!-- Tabs -->
+      <nav class="tabs-container" aria-label="Navegação de abas">
+        <div class="tabs" role="tablist">
+          <button
+            role="tab"
+            :aria-selected="currentTab === 'profile'"
+            :class="{ active: currentTab === 'profile' }"
+            @click="selectTab('profile')"
+            tabindex="0"
+          >
             Perfil
           </button>
-          <button :class="{ active: currentTab === 'dieta' }" @click="selectTab('dieta')">
+          <button
+            role="tab"
+            :aria-selected="currentTab === 'dieta'"
+            :class="{ active: currentTab === 'dieta' }"
+            @click="selectTab('dieta')"
+            tabindex="-1"
+          >
             Dieta
           </button>
           <button
             v-if="user.position === 'admin'"
+            role="tab"
+            :aria-selected="currentTab === 'usuarios'"
             :class="{ active: currentTab === 'usuarios' }"
             @click="selectTab('usuarios')"
+            tabindex="-1"
           >
             Usuários
           </button>
         </div>
-      </div>
+      </nav>
 
       <!-- Tab Content -->
-      <div :class="['tab-content', { 'user-content': currentTab === 'usuarios' }]">
+      <section
+        :class="['tab-content', { 'user-content': currentTab === 'usuarios' }]"
+        role="tabpanel"
+      >
         <ProfileComponent v-if="currentTab === 'profile'" />
         <DietComponent v-if="currentTab === 'dieta'" />
         <UsersComponent v-if="currentTab === 'usuarios'" />
-      </div>
+      </section>
     </div>
     <WhatsAppPopup />
     <ScrollToTopButton />
@@ -62,65 +80,41 @@ export default {
   },
   data() {
     return {
-      currentTab: 'profile', // Tab inicial
-      user: {} // Usuário logado
+      currentTab: 'profile',
+      user: {}
+    }
+  },
+  computed: {
+    heading() {
+      const titles = {
+        profile: 'Perfil de Usuário',
+        dieta: 'Dieta do Usuário',
+        usuarios: 'Usuários'
+      }
+      return titles[this.currentTab] || 'Perfil de Usuário'
     }
   },
   created() {
     const userId = localStorage.getItem('userId')
-    if (userId) {
-      this.loadUser(userId)
-    }
+    if (userId) this.loadUser(userId)
   },
   methods: {
     selectTab(tab) {
       this.currentTab = tab
-      this.updateHeading(tab)
     },
-    loadUser(userId) {
-      // Carregar dados do usuário
-      axios
-        .get(`/users/${userId}`)
-        .then((response) => {
-          this.user = response.data
-        })
-        .catch((error) => {
-          console.error('Erro ao carregar o perfil:', error)
-        })
-    },
-    updateHeading(tab) {
-      switch (tab) {
-        case 'profile':
-          this.heading = 'Perfil de Usuário'
-          break
-        case 'dieta':
-          this.heading = 'Dieta do Usuário'
-          break
-        case 'usuarios':
-          this.heading = 'Usuários'
-          break
-        default:
-          this.heading = 'Perfil de Usuário'
+    async loadUser(userId) {
+      try {
+        const { data } = await axios.get(`/users/${userId}`)
+        this.user = data
+      } catch (error) {
+        console.error('Erro ao carregar o perfil:', error)
       }
     }
-  },
-  mounted() {
-    // Atualiza o título inicial com base na aba padrão
-    this.updateHeading(this.currentTab)
   }
 }
 </script>
 
 <style scoped>
-/* Ajustar o fundo do site para o container principal */
-:root {
-  --site-background: #f5f5f5; /* Ajuste a cor de fundo aqui */
-}
-
-div {
-  background-color: var(--site-background);
-}
-
 .profile-container {
   max-width: 800px;
   margin: 6.25rem auto;
@@ -128,12 +122,8 @@ div {
 
 .heading {
   width: 90%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
   margin: 20px auto;
+  text-align: center;
 }
 
 .heading h1 {
@@ -146,11 +136,12 @@ div {
 .heading h1::after {
   content: '';
   position: absolute;
-  width: 100%;
+  bottom: 0;
+  left: 50%;
+  width: 65%;
   height: 4px;
-  display: block;
-  margin: 0 auto;
   background-color: #4caf50;
+  transform: translateX(-50%);
 }
 
 .tabs-container {
@@ -176,13 +167,10 @@ div {
   cursor: pointer;
   font-size: 14px;
   color: #162938;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
   margin: 0 3px;
 }
 
-/* Aba ativa */
 .tabs button.active {
   background-color: #162938;
   color: #fff;
@@ -190,23 +178,20 @@ div {
   border-bottom: 1px solid #162938;
 }
 
-/* Hover nas abas */
-.tabs button:hover {
+.tabs button:hover:not(.active) {
   background-color: #e0e0e0;
   color: #162938;
 }
 
-/* Estilo para o conteúdo ativo da aba */
 .tab-content {
   padding: 15px;
   border: 1px solid #ccc;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
   background-color: #fff;
   margin-top: -1px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona a sombra */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo específico para a aba "Usuários" */
 .tab-content.user-content {
   border: none;
   border-radius: 0;

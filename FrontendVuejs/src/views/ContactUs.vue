@@ -1,40 +1,37 @@
 <template>
   <TheHeader />
-  <div class="wrapperContact">
-    <h2 class="display-6">Fale Conosco</h2>
 
-    <form @submit.prevent="handleContact" class="form-contact">
-      <div class="input-box-homepage">
-        <span class="icon"><ion-icon name="person"></ion-icon></span>
-        <input type="text" v-model="formDataContact.name" placeholder=" " />
-        <label>Nome Completo</label>
+  <main class="contact-container">
+    <h2 class="contact-title">Fale Conosco</h2>
+
+    <form @submit.prevent="handleContact" class="contact-form">
+      <div class="contact-input-box">
+        <span class="contact-icon"><ion-icon name="person"></ion-icon></span>
+        <input type="text" id="name" v-model="formDataContact.name" placeholder=" " />
+        <label for="name">Nome Completo</label>
       </div>
 
-      <div class="input-box-homepage">
-        <span class="icon"><ion-icon name="mail"></ion-icon></span>
-        <input type="email" v-model="formDataContact.email" placeholder=" " />
-        <label>E-mail</label>
+      <div class="contact-input-box">
+        <span class="contact-icon"><ion-icon name="mail"></ion-icon></span>
+        <input type="email" id="email" v-model="formDataContact.email" placeholder=" " />
+        <label for="email">E-mail</label>
       </div>
 
-      <div class="input-box-homepage">
-        <span class="icon"><ion-icon name="call"></ion-icon></span>
-        <input type="text" v-model="formDataContact.phone" placeholder=" " />
-        <label>Celular</label>
+      <div class="contact-input-box">
+        <span class="contact-icon"><ion-icon name="call"></ion-icon></span>
+        <input type="text" id="phone" v-model="formDataContact.phone" placeholder=" " />
+        <label for="phone">Celular</label>
       </div>
 
-      <div class="form-floating">
-        <textarea
-          class="form-control"
-          v-model="formDataContact.message"
-          placeholder="Sua Mensagem"
-          style="height: 100px"
-        ></textarea>
-        <label for="floatingTextarea2">Feedback</label>
+      <div class="contact-textarea-box">
+        <label for="message">Feedback</label>
+        <textarea id="message" v-model="formDataContact.message" placeholder="Sua mensagem"></textarea>
       </div>
 
-      <button type="submit" class="btn-homepage">Enviar</button>
+      <button type="submit" class="contact-btn-submit">Enviar</button>
     </form>
-  </div>
+  </main>
+
   <WhatsAppPopup />
   <ScrollToTopButton />
   <TheFooter />
@@ -42,11 +39,11 @@
 
 <script>
 import TheFooter from '@/components/layout/AppFooter.vue'
-import Swal from 'sweetalert2'
-import axios from '@/plugins/axios.js'
 import TheHeader from '@/components/layout/AppHeader.vue'
 import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
 import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
+import Swal from 'sweetalert2'
+import axios from '@/plugins/axios.js'
 
 export default {
   name: 'ContactPage',
@@ -69,57 +66,54 @@ export default {
   methods: {
     async handleContact() {
       if (!this.isUserLoggedIn()) {
-        Swal.fire({
+        return Swal.fire({
           icon: 'warning',
           title: 'Atenção',
           text: 'Você precisa estar logado para enviar o formulário.'
         })
-        return
       }
 
       const loggedInUserEmail = localStorage.getItem('userEmail')
 
       if (this.formDataContact.email !== loggedInUserEmail) {
-        Swal.fire({
+        return Swal.fire({
           icon: 'warning',
           title: 'Atenção',
           text: 'O email do formulário não corresponde ao email do usuário logado.'
         })
-        return
       }
 
-      if (this.validateForm()) {
-        try {
-          const response = await axios.get(`/users/contact/${this.formDataContact.email}`)
-
-          if (response.status === 200 && response.data) {
-            Swal.fire({
-              title: 'Dados já existentes',
-              text: 'Você já enviou dados de contato. Deseja alterar?',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonText: 'Sim, alterar',
-              cancelButtonText: 'Cancelar'
-            }).then(async (result) => {
-              if (result.isConfirmed) {
-                this.submitContactData()
-              }
-            })
-          } else {
-            this.submitContactData()
-          }
-        } catch (error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível verificar os dados existentes. Tente novamente mais tarde.'
-          })
-        }
-      } else {
-        Swal.fire({
+      if (!this.validateForm()) {
+        return Swal.fire({
           icon: 'error',
           title: 'Erro',
           text: 'Por favor, preencha todos os campos corretamente.'
+        })
+      }
+
+      try {
+        const { email } = this.formDataContact
+        const response = await axios.get(`/users/contact/${email}`)
+
+        if (response.status === 200 && response.data) {
+          Swal.fire({
+            title: 'Dados já existentes',
+            text: 'Você já enviou dados de contato. Deseja alterar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, alterar',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) this.submitContactData()
+          })
+        } else {
+          this.submitContactData()
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Não foi possível verificar os dados. Tente novamente mais tarde.'
         })
       }
     },
@@ -127,7 +121,6 @@ export default {
     async submitContactData() {
       try {
         const token = localStorage.getItem('token')
-
         const response = await axios.post('/users/contact', this.formDataContact, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -140,12 +133,6 @@ export default {
             icon: 'success',
             title: 'Sucesso',
             text: 'Dados enviados com sucesso!'
-          })
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível enviar os dados. Tente novamente mais tarde.'
           })
         }
       } catch (error) {
@@ -163,33 +150,115 @@ export default {
 
     validateForm() {
       const { name, email, phone, message } = this.formDataContact
-      return name && email && phone && message !== ''
+      return name.trim() && email.trim() && phone.trim() && message.trim()
     }
   }
 }
 </script>
 
-<style>
-.wrapperContact {
-  max-width: 600px; /* Aumenta a largura conforme necessário */
-  margin: 0 auto;
-  padding: 20px;
+<style scoped>
+.contact-container {
+  max-width: 600px;
+  margin: 10rem auto;
+  padding: 2rem;
   background: #fff;
-  border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-  margin-top: 10rem;
-  margin-bottom: 10rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-.form-contact {
+.contact-title {
+  font-size: 2rem;
+  text-align: center;
+  color: #4caf50;
+  margin-bottom: 1.5rem;
+}
+
+.contact-form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Espaço entre os elementos */
+  gap: 1.25rem;
 }
 
-.form-contact textarea {
+.contact-input-box {
+  position: relative;
+}
+
+.contact-input-box input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: transparent;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.contact-input-box label {
+  position: absolute;
+  top: 12px;
+  left: 40px;
+  color: #999;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+.contact-input-box input:focus + label,
+.contact-input-box input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 35px;
+  font-size: 0.8rem;
+  background-color: #fff;
+  padding: 0 4px;
+  color: #4caf50;
+}
+
+.contact-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #4caf50;
+  font-size: 1.2rem;
+}
+
+.contact-textarea-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-textarea-box label {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.contact-textarea-box textarea {
   resize: none;
-  height: 150px; /* Ajuste a altura conforme necessário */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  min-height: 120px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.contact-textarea-box textarea:focus {
+  border-color: #4caf50;
+}
+
+.contact-btn-submit {
+  padding: 12px;
+  background-color: #162938;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.contact-btn-submit:hover {
+  background-color: #0e1f26;
 }
 </style>

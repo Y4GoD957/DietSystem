@@ -14,26 +14,32 @@
         </li>
       </ul>
     </div>
-    <div class="footer-section">
-      <h3 style="margin-left: 40px">Serviços ao Cliente</h3>
-      <ul>
-        <li>
-          <a class="header-and-footer" href="/Services/TMBCalculate"
-            >Cálculo de Metabolismo Basal</a
-          >
-        </li>
-        <li>
-          <a class="header-and-footer" href="/Services/MealsPage">Formulador de Dietas</a>
-        </li>
-      </ul>
+
+    <div class="footer-section services-section">
+      <h3>Serviços ao Cliente</h3>
+      <nav>
+        <ul>
+          <li>
+            <a class="header-and-footer" href="/Services/TMBCalculate"
+              >Cálculo de Metabolismo Basal</a
+            >
+          </li>
+          <li>
+            <a class="header-and-footer" href="/Services/MealsPage">Formulador de Dietas</a>
+          </li>
+        </ul>
+      </nav>
     </div>
+
     <div class="footer-section">
       <h3>Informações e Políticas</h3>
-      <ul>
-        <li><a class="header-and-footer" href="/AboutUs">Sobre Nós</a></li>
-        <li><a class="header-and-footer" href="/terms">Termos e Serviços</a></li>
-        <li><a class="header-and-footer" href="/privacy-policy">Política de Privacidade</a></li>
-      </ul>
+      <nav>
+        <ul>
+          <li><a class="header-and-footer" href="/AboutUs">Sobre Nós</a></li>
+          <li><a class="header-and-footer" href="/terms">Termos e Serviços</a></li>
+          <li><a class="header-and-footer" href="/privacy-policy">Política de Privacidade</a></li>
+        </ul>
+      </nav>
     </div>
   </footer>
 </template>
@@ -55,6 +61,10 @@ h3 {
   min-width: 200px;
 }
 
+.services-section h3 {
+  margin-left: 40px;
+}
+
 .footer-section h3 {
   font-size: 1.5em;
   margin-bottom: 15px;
@@ -67,6 +77,6 @@ h3 {
 
 .footer-section ul li {
   margin-bottom: 10px;
-  font-weight: bold; /* Deixa os itens em negrito */
+  font-weight: bold; /* Itens em negrito */
 }
 </style>

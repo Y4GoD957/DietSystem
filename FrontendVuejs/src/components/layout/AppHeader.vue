@@ -5,11 +5,13 @@
     </h2>
     <nav class="navigation">
       <a class="header-and-footer" href="/">Início</a>
-      <a class="header-and-footer" href="/AboutUs">Sobre</a>
-      <a class="header-and-footer" href="/Services">Serviços</a>
-      <a class="header-and-footer" href="/ContactPage">Contato</a>
+      <a class="header-and-footer" href="/about">Sobre</a>
+      <a class="header-and-footer" href="/services">Serviços</a>
+      <a class="header-and-footer" href="/contact">Contato</a>
     </nav>
+
     <button v-if="!isAuthenticated" class="btnLogin-popup" @click="openAuthModal">Login</button>
+
     <div v-else class="auth-buttons">
       <button class="btnProfile" @click="goToProfile">Perfil</button>
       <button class="btnLogout" @click="handleLogout">Logout</button>
@@ -25,6 +27,7 @@
         <ion-icon name="close-outline"></ion-icon>
       </span>
 
+      <!-- Formulário de Login -->
       <div class="form-box login">
         <h2>Login</h2>
         <form @submit.prevent="handleLogin">
@@ -41,8 +44,8 @@
 
           <div class="remember-forgot">
             <label>
-              <input class="form-check-input mt-0" type="checkbox" v-model="keepLoggedIn" />Manter
-              login
+              <input class="form-check-input mt-0" type="checkbox" v-model="keepLoggedIn" />
+              Manter login
             </label>
             <a href="">Esqueci minha senha</a>
           </div>
@@ -58,6 +61,7 @@
         </form>
       </div>
 
+      <!-- Formulário de Cadastro -->
       <div class="form-box register">
         <h2>Cadastro</h2>
         <form @submit.prevent="handleRegister">
@@ -125,15 +129,13 @@ export default {
       },
       isAuthenticated: !!localStorage.getItem('token'),
       isNameValid: true,
-      isEmailValid: true,
       isPasswordValid: true,
-      keepLoggedIn: false, // Nova variável para a checkbox
+      keepLoggedIn: false,
       showAuthModal: false,
       authMode: 'login'
     }
   },
   mounted() {
-    // Carrega o e-mail salvo como 'lastUsedEmail' (se houver)
     const savedLastEmail = localStorage.getItem('lastUsedEmail')
     if (savedLastEmail) {
       this.formDataLogin.email = savedLastEmail
@@ -146,80 +148,84 @@ export default {
         window.scrollTo(0, 0)
       })
     },
-    handleLogin() {
-      axios
-        .post('/auth/login', this.formDataLogin)
-        .then((response) => {
-          if (response.data.token) {
-            // Salva os dados do token no localStorage
-            localStorage.setItem('token', response.data.token)
-            localStorage.setItem('userEmail', response.data.email)
-            localStorage.setItem('userId', response.data.user_id)
+    openAuthModal() {
+      this.showAuthModal = true
+      this.authMode = 'login'
+    },
+    closeAuthModal() {
+      this.showAuthModal = false
+      this.authMode = 'login'
+    },
+    async handleLogin() {
+      try {
+        const response = await axios.post('/auth/login', this.formDataLogin)
 
-            // Se a checkbox "Manter login" estiver marcada, salvar o e-mail em 'lastUsedEmail'
-            if (this.keepLoggedIn) {
-              localStorage.setItem('lastUsedEmail', this.formDataLogin.email)
-            } else {
-              localStorage.removeItem('lastUsedEmail')
-            }
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('userEmail', response.data.email)
+          localStorage.setItem('userId', response.data.user_id)
 
-            Swal.fire({
-              icon: 'success',
-              title: 'Sucesso!',
-              text: 'Seus dados foram validados!'
-            })
-
-            this.isAuthenticated = true
-
-            // Redireciona para o endpoint adequado com base na resposta do backend
-            const redirectEndpoint = response.data.redirectEndpoint || '/diet'
-            this.$router.push(redirectEndpoint)
+          if (this.keepLoggedIn) {
+            localStorage.setItem('lastUsedEmail', this.formDataLogin.email)
           } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro!',
-              text: 'Não foi possível autenticar. Tente novamente.'
-            })
+            localStorage.removeItem('lastUsedEmail')
           }
-        })
-        .catch((error) => {
-          console.error('Erro ao fazer login:', error)
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: 'Seus dados foram validados!'
+          })
+
+          this.isAuthenticated = true
+
+          const redirectEndpoint = response.data.redirectEndpoint || '/diet'
+          this.$router.push(redirectEndpoint)
+        } else {
           Swal.fire({
             icon: 'error',
             title: 'Erro!',
-            text: 'Credenciais inválidas. Por favor, tente novamente.'
+            text: 'Não foi possível autenticar. Tente novamente.'
           })
+        }
+      } catch (error) {
+        console.error('Erro ao fazer login:', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: 'Credenciais inválidas. Por favor, tente novamente.'
         })
+      }
     },
-    handleRegister() {
+    async handleRegister() {
       if (this.validateName() && this.validatePassword()) {
-        axios
-          .post('/users/register', this.formDataRegister)
-          .then((response) => {
-            if (response.status === 201) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Parabéns!',
-                text: 'O seu cadastro foi realizado com sucesso!'
-              })
-              this.formDataRegister = {
-                username: '',
-                email: '',
-                password: ''
-              }
-            }
-          })
-          .catch((error) => {
-            let message = 'Não foi possível realizar o cadastro. Tente novamente.'
-            if (error.response && error.response.status === 400) {
-              message = error.response.data
-            }
+        try {
+          const response = await axios.post('/users/register', this.formDataRegister)
+
+          if (response.status === 201) {
             Swal.fire({
-              icon: 'error',
-              title: 'Erro!',
-              text: message
+              icon: 'success',
+              title: 'Parabéns!',
+              text: 'O seu cadastro foi realizado com sucesso!'
             })
+
+            this.formDataRegister = {
+              username: '',
+              email: '',
+              password: ''
+            }
+          }
+        } catch (error) {
+          let message = 'Não foi possível realizar o cadastro. Tente novamente.'
+          if (error.response && error.response.status === 400) {
+            message = error.response.data
+          }
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: message
           })
+        }
       } else {
         Swal.fire({
           icon: 'error',
@@ -246,14 +252,6 @@ export default {
     },
     goToProfile() {
       this.$router.push('/profile')
-    },
-    openAuthModal() {
-      this.showAuthModal = true
-      this.authMode = 'login'
-    },
-    closeAuthModal() {
-      this.showAuthModal = false
-      this.authMode = 'login'
     }
   }
 }
@@ -292,10 +290,11 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
 .btnProfile,
 .btnLogout {
   width: 130px;
-  height: 40px; /* Altura reduzida para dividir o espaço */
+  height: 40px;
   background: transparent;
   border: 1.5px solid #fff;
   outline: none;
@@ -304,7 +303,7 @@ export default {
   font-size: 1.1em;
   color: #fff;
   font-weight: 500;
-  margin: 5px 0; /* Espaçamento vertical entre os botões */
+  margin: 5px 0;
   transition: 0.5s;
 }
 

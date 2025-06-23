@@ -5,7 +5,6 @@
       <h1>Saúde e Bem-Estar</h1>
     </div>
 
-    <!-- Introdução ao Metabolismo Basal -->
     <div class="section">
       <h2>O que é Metabolismo Basal?</h2>
       <p>
@@ -19,11 +18,10 @@
       </p>
       <div class="button-container">
         <label>Deseja calcular seu metabolismo basal?</label>
-        <button class="action-button" @click="calculateBMR">Calcular Metabolismo Basal</button>
+        <button class="action-button" @click="navigateToTMB">Calcular Metabolismo Basal</button>
       </div>
     </div>
 
-    <!-- Introdução à Formulação de Dietas -->
     <div class="section">
       <h2>Importância de uma Dieta Bem Estruturada</h2>
       <p>
@@ -36,7 +34,7 @@
       </p>
       <div class="button-container">
         <label>Deseja formular uma dieta personalizada?</label>
-        <button class="action-button" @click="createDiet">Formular Dieta</button>
+        <button class="action-button" @click="navigateToDiet">Formular Dieta</button>
       </div>
     </div>
   </div>
@@ -63,71 +61,52 @@ export default {
   },
   data() {
     return {
-      diet: null // Adicionando a propriedade diet para armazenar dados de dieta
+      diet: null
     }
   },
   created() {
     const userId = localStorage.getItem('userId')
     if (userId) {
       this.loadDietSettings(userId)
-    } else {
-      console.error('ID do usuário não encontrado no localStorage')
     }
   },
   methods: {
     loadDietSettings(userId) {
       const token = localStorage.getItem('token')
       if (!token) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro',
-          text: 'Token de autenticação não encontrado. Faça login novamente.'
-        })
+        this.alertError('Token de autenticação não encontrado. Faça login novamente.')
         return
       }
 
       axios
         .get(`/diet/diet-settings/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         })
-        .then((response) => {
-          this.diet = response.data
+        .then((res) => {
+          this.diet = res.data
         })
-        .catch((error) => {
-          console.error('Erro ao carregar a dieta:', error)
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Ocorreu um erro ao carregar as configurações de dieta. Tente novamente mais tarde.'
-          })
+        .catch((err) => {
+          console.error('Erro ao carregar a dieta:', err)
+          this.alertError('Ocorreu um erro ao carregar as configurações de dieta.')
         })
     },
-    checkLoginAndDietData(callback) {
+
+    validateUserAndDiet(callback) {
       const token = localStorage.getItem('token')
       const userId = localStorage.getItem('userId')
 
       if (!token || !userId) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro',
-          text: 'Você precisa estar logado para acessar esta funcionalidade.'
-        })
-        return
+        return this.alertError('Você precisa estar logado para acessar esta funcionalidade.')
       }
 
-      // Checa se existem dados de dieta para o userId
       axios
         .get(`/diet/diet-settings/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         })
-        .then((response) => {
-          if (response.data) {
-            this.diet = response.data
-            callback() // Chama a função específica do método se a verificação for bem-sucedida
+        .then((res) => {
+          if (res.data) {
+            this.diet = res.data
+            callback()
           } else {
             Swal.fire({
               icon: 'warning',
@@ -136,36 +115,40 @@ export default {
             })
           }
         })
-        .catch((error) => {
-          console.error('Erro ao carregar a dieta:', error)
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Ocorreu um erro ao verificar os dados de dieta. Tente novamente mais tarde.'
-          })
+        .catch((err) => {
+          console.error('Erro ao verificar dados de dieta:', err)
+          this.alertError('Erro ao verificar os dados de dieta. Tente novamente mais tarde.')
         })
     },
-    calculateBMR() {
-      this.checkLoginAndDietData(() => {
-        // Sucesso ao verificar login e dados de dieta
+
+    alertError(msg) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro',
+        text: msg
+      })
+    },
+
+    navigateToTMB() {
+      this.validateUserAndDiet(() => {
         Swal.fire({
           icon: 'success',
           title: 'Sucesso',
           text: 'Metabolismo Basal calculado com sucesso!'
         }).then(() => {
-          this.$router.push('/Services/TMBCalculate') // Redireciona após sucesso
+          this.$router.push('/services/tmb')
         })
       })
     },
-    createDiet() {
-      this.checkLoginAndDietData(() => {
-        // Sucesso ao verificar login e dados de dieta
+
+    navigateToDiet() {
+      this.validateUserAndDiet(() => {
         Swal.fire({
           icon: 'success',
           title: 'Sucesso',
           text: 'Dieta personalizada criada com sucesso!'
         }).then(() => {
-          this.$router.push('/Services/MealsPage') // Redireciona após sucesso
+          this.$router.push('/services/meals')
         })
       })
     }
@@ -176,13 +159,11 @@ export default {
 <style scoped>
 .content-container {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 7rem auto;
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 7rem;
-  margin-top: 7rem;
 }
 
 .heading {
@@ -208,11 +189,11 @@ export default {
 }
 
 .section {
-  margin-bottom: 40px;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 25px;
   border-radius: 10px;
   border: 1px solid #ddd;
+  margin-bottom: 40px;
 }
 
 .section h2 {
@@ -243,11 +224,12 @@ export default {
 .action-button {
   background-color: #4caf50;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
+  font-weight: 600;
   transition: background-color 0.3s;
 }
 

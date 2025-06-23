@@ -1,185 +1,69 @@
 <template>
   <TheHeader />
-  <section class="bmr-results">
-    <div class="results-container">
+
+  <section class="bmr-section">
+    <div class="bmr-wrapper">
       <h2 class="section-title">Resultado</h2>
       <div class="results-grid">
-        <div class="stat-card">
-          <div class="stat-title">TMB</div>
-          <div class="stat-value">{{ metrics.tmb }} kcal</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">IMC</div>
-          <div class="stat-value">{{ metrics.imc }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Gasto calórico</div>
-          <div class="stat-value">{{ metrics.caloric_expenditure }} kcal</div>
-          <div class="stat-desc">Com base no nível de atividade física</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Peso ideal</div>
-          <div class="stat-value">{{ metrics.ideal_weight }} kg</div>
+        <div class="stat-card" v-for="(value, key) in statMap" :key="key">
+          <div class="stat-title">{{ value.title }}</div>
+          <div class="stat-value">{{ metrics[key] }} {{ value.suffix }}</div>
+          <div class="stat-desc" v-if="value.description">{{ value.description }}</div>
         </div>
       </div>
+
+      <article class="info-section">
+        <h2 class="info-title">Sobre a Taxa Metabólica Basal (TMB)</h2>
+        <p>
+          A taxa metabólica basal (TMB) é a energia mínima que o corpo precisa para manter funções vitais em repouso. Representa 60% a 70% do gasto energético diário e varia conforme sexo, idade, peso e altura.
+        </p>
+        <p>
+          Entender sua TMB ajuda a planejar a alimentação de forma equilibrada, contribuindo para o controle de peso e prevenção de doenças como obesidade e diabetes.
+        </p>
+        <p>
+          A fórmula mais usada para esse cálculo é a Equação de Harris-Benedict, revisada em 1984. Veja como calcular manualmente:
+        </p>
+
+        <h3 class="info-subtitle">Cálculo Manual da TMB</h3>
+        <ul>
+          <li><strong>Homens:</strong> TMB = 66 + (13,7 × peso kg) + (5 × altura cm) − (6,8 × idade)</li>
+          <li><strong>Mulheres:</strong> TMB = 655 + (9,6 × peso kg) + (1,8 × altura cm) − (4,7 × idade)</li>
+        </ul>
+
+        <p><strong>Exemplo (Homem):</strong> 66 + (13,7 × 90) + (5 × 175) − (6,8 × 30) = 1970 kcal</p>
+        <p><strong>Exemplo (Mulher):</strong> 655 + (9,6 × 65) + (1,8 × 165) − (4,7 × 20) = 1482 kcal</p>
+
+        <h2 class="info-title">Fatores que Influenciam a TMB</h2>
+        <ul>
+          <li><strong>Sexo:</strong> Homens tendem a ter TMB mais alta.</li>
+          <li><strong>Idade:</strong> Envelhecimento reduz a TMB.</li>
+          <li><strong>Peso:</strong> Quanto maior o peso, maior a TMB.</li>
+          <li><strong>Altura:</strong> Pessoas mais altas tendem a ter TMB maior.</li>
+          <li><strong>Genética:</strong> Pode influenciar significativamente.</li>
+          <li><strong>Hormônios:</strong> Especialmente os da tireoide.</li>
+          <li><strong>Temperatura:</strong> Ambientes extremos afetam a TMB.</li>
+          <li><strong>Jejum:</strong> Reduz temporariamente o metabolismo.</li>
+        </ul>
+
+        <h2 class="info-title">Como Aumentar a TMB</h2>
+        <ul>
+          <li><strong>Ganhar massa muscular:</strong> Aumenta o metabolismo basal.</li>
+          <li><strong>Exercícios aeróbicos:</strong> Elevam o gasto calórico pós-treino.</li>
+          <li><strong>Alimentos termogênicos:</strong> Pimenta, café e chá verde, por exemplo.</li>
+          <li><strong>Fracionar refeições:</strong> Ajuda na digestão contínua.</li>
+          <li><strong>Dormir bem:</strong> Regula os hormônios do metabolismo.</li>
+        </ul>
+
+        <h2 class="info-title">Referências</h2>
+        <ul class="references">
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank">Mifflin MD et al. – Am J Clin Nutr (1990)</a></li>
+          <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1091498/" target="_blank">Harris JA & Benedict FG – PNAS (1918)</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/6741850/" target="_blank">Roza AM & Shizgal HM – Am J Clin Nutr (1984)</a></li>
+        </ul>
+      </article>
     </div>
-
-    <article class="info-section">
-      <h2 class="info-title">Sobre a Taxa Metabólica Basal (TMB)</h2>
-      <p>
-        A taxa metabólica basal (TMB) refere-se à quantidade mínima de energia necessária para que o
-        corpo realize funções vitais, como respiração, circulação sanguínea e manutenção da
-        temperatura corporal, enquanto em repouso. Ela corresponde a aproximadamente 60% a 70% do
-        gasto energético total diário de uma pessoa, sendo influenciada por fatores como sexo,
-        idade, peso e altura.
-      </p>
-      <p>
-        Compreender a TMB é essencial para quem deseja controlar o peso, pois permite estimar o
-        número de calorias que o corpo consome diariamente, facilitando o ajuste da dieta às
-        necessidades energéticas do organismo. Além disso, conhecer a TMB pode auxiliar na prevenção
-        de doenças como obesidade, diabetes e hipertensão.
-      </p>
-      <p>
-        Diversas fórmulas estão disponíveis para calcular a TMB, mas a equação de Harris-Benedict é
-        uma das mais utilizadas. Essa fórmula considera o sexo, idade, peso e altura da pessoa.
-        Originalmente desenvolvida em 1918, a equação foi revisada em 1984 para melhor refletir as
-        mudanças no estilo de vida da população. A seguir, apresentamos um exemplo de como aplicar a
-        calculadora de TMB utilizando a equação de Harris-Benedict.
-      </p>
-      <br />
-
-      <h3 class="info-title">Cálculo Manual da TMB</h3>
-      <p>
-        Para calcular a TMB manualmente, você deve usar as seguintes fórmulas da equação de
-        Harris-Benedict:
-      </p>
-      <ul>
-        <li>
-          <strong>Homens:</strong> TMB = 66 + (13,7 x peso em kg) + (5 x altura em cm) - (6,8 x
-          idade em anos)
-        </li>
-        <li>
-          <strong>Mulheres:</strong> TMB = 655 + (9,6 x peso em kg) + (1,8 x altura em cm) - (4,7 x
-          idade em anos)
-        </li>
-      </ul>
-      <br />
-      <p>
-        Por exemplo, para um homem de 30 anos, 90 kg e 1,75 m de altura:
-        <br />
-        TMB = 66 + (13,7 x 90) + (5 x 175) - (6,8 x 30) = 1970 calorias por dia.
-      </p>
-      <br />
-      <p>
-        Já no caso de uma mulher, supondo que ela tenha 20 anos, 65 kg e 1,65 m de altura:
-        <br />
-        TMB = 655 + (9,6 x 65) + (1,8 x 165) - (4,7 x 20) = 1482 calorias por dia.
-      </p>
-      <br />
-
-      <h2 class="info-title">Fatores que Influenciam a TMB</h2>
-      <p>A TMB é influenciada por uma variedade de fatores, incluindo:</p>
-      <ul>
-        <li>
-          <strong>Sexo:</strong>strong Homens geralmente apresentam uma TMB mais elevada do que
-          mulheres, devido à maior quantidade de massa muscular e menor porcentagem de gordura
-          corporal.
-        </li>
-        <li>
-          <strong>Idade:</strong> Com o envelhecimento, a TMB tende a diminuir, resultado da perda
-          de massa muscular e aumento da gordura corporal.
-        </li>
-        <li>
-          <strong>Peso:</strong> Um peso corporal maior leva a uma TMB mais alta, já que o corpo
-          necessita de mais energia para manter seus tecidos.
-        </li>
-        <li>
-          <strong>Altura:</strong> Pessoas mais altas geralmente têm uma TMB mais elevada, pois
-          possuem uma maior superfície corporal, o que resulta em maior perda de calor.
-        </li>
-        <li>
-          <strong>Genética:</strong> Fatores hereditários podem fazer com que algumas pessoas tenham
-          uma TMB naturalmente mais alta ou mais baixa do que outras.
-        </li>
-        <li>
-          <strong>Hormônios:</strong> Certos hormônios, como os da tireoide, podem influenciar a
-          TMB, acelerando ou diminuindo o metabolismo.
-        </li>
-        <li>
-          <strong>Temperatura:</strong> A TMB pode aumentar em ambientes muito frios ou muito
-          quentes, uma vez que o corpo precisa de mais energia para regular sua temperatura interna.
-        </li>
-        <li>
-          <strong>Jejum:</strong> Em períodos de jejum prolongado, a TMB tende a diminuir, pois o
-          corpo entra em um estado de economia de energia, reduzindo o metabolismo.
-        </li>
-      </ul>
-      <br />
-
-      <h2 class="info-title">Como Aumentar a TMB</h2>
-      <p>
-        Aumentar a TMB pode ajudar a elevar o gasto energético do corpo em repouso, o que contribui
-        para o controle de peso e a melhora da saúde. Aqui estão algumas estratégias para aumentar a
-        TMB:
-      </p>
-      <ul>
-        <li>
-          <strong>Aumentar a massa muscular:</strong> Praticar exercícios de força, como musculação,
-          pilates ou crossfit, ajuda a aumentar a massa muscular e, consequentemente, a TMB, já que
-          os músculos demandam mais energia do que a gordura para se manter.
-        </li>
-        <li>
-          <strong>Fazer exercícios aeróbicos:</strong> Realizar atividades que elevam a frequência
-          cardíaca, como corrida, ciclismo ou natação, pode aumentar a TMB por algumas horas após o
-          exercício, pois o corpo continua queimando calorias durante a recuperação.
-        </li>
-        <li>
-          <strong>Consumir alimentos termogênicos:</strong> Ingerir alimentos que aceleram o
-          metabolismo, como pimenta, gengibre, canela, café e chá verde, contribui para o aumento da
-          TMB, pois o organismo gasta mais energia para digeri-los.
-        </li>
-        <li>
-          <strong>Fracionar as refeições:</strong> Comer em pequenas porções várias vezes ao dia
-          pode elevar a TMB, uma vez que o corpo utiliza mais energia para processar os alimentos.
-          No entanto, é fundamental que essas refeições sejam saudáveis e balanceadas.
-        </li>
-        <li>
-          <strong>Dormir bem:</strong> Manter uma boa qualidade de sono regula hormônios que
-          influenciam a TMB, como cortisol e leptina. Além disso, dormir adequadamente reduz o
-          cansaço, facilitando a prática de atividades físicas.
-        </li>
-      </ul>
-      <br />
-
-      <h2 class="info-title">Referências</h2>
-      <ul>
-        <a class="links" href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank"
-          ><li>
-            Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO. A new predictive
-            equation for resting energy expenditure in healthy individuals. Am J Clin Nutr. 1990
-            Feb;51(2):241-7. doi: 10.1093/ajcn/51.2.241.
-          </li></a
-        >
-        <a
-          class="links"
-          href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1091498/"
-          target="_blank"
-          ><li>
-            HARRIS JA, BENEDICT FG. A Biometric Study of Human Basal Metabolism. Proc Natl Acad Sci
-            U S A. 1918 Dec;4(12):370-3. doi: 10.1073/pnas.4.12.370.
-          </li></a
-        >
-        <a class="links" href="https://pubmed.ncbi.nlm.nih.gov/6741850/" target="_blank"
-          ><li>
-            ROZA AM, SHIZGAL HM. The Harris Benedict equation reevaluated: resting energy
-            requirements and the body cell mass. Am J Clin Nutr. 1984 Aug;40(2):168-82. doi:
-            10.1093/ajcn/40.2.168.
-          </li></a
-        >
-      </ul>
-      <br />
-    </article>
   </section>
+
   <WhatsAppPopup />
   <ScrollToTopButton />
   <TheFooter />
@@ -207,37 +91,25 @@ export default {
         caloric_expenditure: '',
         imc: '',
         ideal_weight: ''
+      },
+      statMap: {
+        tmb: { title: 'TMB', suffix: 'kcal' },
+        imc: { title: 'IMC', suffix: '' },
+        caloric_expenditure: { title: 'Gasto calórico', suffix: 'kcal', description: 'Com base no nível de atividade física' },
+        ideal_weight: { title: 'Peso ideal', suffix: 'kg' }
       }
     }
   },
   created() {
     const userId = localStorage.getItem('userId')
-    if (userId) {
-      this.loadMetrics(userId)
-    } else {
-      console.error('ID do usuário não encontrado no localStorage')
-    }
+    if (userId) this.loadMetrics(userId)
   },
   methods: {
     loadMetrics(userId) {
-      axios
-        .get(`/diet/metrics/${userId}`)
-        .then(({ data }) => {
-          this.metrics = data
-        })
+      axios.get(`/diet/metrics/${userId}`)
+        .then(({ data }) => { this.metrics = data })
         .catch((error) => {
           console.error('Erro ao carregar as métricas:', error)
-        })
-    },
-    calculateAndSaveDiet(userId) {
-      axios
-        .put(`/diet/calculate/${userId}`)
-        .then(() => {
-          console.log('Cálculos realizados e salvos com sucesso')
-          this.loadMetrics(userId) // Recarregue os dados para atualizar a tela
-        })
-        .catch((error) => {
-          console.error('Erro ao calcular e salvar os dados da dieta:', error)
         })
     }
   }
@@ -245,97 +117,112 @@ export default {
 </script>
 
 <style scoped>
-.bmr-results {
-  padding: 20px;
-  margin: 0 auto;
-  max-width: 62.5rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 7rem;
-  margin-bottom: 7rem;
+.bmr-section {
+  padding: 80px 20px;
 }
 
-.results-container {
-  text-align: center;
+.bmr-wrapper {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  max-width: 960px;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .section-title {
-  font-size: 2em;
-  margin-bottom: 20px;
-  color: #333;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #162938;
 }
 
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(2, 1fr); /* 2 cards por linha */
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
 .stat-card {
   background-color: #ffffff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 .stat-title {
-  font-size: 1.2em;
-  color: #555;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #162938;
 }
 
 .stat-value {
-  font-size: 2em;
-  color: #222;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #162938;
   margin-top: 10px;
 }
 
 .stat-desc {
-  font-size: 0.9em;
-  color: #777;
+  font-size: 0.9rem;
+  color: #555;
   margin-top: 5px;
 }
 
 .info-section {
   margin-top: 40px;
-  line-height: 1.6;
+  line-height: 1.7;
+  color: #333;
 }
 
 .info-title {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin-top: 30px;
+  color: #162938;
+}
+
+.info-subtitle {
+  font-size: 1.3rem;
+  margin-top: 20px;
+  font-weight: 600;
   color: #333;
 }
 
 .info-section p {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .info-section ul {
   list-style-type: disc;
-  margin-left: 20px;
+  padding-left: 1.2rem;
+  margin-bottom: 24px;
 }
 
-.info-section ul li {
+.references li {
   margin-bottom: 10px;
 }
 
-.links {
-  color: inherit; /* Define a cor dos links para herdar a cor do texto */
-  text-decoration: none; /* Remove o sublinhado padrão */
+.references a {
+  color: #4caf50;
+  text-decoration: underline;
 }
 
-.links:visited {
-  color: inherit; /* Mantém a mesma cor após o link ser visitado */
+.references a:hover {
+  color: #388e3c;
 }
 
-.links:hover,
-.links:focus,
-.links:active {
-  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse ou focar */
+@media (max-width: 600px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

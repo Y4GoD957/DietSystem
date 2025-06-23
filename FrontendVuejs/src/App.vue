@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- Renderiza a rota atual -->
-    <router-view></router-view>
+    <!-- Componente principal que renderiza a rota ativa -->
+    <router-view />
   </div>
 </template>
 
@@ -11,7 +11,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+/* Estilos globais base do projeto */
 @import './assets/css/reset.css';
 @import './assets/css/layout.css';
 @import './assets/css/forms.css';

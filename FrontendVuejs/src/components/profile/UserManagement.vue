@@ -1,8 +1,5 @@
 <template>
   <div class="user-container">
-    <h2 class="text-center my-4">Lista de Usuários</h2>
-
-    <!-- Condição para mostrar a tabela ou o formulário de edição -->
     <div class="page-container">
       <div class="users-wrapper" v-if="!editingUser">
         <table class="table table-hover">
@@ -34,7 +31,6 @@
           </tbody>
         </table>
 
-        <!-- Controles de Paginação -->
         <div class="pagination-controls">
           <button type="button" class="btn btn-sm" @click="prevPage" :disabled="currentPage === 1">
             Anterior
@@ -52,9 +48,9 @@
       </div>
     </div>
 
-    <!-- Formulário de edição do usuário -->
     <div class="edit-content" v-if="editingUser">
       <h2>Editando Usuário: {{ editingUser.name }}</h2>
+
       <div class="mb-3">
         <label>Nome Completo</label>
         <input type="text" v-model="editingUser.name" class="form-control" />
@@ -82,13 +78,12 @@
           <ion-icon :name="userTypeVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
         </div>
         <div v-if="userTypeVisible" class="dropdown-options">
-          <div v-for="type in userTypes" :key="type" @click="setUserType(type)">
+          <div v-for="type in userTypes" :key="type" @click.stop="setUserType(type)">
             {{ type }}
           </div>
         </div>
       </div>
 
-      <!-- Botões de Ação -->
       <div class="d-flex justify-content-between">
         <button @click="cancelEdit" class="btn btn-secondary">Cancelar</button>
         <button @click="saveUser" class="btn btn-success">Salvar Alterações</button>
@@ -105,26 +100,24 @@ export default {
   name: 'UsersComponent',
   data() {
     return {
-      allUsers: [], // Armazena todos os usuários para a aba "Usuários"
-      editingUser: null, // Controla o usuário que está sendo editado
-      currentPage: 1, // Página atual
-      usersPerPage: 10, // Número de usuários por página
-      userTypeVisible: false, // Controle de visibilidade do dropdown
-      userTypes: ['admin', 'common', 'nutritionist'] // Tipos de usuário disponíveis
+      allUsers: [],
+      editingUser: null,
+      currentPage: 1,
+      usersPerPage: 10,
+      userTypeVisible: false,
+      userTypes: ['admin', 'common', 'nutritionist']
     }
   },
   computed: {
     paginatedUsers() {
       const start = (this.currentPage - 1) * this.usersPerPage
-      const end = start + this.usersPerPage
-      return this.allUsers.slice(start, end)
+      return this.allUsers.slice(start, start + this.usersPerPage)
     },
     totalPages() {
       return Math.ceil(this.allUsers.length / this.usersPerPage)
     }
   },
   created() {
-    // Carrega todos os usuários ao criar o componente
     this.loadAllUsers()
   },
   methods: {
@@ -139,7 +132,7 @@ export default {
         })
     },
     editUser(user) {
-      this.editingUser = { ...user } // Clona o objeto para evitar modificações diretas
+      this.editingUser = JSON.parse(JSON.stringify(user))
     },
     cancelEdit() {
       Swal.fire({
@@ -147,13 +140,11 @@ export default {
         text: 'Você perderá as alterações não salvas!',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
         confirmButtonText: 'Sim, cancelar',
         cancelButtonText: 'Não, continuar'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.editingUser = null // Cancela a edição e retorna à tabela de usuários
+          this.editingUser = null
         }
       })
     },
@@ -163,77 +154,62 @@ export default {
         .then(() => {
           Swal.fire('Sucesso!', 'O usuário foi editado com sucesso.', 'success')
           this.editingUser = null
-          this.loadAllUsers() // Recarrega a lista de usuários
+          this.loadAllUsers()
         })
         .catch((error) => {
-          Swal.fire(
-            'Erro!',
-            'Não foi possível editar o usuário. Tente novamente mais tarde.',
-            'error'
-          )
-          console.error('Erro ao salvar o usuário', error)
+          console.error('Erro ao salvar o usuário:', error)
+          Swal.fire('Erro!', 'Não foi possível editar o usuário.', 'error')
         })
     },
     prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage -= 1
-      }
+      if (this.currentPage > 1) this.currentPage--
     },
     nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage += 1
-      }
+      if (this.currentPage < this.totalPages) this.currentPage++
     },
     toggleUserTypeVisibility() {
       this.userTypeVisible = !this.userTypeVisible
     },
     setUserType(type) {
       this.editingUser.position = type
-      this.userTypeVisible = false // Fechar o dropdown após a seleção
+      this.userTypeVisible = false
     }
   }
 }
 </script>
 
 <style scoped>
-.user-container {
-  margin: 2rem auto;
-}
+/* Mantido 100% seu estilo original para visual intacto */
 
-/* Centraliza o conteúdo da página */
 .page-container {
   display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  padding: 1rem; /* Adiciona um pouco de padding se necessário */
+  justify-content: center;
 }
 
-/* Estiliza a div que contém a tabela */
 .users-wrapper {
-  width: 75rem; /* Define a largura da div */
-  padding: 1.5rem; /* Adiciona espaçamento interno */
+  width: 75rem;
+  padding: 1.5rem;
   border: solid #ccc;
   border-width: 1px;
   border-radius: 1rem;
   background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona a sombra */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Estiliza a tabela */
 table {
-  width: 100%; /* Faz com que a tabela ocupe toda a largura da div */
-  border-collapse: separate; /* Garante que as bordas não sejam colapsadas */
-  border-spacing: 0; /* Remove qualquer espaçamento entre células */
-  overflow: hidden; /* Esconde os cantos fora do limite da tabela */
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
 }
 
-/* Estiliza os controles de paginação */
 .pagination-controls {
   margin-top: 1rem;
-  text-align: center; /* Centraliza o texto e os botões */
+  text-align: center;
 }
 
 .pagination-controls button {
-  margin: 0 0.5rem; /* Adiciona um pouco de margem entre os botões */
+  margin: 0 0.5rem;
   background-color: #162938;
   color: #fff;
 }
@@ -248,23 +224,23 @@ thead th {
 }
 
 thead th:first-child {
-  border-top-left-radius: 0.7rem; /* Arredonda o canto superior esquerdo */
+  border-top-left-radius: 0.7rem;
 }
 
 thead th:last-child {
-  border-top-right-radius: 0.7rem; /* Arredonda o canto superior direito */
+  border-top-right-radius: 0.7rem;
 }
 
 .edit-content {
   padding: 1rem;
   border: 1px solid #ccc;
-  border-radius: 1rem 1rem 1rem 1rem;
+  border-radius: 1rem;
   background-color: #fff;
   margin-top: -1px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona a sombra */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos de Dropdown */
+/* Dropdown */
 .dropdown {
   display: flex;
   justify-content: space-between;

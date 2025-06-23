@@ -1,30 +1,29 @@
 <template>
   <TheHeader />
 
-  <div class="wrapperDiet">
+  <div class="wrapper-diet">
     <form @submit.prevent="handleDiet">
       <label for="altura">Altura (cm):</label>
       <input
         type="number"
         id="altura"
-        name="altura"
         v-model="formDataDiet.height"
-        step="1"
         min="50"
         max="250"
+        required
       />
 
       <fieldset>
         <legend>Sexo:</legend>
-        <div class="label-centered">
-          <label
-            ><input type="radio" name="sexo" v-model="formDataDiet.gender" value="Masculino" />
-            Masculino</label
-          >
-          <label
-            ><input type="radio" name="sexo" v-model="formDataDiet.gender" value="Feminino" />
-            Feminino</label
-          >
+        <div class="radio-group center">
+          <label>
+            <input type="radio" name="sexo" value="Masculino" v-model="formDataDiet.gender" />
+            Masculino
+          </label>
+          <label>
+            <input type="radio" name="sexo" value="Feminino" v-model="formDataDiet.gender" />
+            Feminino
+          </label>
         </div>
       </fieldset>
 
@@ -32,100 +31,75 @@
       <input
         type="number"
         id="idade"
-        name="idade"
         v-model="formDataDiet.age"
-        step="1"
         min="10"
         max="110"
+        required
       />
 
       <label for="peso">Peso (kg):</label>
       <input
         type="number"
         id="peso"
-        name="peso"
         v-model="formDataDiet.weight"
         step="0.1"
         min="10"
         max="300"
+        required
       />
 
       <fieldset>
-        <legend>Número de atividades por semana:</legend>
-        <div class="inline">
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="0" />
-            0</label
-          >
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="1" />
-            1</label
-          >
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="2" />
-            2</label
-          >
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="3" />
-            3</label
-          >
-        </div>
-        <div class="inline">
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="4" />
-            4</label
-          >
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="5" />
-            5</label
-          >
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="6" />
-            6</label
-          >
-          <label
-            ><input type="radio" name="atividades" v-model="formDataDiet.activities" value="7" />
-            7</label
-          >
+        <legend>Atividades por semana:</legend>
+        <div class="radio-grid">
+          <label v-for="n in 8" :key="n">
+            <input
+              type="radio"
+              :value="n - 1"
+              name="atividades"
+              v-model="formDataDiet.activities"
+            />
+            {{ n - 1 }}
+          </label>
         </div>
       </fieldset>
 
       <fieldset>
         <legend>Objetivo:</legend>
-        <div class="column">
-          <label
-            ><input
+        <div class="column-radio">
+          <label>
+            <input
               type="radio"
               name="dieta"
-              v-model="formDataDiet.diet"
               value="Bulking (Ganho de Massa)"
+              v-model="formDataDiet.diet"
             />
-            Bulking (Ganho de Massa)</label
-          >
-          <label
-            ><input
+            Bulking (Ganho de Massa)
+          </label>
+          <label>
+            <input
               type="radio"
               name="dieta"
-              v-model="formDataDiet.diet"
               value="Cutting (Emagrecimento)"
+              v-model="formDataDiet.diet"
             />
-            Cutting (Emagrecimento)</label
-          >
-          <label
-            ><input
+            Cutting (Emagrecimento)
+          </label>
+          <label>
+            <input
               type="radio"
               name="dieta"
-              v-model="formDataDiet.diet"
               value="Maintaining (Manter Peso)"
+              v-model="formDataDiet.diet"
             />
-            Maintaining (Manter Peso)</label
-          >
+            Maintaining (Manter Peso)
+          </label>
         </div>
       </fieldset>
 
-      <input type="submit" value="Gerar Dieta" />
+      <button type="submit" class="submit-btn">Gerar Dieta</button>
     </form>
   </div>
+
   <WhatsAppPopup />
   <ScrollToTopButton />
   <TheFooter />
@@ -133,11 +107,11 @@
 
 <script>
 import TheHeader from '@/components/layout/AppHeader.vue'
-import Swal from 'sweetalert2'
-import axios from '@/plugins/axios.js'
 import TheFooter from '@/components/layout/AppFooter.vue'
 import WhatsAppPopup from '@/components/interactions/WhatsAppFloatingButton.vue'
 import ScrollToTopButton from '@/components/layout/ScrollToTopButton.vue'
+import Swal from 'sweetalert2'
+import axios from '@/plugins/axios.js'
 
 export default {
   name: 'DietSelection',
@@ -161,248 +135,171 @@ export default {
     }
   },
   watch: {
-    // Observa mudanças no valor do peso e faz a conversão
-    'formDataDiet.weight': function (newValue) {
-      // Substitui a vírgula por ponto se houver
+    'formDataDiet.weight'(newValue) {
       if (newValue) {
         this.formDataDiet.weight = newValue.toString().replace(',', '.')
       }
     }
   },
   methods: {
+    validateForm() {
+      const { height, gender, age, weight, activities, diet } = this.formDataDiet
+      return height && gender && age && weight && activities && diet
+    },
+    handleHttpError(status) {
+      const messages = {
+        400: 'Requisição inválida.',
+        401: 'Não autorizado.',
+        403: 'Acesso proibido.',
+        404: 'Recurso não encontrado.',
+        500: 'Erro no servidor.'
+      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro',
+        text: messages[status] || 'Erro inesperado. Tente novamente.'
+      })
+    },
     handleDiet() {
-      if (this.validateForm()) {
-        const token = localStorage.getItem('token')
-        const userId = localStorage.getItem('userId')
-
-        if (!userId) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível obter o ID do usuário. Faça o login novamente.'
-          })
-          return
-        }
-
-        if (!token) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Não foi possível obter o token de autenticação. Faça o login novamente.'
-          })
-          return
-        }
-
-        // Adiciona o user_id ao formDataDiet
-        this.formDataDiet.user_id = userId
-
-        // Envia a solicitação para salvar a dieta
-        axios
-          .post('/diet/save-diet', this.formDataDiet, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-          .then((response) => {
-            if (response.status === 200 || response.status === 201) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Perfeito!',
-                text: 'Dados enviados com sucesso!'
-              })
-              this.$router.push('/Services')
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Erro',
-                text: 'Não foi possível enviar os dados. Tente novamente mais tarde.'
-              })
-            }
-          })
-          .catch((error) => {
-            if (error.response) {
-              this.handleHttpError(error.response.status)
-            } else {
-              console.error('Erro ao enviar dados da dieta:', error)
-              Swal.fire({
-                icon: 'error',
-                title: 'Erro',
-                text: 'Ocorreu um erro ao enviar os dados da dieta. Tente novamente mais tarde.'
-              })
-            }
-          })
-      } else {
+      if (!this.validateForm()) {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
-          text: 'Por favor, preencha todos os campos corretamente.'
+          text: 'Preencha todos os campos corretamente.'
         })
+        return
       }
-    },
-    validateForm() {
-      const { height, gender, age, weight, activities, diet } = this.formDataDiet
-      return height && gender && age && weight && activities && diet !== ''
-    },
-    handleHttpError(status) {
-      switch (status) {
-        case 400:
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Requisição inválida. Por favor, verifique os dados enviados.'
-          })
-          break
-        case 401:
-          Swal.fire({
-            icon: 'error',
-            title: 'Não autorizado',
-            text: 'Você não tem permissão para realizar esta ação.'
-          })
-          break
-        case 403:
-          Swal.fire({
-            icon: 'error',
-            title: 'Proibido',
-            text: 'Acesso proibido. Verifique suas credenciais.'
-          })
-          break
-        case 404:
-          Swal.fire({
-            icon: 'error',
-            title: 'Não encontrado',
-            text: 'Recurso não encontrado. Verifique a URL.'
-          })
-          break
-        case 500:
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro no servidor',
-            text: 'Ocorreu um erro no servidor. Tente novamente mais tarde.'
-          })
-          break
-        default:
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro',
-            text: 'Ocorreu um erro inesperado. Tente novamente mais tarde.'
-          })
+
+      const token = localStorage.getItem('token')
+      const userId = localStorage.getItem('userId')
+
+      if (!token || !userId) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Faça login novamente.'
+        })
+        return
       }
+
+      this.formDataDiet.user_id = userId
+
+      axios
+        .post('/diet/save-diet', this.formDataDiet, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then((response) => {
+          if ([200, 201].includes(response.status)) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Perfeito!',
+              text: 'Dados enviados com sucesso!'
+            })
+            this.$router.push('/Services')
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro',
+              text: 'Erro ao enviar os dados.'
+            })
+          }
+        })
+        .catch((err) => this.handleHttpError(err.response?.status))
     }
   }
 }
 </script>
 
-<style>
-.wrapperDiet {
+<style scoped>
+.wrapper-diet {
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 6.25rem;
-  margin-bottom: 6.25rem;
+  padding: 6rem 1rem;
 }
 
-.wrapperDiet form {
+form {
   background: #fff;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 2rem;
+  border-radius: 16px;
   max-width: 600px;
   width: 100%;
-  box-sizing: border-box;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
 }
 
-.wrapperDiet form label {
+label {
   display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-weight: 600;
   color: #162938;
 }
 
-.wrapperDiet form input[type='number'] {
+input[type='number'],
+input[type='text'] {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 5px;
   box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.wrapperDiet fieldset {
+input[type='number']:focus,
+input[type='text']:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+fieldset {
   border: none;
   margin-bottom: 20px;
 }
 
-.wrapperDiet legend {
+legend {
   font-weight: bold;
   color: #162938;
+  margin-bottom: 8px;
 }
 
-.label-centered {
+.radio-group,
+.column-radio {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 10px;
-}
-
-.label-centered label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #162938;
-}
-
-.inline {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 10px;
-}
-
-.inline label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #162938;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
 }
 
-.column label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #162938;
+.center {
+  justify-content: center;
 }
 
-input[type='submit'] {
+.column-radio {
+  flex-direction: column;
+}
+
+.radio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  justify-items: center;
+  margin-top: 10px;
+}
+
+.submit-btn {
   width: 100%;
-  padding: 15px;
-  background: #162938;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  padding: 14px;
   font-size: 16px;
   font-weight: bold;
-  transition: background 0.3s ease;
+  background-color: #162938;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-input[type='submit']:hover {
-  background: #0e1f26;
-}
-
-@media (min-width: 768px) {
-  .inline {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
+.submit-btn:hover {
+  background-color: #0e1f26;
 }
 </style>

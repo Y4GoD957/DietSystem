@@ -9,20 +9,26 @@ export default {
   name: 'ScrollToTopButton',
   data() {
     return {
-      showButton: false
+      showButton: false,
+      scrollListener: null
     }
   },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
+    // Adiciona o listener no scroll com otimização
+    this.scrollListener = () => {
+      window.requestAnimationFrame(this.handleScroll)
+    }
+    window.addEventListener('scroll', this.scrollListener, { passive: true })
   },
   beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
+    // Remove o listener no ciclo de vida correto
+    window.removeEventListener('scroll', this.scrollListener)
   },
   methods: {
     handleScroll() {
       const scrollPosition = window.scrollY
-      const pageHeight = document.documentElement.scrollHeight - window.innerHeight
-      this.showButton = scrollPosition > pageHeight * 0.4
+      const totalScrollable = document.documentElement.scrollHeight - window.innerHeight
+      this.showButton = scrollPosition > totalScrollable * 0.4
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' })

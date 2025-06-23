@@ -1,232 +1,174 @@
 <template>
-  <!-- Content Display -->
-  <div class="content">
-    <!-- Profile Content -->
+  <div class="usrp-content">
     <form @submit.prevent="updateProfile">
-      <!-- User Settings -->
-      <div class="section">
-        <h2>Dados do Usuário</h2>
-        <div class="form-group">
-          <label for="user_id">ID do Usuário:</label>
-          <input
-            type="text"
-            id="user_id"
-            v-model="user.user_id"
-            readonly
-            class="form-control readonly"
-          />
-        </div>
+      <!-- Dados do Usuário -->
+      <FormSection title="Dados do Usuário">
+        <InputField label="ID do Usuário:" v-model="user.user_id" readonly />
+        <InputField label="Tipo do Usuário:" v-model="user.position" readonly />
+        <InputField label="Usuário:" v-model="user.username" placeholder="Usuário" />
+        <InputField label="E-mail:" v-model="user.email" placeholder="E-mail" type="email" />
+        <InputField label="Nome Completo:" v-model="user.name" placeholder="Nome Completo" />
+        <InputField label="Telefone:" v-model="user.phone" placeholder="Telefone" />
+      </FormSection>
 
-        <div class="form-group">
-          <label for="position">Tipo do Usuário:</label>
-          <input
-            type="text"
-            id="position"
-            v-model="user.position"
-            readonly
-            class="form-control readonly"
-          />
-        </div>
+      <hr class="usrp-divider" />
 
-        <div class="form-group">
-          <label for="username">Usuário:</label>
-          <input
-            type="text"
-            id="username"
-            v-model="user.username"
-            autocomplete="off"
-            placeholder="Usuário"
-            class="form-control"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="email">E-mail:</label>
-          <input
-            type="email"
-            id="email"
-            v-model="user.email"
-            autocomplete="off"
-            placeholder="E-mail"
-            class="form-control"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="name">Nome Completo:</label>
-          <input
-            type="text"
-            id="name"
-            v-model="user.name"
-            autocomplete="off"
-            placeholder="Nome Completo"
-            class="form-control"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Telefone:</label>
-          <input
-            type="text"
-            id="phone"
-            v-model="user.phone"
-            autocomplete="off"
-            placeholder="Telefone"
-            class="form-control"
-          />
-        </div>
-      </div>
-
-      <!-- Divider -->
-      <hr class="divider" />
-
-      <!-- Password Reset Section -->
-      <div class="section">
-        <h2>Redefinir Senha</h2>
-        <div class="form-group">
-          <label for="password">Nova Senha:</label>
-          <input
-            :type="passwordVisible ? 'text' : 'password'"
-            id="password"
-            v-model="newPassword"
-            placeholder="********"
-            class="form-control"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="confirm_password">Confirmar Nova Senha:</label>
-          <input
-            :type="passwordVisible ? 'text' : 'password'"
-            id="confirm_password"
-            v-model="confirmPassword"
-            placeholder="********"
-            class="form-control"
-          />
-        </div>
-
-        <div class="form-group">
-          <button type="button" @click="togglePasswordVisibility" class="btn btn-secondary">
+      <!-- Redefinir Senha -->
+      <FormSection title="Redefinir Senha">
+        <InputField
+          :type="passwordVisible ? 'text' : 'password'"
+          label="Nova Senha:"
+          v-model="newPassword"
+          placeholder="********"
+        />
+        <InputField
+          :type="passwordVisible ? 'text' : 'password'"
+          label="Confirmar Nova Senha:"
+          v-model="confirmPassword"
+          placeholder="********"
+        />
+        <div class="usrp-form-group">
+          <button type="button" @click="togglePasswordVisibility" class="usrp-btn-secondary">
             {{ passwordVisible ? 'Ocultar Senha' : 'Mostrar Senha' }}
           </button>
         </div>
-      </div>
+      </FormSection>
 
-      <!-- Divider -->
-      <hr class="divider" />
+      <hr class="usrp-divider" />
 
-      <!-- Diet Settings -->
-      <div class="section">
-        <h2>Dados das Métricas para Dieta</h2>
-        <div class="form-group">
-          <label for="diet_id">ID das Métricas:</label>
-          <input
-            type="text"
-            id="diet_id"
-            v-model="diet.diet_id"
-            readonly
-            class="form-control readonly"
-          />
-        </div>
+      <!-- Métricas da Dieta -->
+      <FormSection title="Dados das Métricas para Dieta">
+        <InputField label="ID das Métricas:" v-model="diet.diet_id" readonly />
 
-        <!-- Dropdown para Atividades Semanais -->
-        <div class="form-group">
-          <label for="activities">Atividades Semanais:</label>
-          <div class="dropdown" @click="toggleActivitiesVisibility">
-            <span>{{ diet.activities || 'Selecione' }}</span>
-            <ion-icon :name="activitiesVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
-          </div>
-          <div v-if="activitiesVisible" class="dropdown-options">
-            <div v-for="i in 8" :key="i" @click="setActivities(i - 1)">
-              {{ i - 1 }}
-            </div>
-          </div>
-        </div>
+        <!-- Dropdowns personalizados -->
+        <DropdownField
+          label="Atividades Semanais:"
+          :options="activitiesOptions"
+          v-model="diet.activities"
+        />
+        <InputField
+          label="Idade:"
+          v-model="diet.age"
+          type="number"
+          placeholder="Idade"
+          :min="10"
+          :max="110"
+        />
+        <DropdownField label="Objetivo:" :options="objectiveOptions" v-model="diet.diet" />
+        <DropdownField label="Gênero:" :options="genderOptions" v-model="diet.gender" />
+        <InputField
+          label="Altura (cm):"
+          v-model="diet.height"
+          type="number"
+          placeholder="Altura"
+          :min="50"
+          :max="250"
+        />
+        <InputField
+          label="Peso (kg):"
+          v-model="diet.weight"
+          type="number"
+          placeholder="Peso"
+          :min="10"
+          :max="300"
+          step="0.1"
+        />
+      </FormSection>
 
-        <div class="form-group">
-          <label for="age">Idade:</label>
-          <input
-            type="number"
-            id="age"
-            v-model="diet.age"
-            autocomplete="off"
-            placeholder="Idade"
-            class="form-control"
-            step="1"
-            min="10"
-            max="110"
-          />
-        </div>
-
-        <!-- Dropdown para Objetivo -->
-        <div class="form-group">
-          <label for="diet_style">Objetivo:</label>
-          <div class="dropdown" @click="toggleObjectiveVisibility">
-            <span>{{ diet.diet || 'Selecione' }}</span>
-            <ion-icon :name="objectiveVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
-          </div>
-          <div v-if="objectiveVisible" class="dropdown-options">
-            <div @click="setObjective('Bulking (Ganho de Massa)')">Bulking (Ganho de Massa)</div>
-            <div @click="setObjective('Cutting (Emagrecimento)')">Cutting (Emagrecimento)</div>
-            <div @click="setObjective('Maintaining (Manter Peso)')">Maintaining (Manter Peso)</div>
-          </div>
-        </div>
-
-        <!-- Dropdown para Gênero -->
-        <div class="form-group">
-          <label for="gender">Gênero:</label>
-          <div class="dropdown" @click="toggleGenderVisibility">
-            <span>{{ diet.gender || 'Selecione' }}</span>
-            <ion-icon :name="genderVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
-          </div>
-          <div v-if="genderVisible" class="dropdown-options">
-            <div @click="setGender('Masculino')">Masculino</div>
-            <div @click="setGender('Feminino')">Feminino</div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="height">Altura (cm):</label>
-          <input
-            type="number"
-            id="height"
-            v-model="diet.height"
-            autocomplete="off"
-            placeholder="Altura"
-            class="form-control"
-            step="1"
-            min="50"
-            max="250"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="weight">Peso (kg):</label>
-          <input
-            type="number"
-            id="weight"
-            v-model="diet.weight"
-            autocomplete="off"
-            placeholder="Peso"
-            class="form-control"
-            step="0.1"
-            min="10"
-            max="300"
-          />
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
+      <button type="submit" class="usrp-btn-primary">Atualizar Perfil</button>
     </form>
   </div>
 </template>
 
 <script>
-import axios from '@/plugins/axios.js'
+import { defineComponent, h } from 'vue'
+import axios from '@/plugins/axios'
 import Swal from 'sweetalert2'
 
-export default {
-  name: 'ProfileComponent',
+export default defineComponent({
+  name: 'UserProfile',
+  components: {
+    FormSection: defineComponent({
+      name: 'FormSection',
+      props: ['title'],
+      render() {
+        return h('div', { class: 'usrp-section' }, [
+          h('h2', this.title),
+          this.$slots.default()
+        ])
+      }
+    }),
+    InputField: defineComponent({
+      name: 'InputField',
+      props: {
+        label: String,
+        modelValue: [String, Number],
+        placeholder: String,
+        type: { type: String, default: 'text' },
+        readonly: Boolean,
+        min: [String, Number],
+        max: [String, Number],
+        step: [String, Number]
+      },
+      emits: ['update:modelValue'],
+      render() {
+        return h('div', { class: 'usrp-form-group' }, [
+          h('label', this.label),
+          h('input', {
+            class: ['usrp-form-control', this.readonly ? 'usrp-readonly-input' : ''],
+            type: this.type,
+            placeholder: this.placeholder,
+            readonly: this.readonly,
+            min: this.min,
+            max: this.max,
+            step: this.step,
+            value: this.modelValue,
+            onInput: e => this.$emit('update:modelValue', e.target.value)
+          })
+        ])
+      }
+    }),
+    DropdownField: defineComponent({
+      name: 'DropdownField',
+      props: {
+        label: String,
+        options: Array,
+        modelValue: [String, Number]
+      },
+      emits: ['update:modelValue'],
+      data() {
+        return { visible: false }
+      },
+      methods: {
+        selectOption(option) {
+          this.$emit('update:modelValue', option)
+          this.visible = false
+        }
+      },
+      render() {
+        return h('div', { class: 'usrp-form-group' }, [
+          h('label', this.label),
+          h('div', {
+            class: 'usrp-dropdown',
+            onClick: () => (this.visible = !this.visible)
+          }, [
+            h('span', this.modelValue || 'Selecione'),
+            h('ion-icon', { name: this.visible ? 'chevron-up' : 'chevron-down' })
+          ]),
+          this.visible
+            ? h('div', { class: 'usrp-dropdown-options' },
+                this.options.map((opt, i) =>
+                  h('div', {
+                    key: i,
+                    onClick: () => this.selectOption(opt)
+                  }, opt)
+                )
+              )
+            : null
+        ])
+      }
+    })
+  },
   data() {
     return {
       user: {
@@ -250,16 +192,14 @@ export default {
         weight: ''
       },
       passwordVisible: false,
-      activitiesVisible: false, // Controle para dropdown de atividades
-      genderVisible: false, // Controle para dropdown de gênero
-      objectiveVisible: false // Controle para dropdown de objetivo
+      genderOptions: ['Masculino', 'Feminino'],
+      objectiveOptions: ['Bulking (Ganho de Massa)', 'Cutting (Emagrecimento)', 'Maintaining (Manter Peso)'],
+      activitiesOptions: Array.from({ length: 8 }, (_, i) => i.toString())
     }
   },
   watch: {
-    'diet.weight': function (newValue) {
-      if (newValue) {
-        this.diet.weight = newValue.toString().replace(',', '.')
-      }
+    'diet.weight'(newVal) {
+      if (newVal) this.diet.weight = newVal.toString().replace(',', '.')
     }
   },
   created() {
@@ -267,60 +207,42 @@ export default {
     if (userId) {
       this.loadProfile(userId)
       this.loadDietSettings(userId)
-    } else {
-      console.error('ID do usuário não encontrado no localStorage')
     }
   },
   methods: {
     loadProfile(userId) {
-      axios
-        .get(`/users/profile/${userId}`)
-        .then((response) => {
-          this.user = response.data
+      axios.get(`/users/profile/${userId}`)
+        .then(res => {
+          this.user = res.data
+          if (res.data.diets?.length > 0) {
+            this.diet = res.data.diets[0]
+          }
         })
-        .catch((error) => {
-          console.error('Erro ao carregar o perfil:', error)
-        })
+        .catch(err => console.error('Erro ao carregar perfil:', err))
     },
     loadDietSettings(userId) {
-      axios
-        .get(`/diet/diet-settings/${userId}`)
-        .then((response) => {
-          this.diet = response.data
-        })
-        .catch((error) => {
-          console.error('Erro ao carregar a dieta:', error)
-        })
+      axios.get(`/diet/diet-settings/${userId}`)
+        .then(res => this.diet = res.data)
+        .catch(err => console.error('Erro ao carregar dieta:', err))
     },
-    setActivities(value) {
-      this.diet.activities = value
-      this.activitiesVisible = false // fecha o dropdown após selecionar
-    },
-    setObjective(objective) {
-      this.diet.diet = objective
-      this.objectiveVisible = false
-    },
-    setGender(gender) {
-      this.diet.gender = gender
-      this.genderVisible = false
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible
     },
     updateProfile() {
       if (this.newPassword && this.newPassword !== this.confirmPassword) {
-        Swal.fire({
+        return Swal.fire({
           icon: 'error',
           title: 'Erro!',
-          text: 'As senhas não coincidem. Por favor, tente novamente.'
+          text: 'As senhas não coincidem.'
         })
-        return
       }
 
-      const updateData = {
+      const payload = {
         ...this.user,
         password: this.newPassword || this.user.password
       }
 
-      axios
-        .put(`/users/profile/${this.user.user_id}`, updateData)
+      axios.put(`/users/profile/${this.user.user_id}`, payload)
         .then(() => {
           Swal.fire({
             icon: 'success',
@@ -328,101 +250,69 @@ export default {
             text: 'O seu perfil foi atualizado com sucesso!'
           })
         })
-        .catch((error) => {
-          console.error('Erro ao atualizar o perfil:', error)
+        .catch(err => {
+          console.error('Erro ao atualizar perfil:', err)
           Swal.fire({
             icon: 'error',
             title: 'Erro!',
-            text: 'Tivemos um problema ao atualizar o seu perfil. Por favor, tente novamente mais tarde.'
+            text: 'Não foi possível atualizar o perfil.'
           })
         })
-    },
-    togglePasswordVisibility() {
-      this.passwordVisible = !this.passwordVisible
-    },
-    toggleActivitiesVisibility() {
-      this.activitiesVisible = !this.activitiesVisible
-    },
-    toggleGenderVisibility() {
-      this.genderVisible = !this.genderVisible
-    },
-    toggleObjectiveVisibility() {
-      this.objectiveVisible = !this.objectiveVisible
     }
   }
-}
+})
 </script>
 
-<style scoped>
-.section {
+<style>
+.usrp-content {
+  padding: 20px;
+}
+
+.usrp-section {
   margin-bottom: 30px;
 }
 
-.form-group {
+.usrp-form-group {
   margin-bottom: 20px;
 }
 
-.form-group label {
+.usrp-form-group label {
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
   color: #162938;
 }
 
-.form-group input[type='text'],
-.form-group input[type='number'],
-.form-group input[type='email'],
-.form-group input[type='password'] {
+.usrp-form-control {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
+  background-color: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-group input.readonly {
+.usrp-form-control:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  background-color: #fff;
+}
+
+.usrp-readonly-input {
   background-color: #e9ecef;
   cursor: not-allowed;
 }
 
-.password-wrapper {
-  position: relative;
-}
-
-.password-wrapper input {
-  padding-right: 40px;
-}
-
-.password-wrapper .icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2em;
-  color: #162938;
-  cursor: pointer;
-}
-
-.divider {
+.usrp-divider {
   border: none;
   border-top: 2px solid #ccc;
   margin: 20px 0;
 }
 
-.form-control {
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 8px;
-  width: 100%;
-}
-
-.readonly-input {
-  background-color: #e9ecef;
-  cursor: not-allowed;
-}
-
-.btn-primary {
+.usrp-btn-primary {
   width: 100%;
   padding: 15px;
   background: #162938;
@@ -439,12 +329,25 @@ export default {
   align-items: center;
 }
 
-.btn-primary:hover {
+.usrp-btn-primary:hover {
   background: #0e1f26;
 }
 
-/* Estilos de Dropdown */
-.dropdown {
+.usrp-btn-secondary {
+  background-color: #fff;
+  color: #162938;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.usrp-btn-secondary:hover {
+  background-color: #f0f0f0;
+}
+
+.usrp-dropdown {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -456,7 +359,7 @@ export default {
   background-color: #fff;
 }
 
-.dropdown-options {
+.usrp-dropdown-options {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
@@ -464,131 +367,12 @@ export default {
   margin-top: 5px;
 }
 
-.dropdown-options div {
+.usrp-dropdown-options div {
   padding: 5px;
   cursor: pointer;
 }
 
-.dropdown-options div:hover {
+.usrp-dropdown-options div:hover {
   background-color: #e0e0e0;
-}
-
-/* Estilo das abas */
-.tabs-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.tabs {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  max-width: 600px;
-  border-bottom: none;
-}
-
-.tabs button {
-  flex: 1;
-  padding: 10px 15px;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 5px 5px 0 0;
-  cursor: pointer;
-  font-size: 14px;
-  color: #162938;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-  margin: 0 3px;
-}
-
-.tabs button.active {
-  background-color: #162938;
-  color: #fff;
-  font-weight: bold;
-  border-bottom: 1px solid #162938;
-}
-
-.tabs button:hover {
-  background-color: #e0e0e0;
-  color: #162938;
-}
-
-/* Estilo da tabela */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  table-layout: fixed;
-}
-
-.table td,
-.table th {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: left;
-  word-wrap: break-word;
-}
-
-.table th {
-  background-color: #f4f4f4;
-  color: #333;
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-/* Botões de ação */
-.btn-cancel {
-  color: #3a383f;
-  background-color: #fff;
-  box-shadow: inset 0 0 0 1px #bfbfc3;
-  padding: 10px 20px;
-  border-radius: 5px;
-}
-
-.btn-cancel:hover {
-  box-shadow: inset 0 0 0 1px #a9a9a9;
-}
-
-.btn-save {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 10px 20px;
-  background-color: #162938;
-  color: #fff;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-save:hover {
-  background-color: #0e1f26;
-}
-
-.btn-edit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #162938;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.btn-edit:hover {
-  background-color: #0e1f26;
-}
-
-.btn-edit ion-icon {
-  margin-right: 5px;
 }
 </style>
